@@ -1,0 +1,22 @@
+{
+    "pages": [
+        "pages/list/list",
+        "pages/home/home",
+        "pages/detail/detail",
+        "pages/create/create"
+        
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#ff5346",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "seYa",
+        "backgroundColor": "#f8f8f8"
+    },
+    "usingComponents": {
+        "van-cell": "./lib/cell/index",
+        "van-cell-group": "./lib/cell-group/index",
+        "van-toast": "./lib/toast/index"
+    },
+    "sitemapLocation": "sitemap.json"
+}

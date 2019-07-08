@@ -1,4 +1,5 @@
 const baiduData = require('../../services/baiduData')
+const util = require('../../utils/index')
 
 Page({
 
@@ -10,6 +11,22 @@ Page({
     },
 
     init() { },
+
+    testBind() {
+        const values = baiduData.value
+        let arr = values.split('\n'), _arr = []
+        for (let i = 0; i < arr.length - 1; i++) {
+            if (util.trim(arr[i])) {
+                _arr.push(util.trim(arr[i]))
+            }
+        }
+        _arr.map((item, index) => {
+            if ((index+1) % 2) {
+                console.log(item)
+            }
+        })
+        console.log(_arr)
+    },
 
     // 类型
     createType() {

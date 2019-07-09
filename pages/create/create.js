@@ -12,20 +12,24 @@ Page({
 
     init() { },
 
-    testBind() {
+    createStore() {
         const values = baiduData.value
-        let arr = values.split('\n'), _arr = []
+        let arr = values.split('\n'), _arr = [], list = []
         for (let i = 0; i < arr.length - 1; i++) {
             if (util.trim(arr[i])) {
                 _arr.push(util.trim(arr[i]))
             }
         }
-        _arr.map((item, index) => {
-            if ((index+1) % 2) {
-                console.log(item)
-            }
-        })
-        console.log(_arr)
+        for (let i = 0; i < _arr.length - 1; i = i + 2) {
+            list.push({ name: _arr[i], desc: _arr[i + 1] })
+        }
+
+        console.log(list)
+
+        // const MyTableObject = new wx.BaaS.TableObject('store')
+        // MyTableObject.createMany(list).then(res => {
+        //     console.log(res.data.succeed)
+        // })
     },
 
     // 类型

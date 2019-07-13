@@ -1,5 +1,12 @@
 const baiduData = require('../../services/baiduData')
 const util = require('../../utils/index')
+const valueObj = {
+    typeValue: '言情,多人播,青春',
+    authorValue: '凤轻',
+    annValue: '筱梦,布兰德',
+    updateIndex: 0,
+    updateId: '5d29996ac1be5355431697d4',
+}
 
 Page({
 
@@ -34,34 +41,32 @@ Page({
 
     // 类型
     createType() {
-        const MyTableObject = new wx.BaaS.TableObject('listenType')
-        const data = ['言情', '多人播', '青春']
+        const MyTableObject = new wx.BaaS.TableObject('types')
+        const values = valueObj.typeValue.split(',')
 
         return false
 
         search((res) => {
             res.map(item => {
-                let idx = data.indexOf(item.name)
+                let idx = values.indexOf(item.name)
                 if (idx > -1) {
-                    data.splice(idx, 1);
+                    values.splice(idx, 1);
                 }
             })
 
             let list = []
-            data.map(item => {
+            values.map(item => {
                 list.push({ name: item })
             })
-            // console.log(data)
+            // console.log(values)
 
-            if (list.length > 0)
-                create(list)
+            if (list.length > 0) create(list)
         })
 
         function search(cb) {
             const query = new wx.BaaS.Query()
             MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
                 const { meta, objects } = res.data
-                // console.log(objects)
                 typeof cb === 'function' && cb(objects);
             })
         }
@@ -75,24 +80,24 @@ Page({
 
     // 作者
     createAuthor() {
-        const MyTableObject = new wx.BaaS.TableObject('author')
-        let data = ['']
+        const MyTableObject = new wx.BaaS.TableObject('authors')
+        const values = valueObj.authorValue.split(',')
 
-        // return false
+        return false
 
         search((res) => {
             res.map(item => {
-                let idx = data.indexOf(item.name)
+                let idx = values.indexOf(item.name)
                 if (idx > -1) {
-                    data.splice(idx, 1);
+                    values.splice(idx, 1);
                 }
             })
 
             let list = []
-            data.map(item => {
+            values.map(item => {
                 list.push({ name: item })
             })
-            // console.log(data)
+            // console.log(values)
 
             if (list.length > 0)
                 create(list)
@@ -116,21 +121,21 @@ Page({
 
     // 播音员
     createAnnouncer() {
-        const MyTableObject = new wx.BaaS.TableObject('announcer')
-        const data = []
+        const MyTableObject = new wx.BaaS.TableObject('announcers')
+        const values = valueObj.annValue.split(',')
 
         return false
 
         search((res) => {
             res.map(item => {
-                let idx = data.indexOf(item.nickName)
+                let idx = values.indexOf(item.nickName)
                 if (idx > -1) {
-                    data.splice(idx, 1);
+                    values.splice(idx, 1);
                 }
             })
 
             let list = []
-            data.map(item => {
+            values.map(item => {
                 list.push({ nickName: item })
             })
 
@@ -156,53 +161,71 @@ Page({
 
     // 更新部分字段
     updateBaidu() {
-        const data = ['多人播', '言情', '青春']
-        const value = ''
-        // const data = []
-        let tableObj = {}
-        // tableObj = { name: 'listenType', tit: 'name', value: 'types' }
-        tableObj = { name: 'author', tit: 'name', value: 'authorId' }
-        // tableObj = { name: 'announcer', tit: 'nickName', value:'announcers' }
+        // 
+        fn()
 
-        return false
+        function fn(params) {
+            const typeDatas = search('types'),
+                authorDatas = search('authors'),
+                announcerDatas = search('announcers')
 
-        search((res) => {
-            let _arr = [], _value = '', _obj = {}
-            res.map(item => {
-                if (tableObj.name == 'author') {
-                    if (item.name == value) {
-                        _value = item.id
+            Promise.all([typeDatas, authorDatas, announcerDatas]).then(res => {
+                let key = '', text, arr;
+                for (let i = 0; i < 3; i++) {
+                    if (i == 0) {
+                        key = 'types'
+                        text = valueObj.typeValue.split(',')
+                        arr = res[0]
+                    } else if (i == 1) {
+                        key = 'authorId'
+                        text = valueObj.authorValue
+                        arr = res[1]
+                    } else if (i == 2) {
+                        key = 'announcers'
+                        text = valueObj.annValue.split(',')
+                        arr = res[2]
                     }
-                } else {
-                    let idx = data.indexOf(item[tableObj.tit])
-                    if (idx > -1) {
-                        arr.push(item.id)
-                    }
+                    contrast(key, text, arr)
                 }
             })
-            // console.log(arr)
 
-            if (tableObj.name == 'author') {
-                _obj = { [tableObj.value]: _value }
-            } else {
-                _obj = { [tableObj.value]: _arr }
+            function contrast(key, text, arr) {
+                // console.log(key, text, arr)
+                let _value = [], _obj
+                arr.map(item => {
+                    if (key == 'authorId') {
+                        _value = ''
+                        if (item.name == text) {
+                            _value = item.id
+                        }
+                    } else {
+                        let _key = key == 'types' ? 'name' : 'nickName'
+                        let idx = text.indexOf(item[_key])
+                        if (idx > -1) {
+                            _value.push(item.id)
+                        }
+                    }
+                })
+                _obj = { [key]: _value }
+                update(_obj)
             }
-            update('5d2076fd2be66d1154bc365f', _obj)
-        })
-
-
-        function search(cb) {
-            const MyTableObject = new wx.BaaS.TableObject(tableObj.name)
-            const query = new wx.BaaS.Query()
-            MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
-                const { meta, objects } = res.data
-                typeof cb === 'function' && cb(objects);
-            })
         }
 
-        function update(recordId = '5d2076fd2be66d1154bc365f', values) {
-            const MyTableObject = new wx.BaaS.TableObject('listenBook')
-            const product = MyTableObject.getWithoutData(recordId)
+        function search(tableName) {
+            const MyTableObject = new wx.BaaS.TableObject(tableName)
+            const query = new wx.BaaS.Query()
+            return new Promise((resolve, reject) => {
+                MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
+                    const { meta, objects } = res.data
+                    resolve(objects);
+                })
+            })
+
+        }
+
+        function update(values) {
+            const MyTableObject = new wx.BaaS.TableObject('books')
+            const product = MyTableObject.getWithoutData(valueObj.updateId)
             product.set(values).update().then(res => {
                 console.log(res.data)
             })
@@ -211,7 +234,7 @@ Page({
 
     // 数据批量新建
     createBaidu() {
-        const MyTableObject = new wx.BaaS.TableObject('listenBook')
+        const MyTableObject = new wx.BaaS.TableObject('books')
         const data = baiduData.data.list
         let list = [], reg = /[^\/]*$/g
         data.map((item, index) => {
@@ -222,7 +245,6 @@ Page({
             }
 
             list.push({
-                created_by: index + 2,
                 title,
                 cloudDownload: `链接：${shortlink} 提取码：${passwd}`
             })

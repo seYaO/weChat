@@ -17,7 +17,7 @@ Page({
 
     getList({ refresh = false }) {
         let { list } = this.data
-        const MyTableObject = new wx.BaaS.TableObject('listenBook')
+        const MyTableObject = new wx.BaaS.TableObject('books')
         const query = new wx.BaaS.Query()
         MyTableObject.setQuery(query).limit(limit).offset(offset * limit).find().then(res => {
             const { meta, objects } = res.data
@@ -29,9 +29,12 @@ Page({
                 item.authorObj = {}
                 return item;
             })
-            this.setData({ list: refresh ? [...objects] : list.concat([...objects]), }, () => {
-                this.updateList(limit, offset)
-            })
+            if (objects && objects[0]) {
+                this.setData({ list: refresh ? [...objects] : list.concat([...objects]), }, () => {
+                    this.updateList(limit, offset)
+                })
+            }
+
             if (refresh) {
                 wx.stopPullDownRefresh()
             }
@@ -43,64 +46,40 @@ Page({
         let datas = this.data.list
 
         for (let i = offset * limit; i < limit * (offset + 1); i++) {
-            const { types = [], announcers = [], authorId = '' } = datas[i];
+            if (datas[i]) {
+                const { types = [], announcers = [], authorId = '' } = datas[i];
 
-            types.map(_item => {
-                let { list } = this.data
-                this.getData('listenType', _item, (res) => {
-                    list[i].typeList.push({ id: res.id, name: res.name });
-                    this.setData({ list })
-                })
-            })
-            // console.log(typeList)
+                if (types && types[0]) {
+                    types.map(_item => {
+                        let { list } = this.data
+                        this.getData('types', _item, (res) => {
+                            list[i].typeList.push({ id: res.id, name: res.name });
+                            this.setData({ list })
+                        })
+                    })
+                    // console.log(typeList)
+                }
 
-            announcers.map((_item, _index) => {
-                let { list } = this.data, isMore = announcers.length > 2
-                this.getData('announcer', _item, (res) => {
-                    if (_index < 3) {
-                        let _value = ` `
-                        list[i].announcerValue += res.nickName + _value
-                    }
+                if (announcers && announcers[0]) {
+                    announcers.map((_item, _index) => {
+                        let { list } = this.data
+                        this.getData('announcers', _item, (res) => {
+                            if (_index < 3) {
+                                let _value = ` `
+                                list[i].announcerValue += res.nickName + _value
+                            }
 
-                    list[i].announcerList.push({ id: res.id, nickName: res.nickName });
-                    this.setData({ list })
-                })
+                            list[i].announcerList.push({ id: res.id, nickName: res.nickName });
+                            this.setData({ list })
+                        })
 
-            })
+                    })
+                }
 
-            // this.getData('author', authorId)
+                // this.getData('author', authorId)
+            }
+
         }
-
-        return false
-        this.data.list.map((item, index) => {
-            const { types = [], announcers = [], authorId = '' } = item;
-            // let typeList = [], announcerList = [], authorObj = {}
-
-            types.map(_item => {
-                let { list } = this.data
-                this.getData('listenType', _item, (res) => {
-                    list[index].typeList.push({ id: res.id, name: res.name });
-                    this.setData({ list })
-                })
-            })
-            // console.log(typeList)
-
-            announcers.map((_item, _index) => {
-                let { list } = this.data, isMore = announcers.length > 2
-                this.getData('announcer', _item, (res) => {
-                    if (_index < 3) {
-                        let _value = ` `
-                        list[index].announcerValue += res.nickName + _value
-                    }
-
-                    list[index].announcerList.push({ id: res.id, nickName: res.nickName });
-                    this.setData({ list })
-                })
-
-            })
-
-            // this.getData('author', authorId)
-        })
     },
 
     getData(tableName, recordId, cb) {
@@ -129,34 +108,6 @@ Page({
     onLoad: function (options) {
         wx.showLoading({ title: '加载中', })
         this.getList({ refresh: true })
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
     },
 
     /**

@@ -14,7 +14,7 @@ App({
     onShow() {
     },
     globalData: {
-        clientId: '54a21d4fcfc3c2b90085',
+        clientId: '88bfb11e2bc47ad2beb5',
         userInfo: null,
         token: null,
     },

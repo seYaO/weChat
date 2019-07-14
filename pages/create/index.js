@@ -1,43 +1,14 @@
+import Toast from '../../lib/toast/toast'
+import util from '../../utils/index'
+
+
 const baiduData = require('../../services/baiduData')
-const util = require('../../utils/index')
 const valueObj = {
     typeValue: '多人播,穿越,古言,言情',
     authorValue: '天下无病',
     annValue: '清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主',
     updateId: '5d29996ac1be535543169841',
 }
-/**
-清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主
-
-CAST：
-
-安柯蓝/安然：旁白：清灵兄  
-宇文睿：阑珊梦  
-孟少珏：小编C 
-
-孟莹露：糖葫芦
-安柯紫：红樱桃  
-贺莲臣：生死朗读  
-宇文修/苏祁：南瓜楠少  
-细细：鲛綃  
-灵芝：猫镇豆子  
-灵妙儿：訫念  
-林宓儿：拈水笑  
-柳如絮/安青：兮小颜  
-牧一：百里屠屠  
-潘人妖/颜佑：南割式  
-
-三儿：沁沁  
-紫菱：忧蓝  
-
-江城：六翼
-灵仙儿：馨少主
-
-后期：清灵兄（预告+1~9集）、竹之夭夭（10~66集）
-文本整理：怎样、阿凝、清灵兄
-
-
- */
 
 Page({
 
@@ -45,10 +16,38 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        typeValue: '',
+        authorValue: '',
+        annValue: '',
+        updateId: '',
     },
 
     init() { },
+
+    changeValue(e) {
+        const { key } = e.currentTarget.dataset
+        const value = e.detail
+        this.setData({ [key]: value })
+    },
+
+    clearValue() {
+        this.setData({
+            typeValue: '',
+            authorValue: '',
+            annValue: '',
+            updateId: '',
+        })
+    },
+
+    validate() {
+        const { updateId } = this.data
+        if (!updateId) {
+            Toast('bookId不能为空');
+            return false
+        }
+
+        return true
+    },
 
     createStore() {
         const values = baiduData.value
@@ -72,8 +71,10 @@ Page({
 
     // 类型
     createType() {
+        if (!this.validate()) return
+
         const MyTableObject = new wx.BaaS.TableObject('types')
-        const values = valueObj.typeValue.split(',')
+        const values = this.data.typeValue.split(',')
 
         // return false
 
@@ -111,8 +112,10 @@ Page({
 
     // 作者
     createAuthor() {
+        if (!this.validate()) return
+
         const MyTableObject = new wx.BaaS.TableObject('authors')
-        const values = valueObj.authorValue.split(',')
+        const values = this.data.authorValue.split(',')
 
         // return false
 
@@ -152,8 +155,10 @@ Page({
 
     // 播音员
     createAnnouncer() {
+        if (!this.validate()) return
+
         const MyTableObject = new wx.BaaS.TableObject('announcers')
-        const values = valueObj.annValue.split(',')
+        const values = this.data.annValue.split(',')
 
         // return false
 
@@ -192,6 +197,7 @@ Page({
 
     // 更新部分字段
     updateBaidu() {
+        if (!this.validate()) return
         // 
         fn()
 
@@ -205,15 +211,15 @@ Page({
                 for (let i = 0; i < 3; i++) {
                     if (i == 0) {
                         key = 'types'
-                        text = valueObj.typeValue.split(',')
+                        text = this.data.typeValue.split(',')
                         arr = res[0]
                     } else if (i == 1) {
                         key = 'authorId'
-                        text = valueObj.authorValue
+                        text = this.data.authorValue
                         arr = res[1]
                     } else if (i == 2) {
                         key = 'announcers'
-                        text = valueObj.annValue.split(',')
+                        text = this.data.annValue.split(',')
                         arr = res[2]
                     }
                     contrast(key, text, arr)
@@ -256,7 +262,7 @@ Page({
 
         function update(values) {
             const MyTableObject = new wx.BaaS.TableObject('books')
-            const product = MyTableObject.getWithoutData(valueObj.updateId)
+            const product = MyTableObject.getWithoutData(this.data.updateId)
             product.set(values).update().then(res => {
                 console.log(res.data)
             })

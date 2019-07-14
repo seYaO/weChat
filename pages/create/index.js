@@ -9,6 +9,7 @@ const valueObj = {
     annValue: '清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主',
     updateId: '5d29996ac1be535543169841',
 }
+const reg = /\s*,\s*/
 
 Page({
 
@@ -74,7 +75,7 @@ Page({
         if (!this.validate()) return
 
         const MyTableObject = new wx.BaaS.TableObject('types')
-        const values = this.data.typeValue.split(',')
+        const values = this.data.typeValue.split(reg)
 
         // return false
 
@@ -115,7 +116,7 @@ Page({
         if (!this.validate()) return
 
         const MyTableObject = new wx.BaaS.TableObject('authors')
-        const values = this.data.authorValue.split(',')
+        const values = this.data.authorValue.split(reg)
 
         // return false
 
@@ -158,7 +159,7 @@ Page({
         if (!this.validate()) return
 
         const MyTableObject = new wx.BaaS.TableObject('announcers')
-        const values = this.data.annValue.split(',')
+        const values = this.data.annValue.split(reg)
 
         // return false
 
@@ -199,6 +200,7 @@ Page({
     updateBaidu() {
         if (!this.validate()) return
         // 
+        const _this = this
         fn()
 
         function fn(params) {
@@ -211,15 +213,15 @@ Page({
                 for (let i = 0; i < 3; i++) {
                     if (i == 0) {
                         key = 'types'
-                        text = this.data.typeValue.split(',')
+                        text = _this.data.typeValue.split(',')
                         arr = res[0]
                     } else if (i == 1) {
                         key = 'authorId'
-                        text = this.data.authorValue
+                        text = util.trim(_this.data.authorValue)
                         arr = res[1]
                     } else if (i == 2) {
                         key = 'announcers'
-                        text = this.data.annValue.split(',')
+                        text = _this.data.annValue.split(',')
                         arr = res[2]
                     }
                     contrast(key, text, arr)
@@ -262,7 +264,7 @@ Page({
 
         function update(values) {
             const MyTableObject = new wx.BaaS.TableObject('books')
-            const product = MyTableObject.getWithoutData(this.data.updateId)
+            const product = MyTableObject.getWithoutData(_this.data.updateId)
             product.set(values).update().then(res => {
                 console.log(res.data)
             })

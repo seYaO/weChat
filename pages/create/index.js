@@ -1,12 +1,43 @@
 const baiduData = require('../../services/baiduData')
 const util = require('../../utils/index')
 const valueObj = {
-    typeValue: '言情,多人播,青春',
-    authorValue: '凤轻',
-    annValue: '筱梦,布兰德',
-    updateIndex: 0,
-    updateId: '5d29996ac1be5355431697d4',
+    typeValue: '多人播,穿越,古言,言情',
+    authorValue: '天下无病',
+    annValue: '清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主',
+    updateId: '5d29996ac1be535543169841',
 }
+/**
+清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主
+
+CAST：
+
+安柯蓝/安然：旁白：清灵兄  
+宇文睿：阑珊梦  
+孟少珏：小编C 
+
+孟莹露：糖葫芦
+安柯紫：红樱桃  
+贺莲臣：生死朗读  
+宇文修/苏祁：南瓜楠少  
+细细：鲛綃  
+灵芝：猫镇豆子  
+灵妙儿：訫念  
+林宓儿：拈水笑  
+柳如絮/安青：兮小颜  
+牧一：百里屠屠  
+潘人妖/颜佑：南割式  
+
+三儿：沁沁  
+紫菱：忧蓝  
+
+江城：六翼
+灵仙儿：馨少主
+
+后期：清灵兄（预告+1~9集）、竹之夭夭（10~66集）
+文本整理：怎样、阿凝、清灵兄
+
+
+ */
 
 Page({
 
@@ -44,7 +75,7 @@ Page({
         const MyTableObject = new wx.BaaS.TableObject('types')
         const values = valueObj.typeValue.split(',')
 
-        return false
+        // return false
 
         search((res) => {
             res.map(item => {
@@ -83,7 +114,7 @@ Page({
         const MyTableObject = new wx.BaaS.TableObject('authors')
         const values = valueObj.authorValue.split(',')
 
-        return false
+        // return false
 
         search((res) => {
             res.map(item => {
@@ -124,7 +155,7 @@ Page({
         const MyTableObject = new wx.BaaS.TableObject('announcers')
         const values = valueObj.annValue.split(',')
 
-        return false
+        // return false
 
         search((res) => {
             res.map(item => {
@@ -191,10 +222,9 @@ Page({
 
             function contrast(key, text, arr) {
                 // console.log(key, text, arr)
-                let _value = [], _obj
+                let _value = '', _arr = [], _obj
                 arr.map(item => {
                     if (key == 'authorId') {
-                        _value = ''
                         if (item.name == text) {
                             _value = item.id
                         }
@@ -202,11 +232,12 @@ Page({
                         let _key = key == 'types' ? 'name' : 'nickName'
                         let idx = text.indexOf(item[_key])
                         if (idx > -1) {
-                            _value.push(item.id)
+                            _arr.push(item.id)
                         }
                     }
                 })
-                _obj = { [key]: _value }
+                _obj = { [key]: key == 'authorId' ? _value : _arr }
+                // console.log(_obj)
                 update(_obj)
             }
         }

@@ -76,7 +76,7 @@ Page({
 
         const MyTableObject = new wx.BaaS.TableObject('types')
         const values = this.data.typeValue.split(reg)
-
+        // console.log(values)
         // return false
 
         search((res) => {
@@ -91,7 +91,7 @@ Page({
             values.map(item => {
                 list.push({ name: item })
             })
-            // console.log(values)
+            // console.log(list)
 
             if (list.length > 0) create(list)
         })
@@ -213,7 +213,7 @@ Page({
                 for (let i = 0; i < 3; i++) {
                     if (i == 0) {
                         key = 'types'
-                        text = _this.data.typeValue.split(',')
+                        text = _this.data.typeValue.split(reg)
                         arr = res[0]
                     } else if (i == 1) {
                         key = 'authorId'
@@ -221,7 +221,7 @@ Page({
                         arr = res[1]
                     } else if (i == 2) {
                         key = 'announcers'
-                        text = _this.data.annValue.split(',')
+                        text = _this.data.annValue.split(reg)
                         arr = res[2]
                     }
                     contrast(key, text, arr)

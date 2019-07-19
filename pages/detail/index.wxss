@@ -1,1 +1,78 @@
-/* pages/detail/index.wxss */
+.pDetail .aBox>.sflex {
+    padding: 20rpx 0;
+}
+
+.pDetail .intro {
+    font-size: 24rpx;
+    padding: 20rpx 30rpx;
+}
+
+.pDetail .aBox>.header {
+    padding: 30rpx 0;
+}
+
+.pDetail .header .tx1 {
+    font-size: 24rpx;
+}
+
+.pDetail .headImg {
+    margin-right: 20rpx;
+    width: 110rpx;
+    height: 110rpx;
+    border-radius: 10rpx;
+    flex-shrink: 0;
+}
+
+.pDetail .tags {
+    padding: 10rpx 0;
+    white-space: nowrap;
+    background: #fff;
+}
+
+.tag-scroll {
+    display: block;
+}
+
+.sAnnouncer swiper {
+    height: 120rpx;
+}
+
+.sAnnouncer .wx-swiper-dots {
+    /* top: 50% !important; */
+    /* transform: translate(-100%, 10rpx) !important; */
+}
+
+.sAnnouncer .wx-swiper-dot {
+    width: 15rpx !important;
+    height: 5rpx !important;
+}
+
+.sAnnouncer .wx-swiper-dot-active {
+    width: 15rpx !important;
+    height: 5rpx !important;
+}
+
+.sAnnouncer .warp {
+    padding: 15rpx 0;
+}
+
+.sAnnouncer .head {
+    margin-right: 20rpx;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    flex-shrink: 0;
+}
+
+.sAnnouncer .tit {
+    font-size: 28rpx;
+    font-weight: 500;
+    line-height: 1.5;
+
+}
+
+.sAnnouncer .desc {
+    font-size: 24rpx;
+    color: #999;
+    width: 550rpx;
+}

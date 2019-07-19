@@ -1,2 +1,79 @@
-<!--pages/detail/index.wxml-->
-<text>pages/detail/index.wxml</text>
+<view class="pDetail" wx:if="{{dataloaded}}">
+    <view class="container">
+        <view class="sBox">
+            <view class="aBox">
+                <view class="sflex header">
+                    <image class="headImg" src="{{datas.headerImgUrl}}" />
+                    <view class="tx1">
+                        <view class="tit">{{datas.title}}</view>
+                        <view class="sflex" wx:if="{{authorName}}">
+                            <text class="">{{authorName}} 著</text>
+                        </view>
+                        <view class="sflex" wx:if="{{announcerValue}}">
+                            <text class="">{{announcerValue}} 播</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="tags van-hairline--top" wx:if="{{typeList}}">
+            <scroll-view class="tag-scroll" scroll-x scroll-with-animation scroll-left="{{ 0 }}">
+                <block wx:for="{{typeList}}" wx:key="index">
+                    <van-tag round color="#ffe1e1" text-color="#ad0000" class="tag-ml" bind:tap="openType" data-values="{{item}}">
+                        {{item.name}}
+                    </van-tag>
+                </block>
+            </scroll-view>
+        </view>
+        <view class="sBox sAnnouncer" wx:if="{{announcerValue}}">
+            <view class="aBox">
+                <swiper autoplay="{{false}}" display-multiple-items="{{1}}" current="{{0}}" circular="{{false}}" indicator-dots="{{true}}" indicator-active-color='#FF8400'>
+                    <block wx:for="{{announcerList}}" wx:key="index">
+                        <swiper-item class="warp" bindtap="openAnnouncer" data-values="{{item}}">
+                            <view class="sflex">
+                                <image class="head" src="{{headerImg}}" />
+                                <view class="flex1">
+                                    <view class="tit">{{item.nickName}}</view>
+                                    <view class="desc van-ellipsis" wx:if="{{item.intro}}">
+                                        {{item.intro}}
+                                    </view>
+                                </view>
+                            </view>
+                        </swiper-item>
+                    </block>
+                </swiper>
+            </view>
+        </view>
+        <view class="sBox" wx:if="{{intro}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">内容概述</view>
+                </view>
+            </view>
+            <view class="intro van-hairline--top">
+                <wxparser rich-text="{{intro}}" />
+            </view>
+        </view>
+        <view class="sBox" wx:if="{{authorIntro}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">作者简介</view>
+                    <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
+                </view>
+            </view>
+            <view class="intro van-hairline--top">
+                <wxparser rich-text="{{authorIntro}}" />
+            </view>
+        </view>
+        <view class="sBox" wx:if="{{announcerIntro}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">主播简介</view>
+                </view>
+            </view>
+            <view class="intro van-hairline--top">
+                <wxparser rich-text="{{announcerIntro}}" />
+            </view>
+        </view>
+    </view>
+</view>

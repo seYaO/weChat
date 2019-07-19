@@ -1,51 +1,52 @@
 <view>
-<van-cell-group>
-    <van-field
-        value="{{ updateId }}"
-        data-key="updateId"
-        type="textarea"
-        placeholder="请输入bookId，如：5d29996ac1be535543169841"
-        autosize
-        bind:change="changeValue"
-    />
-    <van-field
-        value="{{ typeValue }}"
-        data-key="typeValue"
-        type="textarea"
-        placeholder="请输入类型，如：穿越,古言,言情"
-        autosize
-        bind:change="changeValue"
-    />
-    <van-field
-        value="{{ authorValue }}"
-        data-key="authorValue"
-        type="textarea"
-        placeholder="请输入作者，如：天下无病"
-        autosize
-        bind:change="changeValue"
-    />
-    <van-field
-        value="{{ annValue }}"
-        data-key="annValue"
-        type="textarea"
-        placeholder="请输入播音员，如：清灵,阑珊梦,小编C,糖葫芦"
-        autosize
-        bind:change="changeValue"
-    />
-</van-cell-group>
+    
+    <van-cell-group>
+        <van-field
+            value="{{ updateId }}"
+            data-key="updateId"
+            type="textarea"
+            placeholder="请输入bookId，如：5d29996ac1be535543169841"
+            autosize
+            bind:change="changeValue"
+        />
+        <van-field
+            value="{{ typeValue }}"
+            data-key="typeValue"
+            type="textarea"
+            placeholder="请输入类型，如：穿越,古言,言情"
+            autosize
+            bind:change="changeValue"
+        />
+        <van-field
+            value="{{ authorValue }}"
+            data-key="authorValue"
+            type="textarea"
+            placeholder="请输入作者，如：天下无病"
+            autosize
+            bind:change="changeValue"
+        />
+        <van-field
+            value="{{ annValue }}"
+            data-key="annValue"
+            type="textarea"
+            placeholder="请输入播音员，如：清灵,阑珊梦,小编C,糖葫芦"
+            autosize
+            bind:change="changeValue"
+        />
+    </van-cell-group>
 
-<view class="aBox">
-    <view class="sflex bet">
-        <van-button type="primary" round bind:click="createType">新增类型</van-button>
-        <van-button type="info" round bind:click="createAuthor">新增作者</van-button>
-        <van-button type="warning" round bind:click="createAnnouncer">新增播音员</van-button>
+    <view class="aBox">
+        <view class="sflex bet">
+            <van-button type="primary" round bind:click="createType">新增类型</van-button>
+            <van-button type="info" round bind:click="createAuthor">新增作者</van-button>
+            <van-button type="warning" round bind:click="createAnnouncer">新增播音员</van-button>
+        </view>
+        <view class="sflex bet">
+            <van-button type="warning" round bind:click="createBaidu">新增书</van-button>
+            <van-button type="danger" round bind:click="updateBaidu">更新书</van-button>
+            <van-button type="primary" round bind:click="clearValue">清除数据</van-button>
+        </view>
     </view>
-    <view class="sflex bet">
-        <van-button type="warning" round bind:click="createBaidu">新增书</van-button>
-        <van-button type="danger" round bind:click="updateBaidu">更新书</van-button>
-        <van-button type="primary" round bind:click="clearValue">清除数据</van-button>
-    </view>
-</view>
     <button bind:tap="createStore">新增店铺</button>
     
 </view>

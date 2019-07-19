@@ -1,4 +1,4 @@
-<view class="sList" wx:if="{{list}}">
+<view class="pList" wx:if="{{list}}">
     <view class="sCard" wx:for="{{list}}" wx:key="index">
         <view class="header">
             <view class="thumb">

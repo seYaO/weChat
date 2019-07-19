@@ -111,8 +111,11 @@
  */
 
 .sBox {
-    margin-top: 20rpx;
     background-color: #fff;
+}
+
+.sBox:not(:first-child) {
+    margin-top: 20rpx;
 }
 
 .sBox .intro {
@@ -124,7 +127,7 @@
     padding: 0 30rpx;
 }
 
-.aBox .sflex {
+.aBox>.sflex {
     padding: 30rpx 0;
 }
 

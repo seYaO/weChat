@@ -61,7 +61,14 @@
         "van-rate": "./lib/rate/index",
         "van-collapse": "./lib/collapse/index",
         "van-collapse-item": "./lib/collapse-item/index",
-        "van-picker": "./lib/picker/index"
+        "van-picker": "./lib/picker/index",
+        "wxparser": "plugin://wxparserPlugin/wxparser"
+    },
+    "plugins": {
+        "wxparserPlugin": {
+            "version": "0.2.1",
+            "provider": "wx9d4d4ffa781ff3ac"
+        }
     },
     "sitemapLocation": "sitemap.json"
 }

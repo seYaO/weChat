@@ -108,6 +108,12 @@ const getDecimal = (value, number) => {
     return Number(value);
 }
 
+const newline = (str = '') => {
+    str = str.replace(/\r\n/g, "<br/>")
+    str = str.replace(/\n/g, "<br/>")
+    return str
+}
+
 
 module.exports = {
     extend,
@@ -118,4 +124,5 @@ module.exports = {
     isObject,
     isArray,
     getDecimal,
+    newline,
 }

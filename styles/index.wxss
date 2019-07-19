@@ -120,6 +120,14 @@ ul {
     align-items: center;
 }
 
+.flex1 {
+    flex: 1;
+}
+
+.flex2 {
+    flex: 2;
+}
+
 .bet {
     justify-content: space-between;
 }
@@ -158,4 +166,12 @@ ul {
 .image {
     position: relative;
     display: inline-block;
+}
+
+.tag-mr {
+    margin-right: 10px;
+}
+
+.tag-ml {
+    margin-left: 10px;
 }

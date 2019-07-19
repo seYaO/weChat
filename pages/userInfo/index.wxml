@@ -1,0 +1,10 @@
+<view class='page'>
+    <image src='https://file.40017.cn/touchweixinqq/wxapp/img/home/icon_logo.png' class='logo'></image>
+     <view class='appname'>跑马游世界</view>
+    <view class='desc'>您暂未获取微信授权，将无法正常使用小程序的功能~如需要正常使用，请点击“授权登录”按钮，打开头像、昵称等信息的授权。</view> 
+    <button open-type="getUserInfo" hover-class='btn-hover' bindgetuserinfo='getUserInfo' bindtap='clickBtn'>授权登录</button>
+    <!-- <view class='Privacy'>
+        <navigator hover-class='none' url='/page/home/webview/webview?src=https%3A%2F%2Fwx.17u.cn%2Fpub%2Fpage%2Fabout%23page_2' >同程艺龙隐私政策</navigator>
+    </view> -->
+</view>
+<image src='https://file.40017.cn/touchweixinqq/wxapp/img/home/icon_slogan.png' class='logo-bottom'></image>

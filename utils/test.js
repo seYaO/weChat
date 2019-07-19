@@ -1,40 +1,3 @@
-const { https } = require('./https');
-const { enums } = require('./enums');
-const { apiPrefix } = require('./config');
-
-const { cardTypeEnums, relationEnums, sexEnums } = enums;
-
-
-/**
- * 字符串去前后的空格
- * @param {*} val 
- */
-const trim = (val) => {
-    return !!val && val.replace(/^\s+|\s+$/gm, '')
-}
-
-const typeDeepOf = (obj) => {
-    if(typeof obj !== 'object') return typeof obj;
-    return Object.prototype.toString.apply(obj).slice(8, -1).toLowerCase();
-}
-
-/**
- * 数组去重
- * @param {*} array 
- */
-const unique = (array) => {
-    if(typeDeepOf(array) !== 'array' || array.length === 0) return array;
-    let result = [], obj = {};
-    for(let i = 0; i < array.length; i++){
-        let item = array[i];
-        if(!obj[item]){
-            result.push(item);
-            obj[item] = 1;
-        }
-    }
-    return result;
-}
-
 /**
  * 
  * 对Date的扩展，将 Date 转化为指定格式的String
@@ -333,68 +296,7 @@ const getIdCardToInfo = (idCard) => {
     }
 }
 
-/**
- * 根据refid从Enums中获取text
- * @param {number} type Enum类型代号
- *  1:benefitorEnums  收益人
- *  2:idCardTypeEnums 证件类型
- *  3:relationEnums   关系
- *  4:sexEnums        性别
- * @param {number} refid Enum refId
- * @return {string}           Enum text
- */
-const getEnumText = (type, refid) => {
-    let txt = '', obj;
-    type = Number(type);
-
-    switch (type) {
-        case 1:
-            // obj = 
-            break;
-        case 2:
-            obj = cardTypeEnums;
-            break;
-        case 3:
-            obj = relationEnums;
-            break;
-        case 4:
-            obj = sexEnums;
-            break;
-    }
-
-    for (let val in obj) {
-        const item = obj[val];
-        if (item.refId == refid) {
-            txt = item.text;
-        }
-    }
-
-    return txt;
-}
-
-/**
- * 价格处理
- * @param {*} price 
- */
-const getPrice = (price) => {
-    price = price.toFixed(2);
-    price = price.replace(/(\d*)(\.)(\d*)/, (a, b, c, d) => {
-        if(d === '00'){
-            return b;
-        }else{
-            if(/\d0/.test(d)){
-                d = d[0];
-            }
-            return `${b}.${d}`;
-        }
-    })
-    return Number(price);
-}
-
 module.exports = {
-    https,
-    enums,
-    apiPrefix,
     formatDate,
     dateAdd,
     dateSubtract,
@@ -403,9 +305,5 @@ module.exports = {
     birthdayToStartAndEnd,
     isBetween,
     judgeInRage,
-    trim,
-    unique,
-    getEnumText,
     getIdCardToInfo,
-    getPrice,
 }

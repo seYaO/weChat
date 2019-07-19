@@ -11,7 +11,6 @@
                 <view class="desc van-ellipsis" wx:if="{{item.intro}}">{{item.intro}}</view>
                 <view wx:if="{{item.typeList && item.typeList.length}}" class="aTag">
                     <block wx:for="{{item.typeList}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
-                        <!-- <view class="tag tag--plain hairline--surround">{{_item.name}}</view> -->
                         <van-tag type="danger" class="tag-mr">{{_item.name}}</van-tag>
                     </block>
                 </view>

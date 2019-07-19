@@ -19,48 +19,6 @@
 /* 
  * ------------------------------------------------------------------
  * ------------------------------------------------------------------
- * 标签 tag
- * ------------------------------------------------------------------
- * ------------------------------------------------------------------
- */
-[class*='hairline'] {
-    position: relative;
-}
-
-[class*='hairline']::after {
-    position: absolute;
-    box-sizing: border-box;
-    content: ' ';
-    pointer-events: none;
-    top: -50%;
-    right: -50%;
-    bottom: -50%;
-    left: -50%;
-    border: 0 solid #ebedf0;
-    transform: scale(0.5);
-}
-
-.hairline--surround::after {
-    border-width: 1px;
-}
-
-.tag {
-    display: inline-block;
-    padding: 0.2em 0.5em;
-    color: #fff;
-    font-size: 10px;
-    line-height: normal;
-    border-radius: 0.2em;
-}
-
-.tag::after {
-    border-color: currentColor;
-    border-radius: 0.4em;
-}
-
-/* 
- * ------------------------------------------------------------------
- * ------------------------------------------------------------------
  * 商品卡片card
  * ------------------------------------------------------------------
  * ------------------------------------------------------------------

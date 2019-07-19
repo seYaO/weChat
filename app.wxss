@@ -1,2 +1,3 @@
+@import './lib/common/index.wxss';
 @import './styles/index.wxss';
 @import './styles/style.wxss';

@@ -159,9 +159,3 @@ ul {
     position: relative;
     display: inline-block;
 }
-
-.ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}

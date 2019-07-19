@@ -1,5 +1,7 @@
+const app = getApp()
 import Toast from '../../lib/toast/toast'
 import util from '../../utils/index'
+import services from '../../services/index'
 
 
 const baiduData = require('../../services/baiduData')
@@ -70,210 +72,140 @@ Page({
         // })
     },
 
-    // 类型
-    createType() {
-        if (!this.validate()) return
+    create({ table, key, values }, cb) {
+        const params = { table, limit: 1000 }
+        services.list(params).then(res => {
+            const { meta, objects } = res
+            let list = []
 
-        const MyTableObject = new wx.BaaS.TableObject('types')
-        const values = this.data.typeValue.split(reg)
-        // console.log(values)
-        // return false
-
-        search((res) => {
-            res.map(item => {
+            objects.map(item => {
                 let idx = values.indexOf(item.name)
                 if (idx > -1) {
                     values.splice(idx, 1);
                 }
             })
 
-            let list = []
             values.map(item => {
-                list.push({ name: item })
+                list.push({ [key]: item })
             })
             // console.log(list)
 
-            if (list.length > 0) create(list)
+            if (list.length > 0) {
+                services.createMany({ table, list }).then(res => {
+                    return typeof cb === 'function' && cb(res)
+                })
+            } else {
+                return typeof cb === 'function' && cb()
+            }
         })
+    },
 
-        function search(cb) {
-            const query = new wx.BaaS.Query()
-            MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
-                const { meta, objects } = res.data
-                typeof cb === 'function' && cb(objects);
-            })
-        }
+    // 类型
+    createType() {
+        if (!this.validate()) return
 
-        function create(values) {
-            MyTableObject.createMany(values).then(res => {
-                console.log(res.data.succeed)
-            })
-        }
+        const values = this.data.typeValue.split(reg)
+
+        this.create({ table: 'types', key: 'name', values }, (res) => {
+            if (res) {
+                console.log('类型数据批量新建---', res.succeed)
+                Toast('类型数据批量新建成功')
+            } else {
+                Toast('无需更新类型数据')
+            }
+        })
     },
 
     // 作者
     createAuthor() {
         if (!this.validate()) return
 
-        const MyTableObject = new wx.BaaS.TableObject('authors')
         const values = this.data.authorValue.split(reg)
 
-        // return false
-
-        search((res) => {
-            res.map(item => {
-                let idx = values.indexOf(item.name)
-                if (idx > -1) {
-                    values.splice(idx, 1);
-                }
-            })
-
-            let list = []
-            values.map(item => {
-                list.push({ name: item })
-            })
-            // console.log(values)
-
-            if (list.length > 0)
-                create(list)
+        this.create({ table: 'authors', key: 'name', values }, (res) => {
+            if (res) {
+                console.log('作者数据批量新建---', res.succeed)
+                Toast('作者数据批量新建成功')
+            } else {
+                Toast('无需更新作者数据')
+            }
         })
-
-        function search(cb) {
-            const query = new wx.BaaS.Query()
-            MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
-                const { meta, objects } = res.data
-                // console.log(objects)
-                typeof cb === 'function' && cb(objects);
-            })
-        }
-
-        function create(values) {
-            MyTableObject.createMany(values).then(res => {
-                console.log(res.data.succeed)
-            })
-        }
     },
 
     // 播音员
     createAnnouncer() {
         if (!this.validate()) return
 
-        const MyTableObject = new wx.BaaS.TableObject('announcers')
         const values = this.data.annValue.split(reg)
 
-        // return false
-
-        search((res) => {
-            res.map(item => {
-                let idx = values.indexOf(item.nickName)
-                if (idx > -1) {
-                    values.splice(idx, 1);
-                }
-            })
-
-            let list = []
-            values.map(item => {
-                list.push({ nickName: item })
-            })
-
-            if (list.length > 0)
-                create(list)
+        this.create({ table: 'announcers', key: 'nickName', values }, (res) => {
+            if (res) {
+                console.log('播音员数据批量新建---', res.succeed)
+                Toast('播音员数据批量新建成功')
+            } else {
+                Toast('无需更新播音员数据')
+            }
         })
 
-        function search(cb) {
-            const query = new wx.BaaS.Query()
-            MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
-                const { meta, objects } = res.data
-                // console.log(objects)
-                typeof cb === 'function' && cb(objects);
-            })
-        }
-
-        function create(values) {
-            MyTableObject.createMany(values).then(res => {
-                console.log(res.data.succeed)
-            })
-        }
     },
 
     // 更新部分字段
     updateBaidu() {
         if (!this.validate()) return
-        // 
-        const _this = this
-        fn()
 
-        function fn(params) {
-            const typeDatas = search('types'),
-                authorDatas = search('authors'),
-                announcerDatas = search('announcers')
+        const { typeValue, authorValue, annValue, updateId } = this.data
+        const typeDatas = services.list({ table: 'types', limit: 1000 })
+        const authorDatas = services.list({ table: 'authors', limit: 1000 })
+        const announcerDatas = services.list({ table: 'announcers', limit: 1000 })
 
-            Promise.all([typeDatas, authorDatas, announcerDatas]).then(res => {
-                let key = '', text, arr;
-                for (let i = 0; i < 3; i++) {
-                    if (i == 0) {
-                        key = 'types'
-                        text = _this.data.typeValue.split(reg)
-                        arr = res[0]
-                    } else if (i == 1) {
-                        key = 'authorId'
-                        text = util.trim(_this.data.authorValue)
-                        arr = res[1]
-                    } else if (i == 2) {
-                        key = 'announcers'
-                        text = _this.data.annValue.split(reg)
-                        arr = res[2]
+        Promise.all([typeDatas, authorDatas, announcerDatas]).then(res => {
+            let key = '', text, arr;
+            for (let i = 0; i < 3; i++) {
+                if (i == 0) {
+                    key = 'types'
+                    text = typeValue.split(reg)
+                    arr = res[0].objects
+                } else if (i == 1) {
+                    key = 'authorId'
+                    text = util.trim(authorValue)
+                    arr = res[1].objects
+                } else if (i == 2) {
+                    key = 'announcers'
+                    text = annValue.split(reg)
+                    arr = res[2].objects
+                }
+                contrast(key, text, arr)
+            }
+        })
+
+        function contrast(key, text, arr) {
+            // console.log(key, text, arr)
+            let _value = '', _arr = [], _obj
+            arr.map(item => {
+                if (key == 'authorId') {
+                    if (item.name == text) {
+                        _value = item.id
                     }
-                    contrast(key, text, arr)
+                } else {
+                    let _key = key == 'types' ? 'name' : 'nickName'
+                    let idx = text.indexOf(item[_key])
+                    if (idx > -1) {
+                        _arr.push(item.id)
+                    }
                 }
             })
-
-            function contrast(key, text, arr) {
-                // console.log(key, text, arr)
-                let _value = '', _arr = [], _obj
-                arr.map(item => {
-                    if (key == 'authorId') {
-                        if (item.name == text) {
-                            _value = item.id
-                        }
-                    } else {
-                        let _key = key == 'types' ? 'name' : 'nickName'
-                        let idx = text.indexOf(item[_key])
-                        if (idx > -1) {
-                            _arr.push(item.id)
-                        }
-                    }
-                })
-                _obj = { [key]: key == 'authorId' ? _value : _arr }
-                // console.log(_obj)
-                update(_obj)
-            }
-        }
-
-        function search(tableName) {
-            const MyTableObject = new wx.BaaS.TableObject(tableName)
-            const query = new wx.BaaS.Query()
-            return new Promise((resolve, reject) => {
-                MyTableObject.setQuery(query).limit(1000).offset(0).find().then(res => {
-                    const { meta, objects } = res.data
-                    resolve(objects);
-                })
-            })
-
-        }
-
-        function update(values) {
-            const MyTableObject = new wx.BaaS.TableObject('books')
-            const product = MyTableObject.getWithoutData(_this.data.updateId)
-            product.set(values).update().then(res => {
-                console.log(res.data)
+            _obj = { [key]: key == 'authorId' ? _value : _arr }
+            // console.log(_obj)
+            services.update({ table: 'books', id: updateId, values: _obj }).then(res => {
+                console.log('数据更新---', res)
+                Toast('数据更新成功')
             })
         }
+
     },
 
     // 数据批量新建
     createBaidu() {
-        const MyTableObject = new wx.BaaS.TableObject('books')
         const data = baiduData.data.list
         let list = [], reg = /[^\/]*$/g
         data.map((item, index) => {
@@ -292,8 +224,10 @@ Page({
 
         return false
 
-        MyTableObject.createMany(list).then(res => {
-            console.log(res.data.succeed)
+        const params = { table: 'books', list }
+        services.createMany(params).then(res => {
+            console.log('数据批量新建---', res.succeed)
+            Toast('数据批量新建成功')
         })
     },
 

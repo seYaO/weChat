@@ -31,7 +31,7 @@
                     <block wx:for="{{announcerList}}" wx:key="index">
                         <swiper-item class="warp" bindtap="openAnnouncer" data-values="{{item}}">
                             <view class="sflex">
-                                <image class="head" src="{{headerImg}}" />
+                                <image class="head" src="{{item.cover || headerImg}}" />
                                 <view class="flex1">
                                     <view class="tit">{{item.nickName}}</view>
                                     <view class="desc van-ellipsis" wx:if="{{item.intro}}">

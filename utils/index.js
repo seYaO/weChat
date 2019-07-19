@@ -112,7 +112,6 @@ const getDecimal = (value, number) => {
 module.exports = {
     extend,
     isNotEmptyString,
-    format,
     trim,
     unique,
     isFunction,

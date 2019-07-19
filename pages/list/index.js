@@ -1,5 +1,6 @@
 import Toast from '../../lib/toast/toast'
 import util from '../../utils/index'
+import services from '../../services/index'
 
 let limit = 10 // 每页显示几条数据
 let offset = 0 // 页码
@@ -17,10 +18,10 @@ Page({
 
     getList({ refresh = false }) {
         let { list } = this.data
-        const MyTableObject = new wx.BaaS.TableObject('books')
-        const query = new wx.BaaS.Query()
-        MyTableObject.setQuery(query).limit(limit).offset(offset * limit).find().then(res => {
-            const { meta, objects } = res.data
+        const params = { table: 'books', limit, offset }
+
+        services.list(params).then(res => {
+            const { meta, objects } = res
             page = Math.floor(meta.total_count / limit)
             objects.map(item => {
                 item.typeList = []
@@ -44,35 +45,56 @@ Page({
 
     updateList(limit, offset) {
         let datas = this.data.list
+        const { list } = this.data
 
         for (let i = offset * limit; i < limit * (offset + 1); i++) {
             if (datas[i]) {
                 const { types = [], announcers = [], authorId = '' } = datas[i];
 
                 if (types && types[0]) {
-                    types.map(_item => {
-                        let { list } = this.data
-                        this.getData('types', _item, (res) => {
-                            list[i].typeList.push({ id: res.id, name: res.name });
-                            this.setData({ list })
-                        })
+                    let typeArr = []
+                    types.map(item => {
+                        const params = { id: item, table: 'types' }
+                        const res = services.detail(params)
+                        typeArr.push(res)
                     })
-                    // console.log(typeList)
+                    // console.log(typeArr)
+                    Promise.all(typeArr).then(res => {
+                        let arr = []
+                        if (res && res[0]) {
+                            res.map((item, index) => {
+                                if (index < 6) {
+                                    arr.push({ id: item.id, name: item.name })
+                                }
+                            })
+                        }
+                        list[i].typeList = arr
+                        this.setData({ list })
+                    })
                 }
 
                 if (announcers && announcers[0]) {
-                    announcers.map((_item, _index) => {
-                        let { list } = this.data
-                        this.getData('announcers', _item, (res) => {
-                            if (_index < 3) {
-                                let _value = ` `
-                                list[i].announcerValue += res.nickName + _value
-                            }
+                    let announcerArr = []
+                    announcers.map(item => {
+                        const params = { id: item, table: 'announcers' }
+                        const res = services.detail(params)
+                        announcerArr.push(res)
 
-                            list[i].announcerList.push({ id: res.id, nickName: res.nickName });
-                            this.setData({ list })
-                        })
+                    })
+                    // console.log(announcerArr)
+                    Promise.all(announcerArr).then(res => {
+                        let arr = [], isMore = false, value = ''
+                        if (res && res[0]) {
+                            res.map((item, index) => {
+                                if (index < 3) {
+                                    arr.push(item.nickName)
+                                }
+                            })
+                            value = `${arr.join(',')}${res.length > 3 ? '...' : ''}`
+                        }
 
+                        list[i].announcerValue = value || '暂无'
+                        this.setData({ list })
                     })
                 }
 
@@ -128,5 +150,13 @@ Page({
             offset++
             this.getList({})
         }
+    },
+
+    openDetail(e) {
+        const { id } = e.currentTarget.dataset
+
+        wx.navigateTo({
+            url: `/pages/detail/index?id=${id}`,
+        })
     },
 })

@@ -2,7 +2,7 @@
     <view class="sCard" wx:for="{{list}}" wx:key="index">
         <view class="header">
             <view class="thumb">
-                <view class="image">
+                <view class="image" bind:tap="openDetail" data-id="{{item.id}}">
                     <image class="image_img" src="{{item.headerImgUrl || imgUrl}}"></image>
                 </view>
             </view>
@@ -14,7 +14,7 @@
                         <van-tag type="danger" class="tag-mr">{{_item.name}}</van-tag>
                     </block>
                 </view>
-                <view class="announcer" wx:if="{{item.announcerValue}}">播音: {{item.announcerValue}}{{item.announcerList.length > 3 ? '等' : ''}}</view>
+                <view class="announcer" wx:if="{{item.announcerValue}}">播音: {{item.announcerValue}}</view>
             </view>
         </view>
         <view class="footer">

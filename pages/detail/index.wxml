@@ -3,7 +3,7 @@
         <view class="sBox">
             <view class="aBox">
                 <view class="sflex header">
-                    <image class="headImg" src="{{datas.headerImgUrl}}" />
+                    <image class="headImg" src="{{minImgUrl}}" />
                     <view class="tx1">
                         <view class="tit">{{datas.title}}</view>
                         <view class="sflex" wx:if="{{authorName}}">
@@ -15,16 +15,22 @@
                     </view>
                 </view>
             </view>
+            <view class="tags" wx:if="{{typeList}}">
+                <scroll-view class="tag-scroll" scroll-x scroll-with-animation scroll-left="{{ 0 }}">
+                    <block wx:for="{{typeList}}" wx:key="index">
+                        <van-tag round size="large" color="#ffe1e1" text-color="#ad0000" class="tag-ml" bind:tap="openType" data-values="{{item}}">
+                            {{item.name}}
+                        </van-tag>
+                    </block>
+                </scroll-view>
+            </view>
+            <view class="aBox aRecommennd" wx:if="{{datas.recommend}}">
+                <view class="sflex">
+                    {{datas.recommend}}
+                </view>
+            </view>
         </view>
-        <view class="tags van-hairline--top" wx:if="{{typeList}}">
-            <scroll-view class="tag-scroll" scroll-x scroll-with-animation scroll-left="{{ 0 }}">
-                <block wx:for="{{typeList}}" wx:key="index">
-                    <van-tag round color="#ffe1e1" text-color="#ad0000" class="tag-ml" bind:tap="openType" data-values="{{item}}">
-                        {{item.name}}
-                    </van-tag>
-                </block>
-            </scroll-view>
-        </view>
+        
         <view class="sBox sAnnouncer" wx:if="{{announcerValue}}">
             <view class="aBox">
                 <swiper autoplay="{{false}}" display-multiple-items="{{1}}" current="{{0}}" circular="{{false}}" indicator-dots="{{true}}" indicator-active-color='#FF8400'>
@@ -73,6 +79,16 @@
             </view>
             <view class="intro van-hairline--top">
                 <wxparser rich-text="{{announcerIntro}}" />
+            </view>
+        </view>
+        <view class="sBox" wx:if="{{figureIntro}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">人物形象</view>
+                </view>
+            </view>
+            <view class="intro van-hairline--top">
+                <wxparser rich-text="{{figureIntro}}" />
             </view>
         </view>
     </view>

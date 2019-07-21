@@ -28,6 +28,7 @@ Page({
                 item.announcerList = []
                 item.announcerValue = ''
                 item.authorObj = {}
+                item.minImgUrl = util.setImageSize(item.headerImgUrl) || ''
                 return item;
             })
             if (objects && objects[0]) {

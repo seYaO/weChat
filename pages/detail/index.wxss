@@ -23,8 +23,11 @@
     flex-shrink: 0;
 }
 
+.pDetail .aRecommennd {
+    font-size: 24rpx;
+}
+
 .pDetail .tags {
-    padding: 10rpx 0;
     white-space: nowrap;
     background: #fff;
 }

@@ -3,12 +3,12 @@
         <view class="header">
             <view class="thumb">
                 <view class="image" bind:tap="openDetail" data-id="{{item.id}}">
-                    <image class="image_img" src="{{item.headerImgUrl || imgUrl}}"></image>
+                    <image class="image_img" src="{{item.minImgUrl || imgUrl}}"></image>
                 </view>
             </view>
             <view class="content">
                 <view class="title van-ellipsis">{{item.title}}</view>
-                <view class="desc van-ellipsis" wx:if="{{item.intro}}">{{item.intro}}</view>
+                <view class="desc van-ellipsis" wx:if="{{item.recommend}}">{{item.recommend}}</view>
                 <view wx:if="{{item.typeList && item.typeList.length}}" class="aTag">
                     <block wx:for="{{item.typeList}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
                         <van-tag type="danger" class="tag-mr">{{_item.name}}</van-tag>

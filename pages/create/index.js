@@ -79,7 +79,7 @@ Page({
             let list = []
 
             objects.map(item => {
-                let idx = values.indexOf(item.name)
+                let idx = values.indexOf(item[key])
                 if (idx > -1) {
                     values.splice(idx, 1);
                 }

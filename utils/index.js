@@ -109,9 +109,28 @@ const getDecimal = (value, number) => {
 }
 
 const newline = (str = '') => {
+    str = str.replace(/\\n/g, "<br/>")
     str = str.replace(/\r\n/g, "<br/>")
     str = str.replace(/\n/g, "<br/>")
     return str
+}
+
+/**
+ * 图片地址处理
+ * @param {*} url 
+ * https://imagev2.xmcdn.com/group29/M07/D2/D6/wKgJWVlgT1iwnJJzAAGe1uBYMMs847.jpg
+ * https://bookpic.lrts.me/49ccee6f1b2f4aaebba56d11eea1db56.jpg
+ */
+const setImageSize = (url) => {
+    if (!url) {
+        return null;
+    }
+
+    if (url.indexOf("imagev2.xmcdn.com") > -1) {
+        url = `${url}!strip=1&quality=7&magick=jpg&op_type=5&upload_type=album&name=mobile_large&device_type=ios`
+    }
+
+    return url
 }
 
 
@@ -125,4 +144,5 @@ module.exports = {
     isArray,
     getDecimal,
     newline,
+    setImageSize,
 }

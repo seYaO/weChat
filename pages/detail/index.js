@@ -18,13 +18,19 @@ Page({
         services.detail(params).then(res => {
             let intro = res.intro || ''
             let announcerIntro = res.announcerIntro || ''
+            let figureIntro = res.figureIntro || ''
+            let minImgUrl = util.setImageSize(res.headerImgUrl) || ''
             if (intro) {
                 intro = util.newline(intro)
             }
             if (announcerIntro) {
                 announcerIntro = util.newline(announcerIntro)
             }
-            this.setData({ datas: res, intro, announcerIntro }, () => {
+            if (figureIntro) {
+                figureIntro = util.newline(figureIntro)
+            }
+
+            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro }, () => {
                 this.updateData()
             })
         })

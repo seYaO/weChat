@@ -232,12 +232,7 @@ Page({
     },
 
     // -------------------
-    uniqueType() {
-
-    },
-    uniqueAuthor() {
-    },
-    uniqueAnnouncer() {
+    unique() {
         const params = { table: 'books', limit: 1000 }
 
         services.list(params).then(res => {
@@ -251,6 +246,20 @@ Page({
             })
 
             console.log(JSON.stringify(list))
+        })
+    },
+    update() {
+        const params = {
+            table: 'books',
+            limit: 1000,
+            list: [
+                { key: 'isLike', value: false },
+                { key: 'isRecommend', value: false },
+                { key: 'isGoods', value: false }
+            ]
+        }
+        services.updateMany(params).then(res => {
+            console.log(res)
         })
     },
 

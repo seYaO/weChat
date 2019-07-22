@@ -47,8 +47,8 @@
             <van-button type="primary" round bind:click="clearValue">清除数据</van-button>
         </view>
         <view class="sflex bet">
-            <van-button type="warning" round bind:click="uniqueType">类型去重</van-button>
-            <van-button type="warning" round bind:click="uniqueAuthor">作者去重</van-button>
+            <van-button type="warning" round bind:click="unique">去重</van-button>
+            <van-button type="warning" round bind:click="update">批量更新</van-button>
             <van-button type="warning" round bind:click="uniqueAnnouncer">播音员去重</van-button>
         </view>
     </view>

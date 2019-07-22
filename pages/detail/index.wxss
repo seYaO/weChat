@@ -1,3 +1,7 @@
+.sTop {
+    padding-bottom: 20rpx;
+}
+
 .pDetail .aBox>.sflex {
     padding: 20rpx 0;
 }

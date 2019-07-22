@@ -16,6 +16,12 @@ Page({
         list: null,
     },
 
+    conditions(array) {
+        const query = new wx.BaaS.Query()
+        query.in('id', array)
+        return query
+    },
+
     getList({ refresh = false }) {
         let { list } = this.data
         const params = { table: 'books', limit, offset }
@@ -51,53 +57,47 @@ Page({
         for (let i = offset * limit; i < limit * (offset + 1); i++) {
             if (datas[i]) {
                 const { types = [], announcers = [], authorId = '' } = datas[i];
+                let allArr = []
 
                 if (types && types[0]) {
-                    let typeArr = []
-                    types.map(item => {
-                        const params = { id: item, table: 'types' }
-                        const res = services.detail(params)
-                        typeArr.push(res)
-                    })
-                    // console.log(typeArr)
-                    Promise.all(typeArr).then(res => {
-                        let arr = []
-                        if (res && res[0]) {
-                            res.map((item, index) => {
-                                if (index < 6) {
-                                    arr.push({ id: item.id, name: item.name })
-                                }
-                            })
-                        }
-                        list[i].typeList = arr
-                        this.setData({ list })
-                    })
+                    let arr = []
+                    const params = { table: 'types', limit: 1000, query: this.conditions(types) }
+                    const res = services.list(params)
+                    allArr.push(res)
+                } else {
+                    allArr.push(null)
                 }
 
                 if (announcers && announcers[0]) {
-                    let announcerArr = []
-                    announcers.map(item => {
-                        const params = { id: item, table: 'announcers' }
-                        const res = services.detail(params)
-                        announcerArr.push(res)
-
-                    })
-                    // console.log(announcerArr)
-                    Promise.all(announcerArr).then(res => {
-                        let arr = [], isMore = false, value = ''
-                        if (res && res[0]) {
-                            res.map((item, index) => {
-                                if (index < 3) {
-                                    arr.push(item.nickName)
+                    const params = { table: 'announcers', limit: 1000, query: this.conditions(announcers) }
+                    const res = services.list(params)
+                    allArr.push(res)
+                } else {
+                    allArr.push(null)
+                }
+                Promise.all(allArr).then(res => {
+                    let typeArr = [], announcerArr = [], announcerNum = 0, announcerValue = ''
+                    res.map((item, index) => {
+                        if (item) {
+                            const { objects } = item
+                            objects.map((_item, _index) => {
+                                if (index == 0) {
+                                    typeArr.push({ id: _item.id, name: _item.name })
+                                }
+                                if (index == 1) {
+                                    if (_index < 3) {
+                                        announcerArr.push(_item.nickName)
+                                    }
+                                    announcerNum = announcerNum + (_index + 1)
                                 }
                             })
-                            value = `${arr.join(',')}${res.length > 3 ? '...' : ''}`
                         }
-
-                        list[i].announcerValue = value || '暂无'
-                        this.setData({ list })
                     })
-                }
+                    announcerValue = `${announcerArr.join(',')}${announcerNum > 3 ? '...' : ''}`
+                    list[i].typeList = typeArr
+                    list[i].announcerValue = announcerValue || '暂无'
+                    this.setData({ list })
+                })
 
                 // this.getData('author', authorId)
             }

@@ -1,6 +1,6 @@
 <view class="pDetail" wx:if="{{dataloaded}}">
     <view class="container">
-        <view class="sBox">
+        <view class="sBox sTop">
             <view class="aBox">
                 <view class="sflex header">
                     <image class="headImg" src="{{minImgUrl}}" />

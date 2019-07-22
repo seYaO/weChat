@@ -36,6 +36,12 @@ Page({
         })
     },
 
+    conditions(array) {
+        const query = new wx.BaaS.Query()
+        query.in('id', array)
+        return query
+    },
+
     updateData() {
         const { announcers, authorId, types } = this.data.datas
         const typeData = this.typeData(types)
@@ -56,14 +62,10 @@ Page({
     },
 
     typeData(ids) {
-        let arr = []
-        ids.map(item => {
-            const res = services.detail({ id: item, table: 'types' })
-            arr.push(res)
-        })
+        const params = { table: 'types', limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
-            Promise.all(arr).then(res => {
-                resolve({ typeList: res })
+            services.list(params).then(res=>{
+                resolve({ typeList: res.objects })
             })
         })
     },
@@ -77,14 +79,10 @@ Page({
     },
 
     announcerData(ids) {
-        let arr = []
-        ids.map(item => {
-            const res = services.detail({ id: item, table: 'announcers' })
-            arr.push(res)
-        })
+        const params = { table: 'announcers', limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
-            Promise.all(arr).then(res => {
-                resolve({ announcerList: res })
+            services.list(params).then(res=>{
+                resolve({ announcerList: res.objects })
             })
         })
     },

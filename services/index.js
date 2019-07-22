@@ -63,7 +63,7 @@ module.exports = {
         if (orQuery) {
             query = orQuery
         }
-        
+
         return new Promise((resolve, reject) => {
             MyTableObject.setQuery(query).limit(limit).offset(offset * limit).find().then(res => {
                 resolve(res.data)
@@ -96,9 +96,15 @@ module.exports = {
 
     },
     // 数据批量更新
-    updateMany({ table, limit = 10, offset = 0, list = [] }) {
+    updateMany({ table, limit = 10, offset = 0, list = [], query, andQuery, orQuery }) {
         const MyTableObject = new wx.BaaS.TableObject(table)
-        const query = new wx.BaaS.Query()
+        query = query || new wx.BaaS.Query()
+        if (andQuery) {
+            query = andQuery
+        }
+        if (orQuery) {
+            query = orQuery
+        }
         const records = MyTableObject.limit(limit).offset(offset * limit).getWithoutData(query)
         list.map(item => {
             records.set(item.key, item.value)

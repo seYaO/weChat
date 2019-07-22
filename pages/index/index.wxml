@@ -25,7 +25,7 @@
                 </van-col>
             </van-row>
         </view>
-        <view class="sBox">
+        <view class="sBox" wx:if="{{likeList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">喜欢</view>
@@ -34,21 +34,15 @@
                 </view>
             </view>
             <view class="intro fn-clear">
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
+                <block wx:for="{{likeList}}" wx:key="index">
+                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                        <image class="img" src="{{item.headerImgUrl}}" />
+                        <view class="tit">{{item.title}}</view>
+                    </view>
+                </block>
             </view>
         </view>
-        <view class="sBox">
+        <view class="sBox" wx:if="{{recommendList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">推荐</view>
@@ -57,25 +51,15 @@
                 </view>
             </view>
             <view class="intro fn-clear">
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
+                <block wx:for="{{recommendList}}" wx:key="index">
+                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                        <image class="img" src="{{item.headerImgUrl}}" />
+                        <view class="tit">{{item.title}}</view>
+                    </view>
+                </block>
             </view>
         </view>
-        <view class="sBox">
+        <view class="sBox" wx:if="{{goodsList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">精品</view>
@@ -84,22 +68,12 @@
                 </view>
             </view>
             <view class="intro fn-clear">
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
-                <view class="col">
-                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
-                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
-                </view>
+                <block wx:for="{{goodsList}}" wx:key="index">
+                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                        <image class="img" src="{{item.headerImgUrl}}" />
+                        <view class="tit">{{item.title}}</view>
+                    </view>
+                </block>
             </view>
         </view>
     </view>

@@ -1,4 +1,5 @@
-// pages/index/index.js
+import services from '../../services/index'
+
 Page({
 
     /**
@@ -14,18 +15,40 @@ Page({
         })
     },
 
+    conditions(key, value) {
+        const query = new wx.BaaS.Query()
+        query.compare(key, '=', value)
+        return query
+    },
+
+    init() {
+        services.list({ table: 'books', limit: 6, query: this.conditions('isLike', true) }).then(res => {
+            const { meta, objects } = res
+            this.setData({ likeList: objects })
+        })
+        services.list({ table: 'books', limit: 6, query: this.conditions('isRecommend', true) }).then(res => {
+            const { meta, objects } = res
+            this.setData({ recommendList: objects })
+        })
+        services.list({ table: 'books', limit: 6, query: this.conditions('isGoods', true) }).then(res => {
+            const { meta, objects } = res
+            this.setData({ goodsList: objects })
+        })
+    },
+
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.init()
     },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
+    openDetail(e) {
+        const { id } = e.currentTarget.dataset
 
+        wx.navigateTo({
+            url: `/pages/detail/index?id=${id}`,
+        })
     },
 
     /**

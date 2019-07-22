@@ -262,6 +262,19 @@ Page({
             console.log(res)
         })
     },
+    conditions(array) {
+        const query = new wx.BaaS.Query()
+        // 梦回大清|倾城之恋|诛砂|香蜜沉沉|秀色|妻居一品|世嫁|娇医有毒|春闺梦里多人|庶女有毒|君九龄|良陈美锦|祸水|花开春暖|名门医女|掌事|医香|色遍天下|三生三世十里桃花|锦心|特工傻后|簪中录|执子之手
+        let regExp = /梦回大清|倾城之恋|诛砂|香蜜沉沉|簪中录|执子之手/i
+        query.matches('title', regExp)
+        return query
+    },
+    updateSelect() {
+        const params = { table: 'books', limit: 1000, query: this.conditions(), list: [{ key: 'isGoods', value: true }] }
+        services.updateMany(params).then(res => {
+            console.log(res)
+        })
+    },
 
     /**
      * 生命周期函数--监听页面加载

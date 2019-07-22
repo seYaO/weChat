@@ -46,6 +46,11 @@
             <van-button type="danger" round bind:click="updateBaidu">更新书</van-button>
             <van-button type="primary" round bind:click="clearValue">清除数据</van-button>
         </view>
+        <view class="sflex bet">
+            <van-button type="warning" round bind:click="uniqueType">类型去重</van-button>
+            <van-button type="warning" round bind:click="uniqueAuthor">作者去重</van-button>
+            <van-button type="warning" round bind:click="uniqueAnnouncer">播音员去重</van-button>
+        </view>
     </view>
     <button bind:tap="createStore">新增店铺</button>
     

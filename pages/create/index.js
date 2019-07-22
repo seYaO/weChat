@@ -231,6 +231,29 @@ Page({
         })
     },
 
+    // -------------------
+    uniqueType() {
+
+    },
+    uniqueAuthor() {
+    },
+    uniqueAnnouncer() {
+        const params = { table: 'books', limit: 1000 }
+
+        services.list(params).then(res => {
+            const { meta, objects } = res
+            let list = [], result = [], obj = {}, arr = [], uniqueObj = {}
+
+            objects.map(item => {
+                if (item.announcers.length > 4) {
+                    list.push(item.id)
+                }
+            })
+
+            console.log(JSON.stringify(list))
+        })
+    },
+
     /**
      * 生命周期函数--监听页面加载
      */

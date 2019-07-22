@@ -1,1 +1,55 @@
-/* pages/index/index.wxss */
+.rowcustom {
+    padding: 30rpx 0;
+    text-align: center;
+    background: #fff;
+}
+
+.icon {
+    padding: 10rpx;
+    color: #fff;
+    border-radius: 3em;
+}
+
+.iconorange {
+    background: #FFA42F;
+}
+
+.iconpurple {
+    background: #9894F6;
+}
+
+.iconred {
+    background: #FB8585;
+}
+
+.iconyellow {
+    background: #F4BB14;
+}
+
+.rowcustom .text {
+    margin-top: 5rpx;
+    font-size: 24rpx;
+}
+
+.pIndex .col {
+    float: left;
+    margin-right: 15rpx;
+    margin-bottom: 20rpx;
+    width: 220rpx;
+    height: 310rpx;
+}
+
+.pIndex .col:nth-child(3n) {
+    margin-right: 0;
+}
+
+.pIndex .col .img {
+    width: 220rpx;
+    height: 220rpx;
+    border-radius: 10rpx;
+}
+
+.pIndex .col .tit {
+    font-size: 24rpx;
+    font-weight: 500;
+}

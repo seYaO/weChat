@@ -1,2 +1,106 @@
-<!--pages/index/index.wxml-->
-<text>pages/index/index.wxml</text>
+<view class="pIndex">
+    <view class="sticky van-hairline--bottom">
+        <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:focus="searchFocus" />
+    </view>
+    <view class="container">
+        <view class="sBox">
+            <van-row custom-class="rowcustom">
+                <van-col span="6">
+                    <view class="">
+                        <van-icon name="fire" size="2em" custom-class="icon iconorange" />
+                    </view>
+                    <view class="text">精品</view>
+                </van-col>
+                <van-col span="6">
+                    <van-icon name="apps-o" size="2em" custom-class="icon iconpurple" />
+                    <view class="text">分类</view>
+                </van-col>
+                <van-col span="6">
+                    <van-icon name="like" size="2em" custom-class="icon iconred" />
+                    <view class="text">喜欢</view>
+                </van-col>
+                <van-col span="6">
+                    <van-icon name="diamond" size="2em" custom-class="icon iconyellow" />
+                    <view class="text">会员</view>
+                </van-col>
+            </van-row>
+        </view>
+        <view class="sBox">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">喜欢</view>
+                    <view class="tx2">更多</view>
+                    <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
+                </view>
+            </view>
+            <view class="intro fn-clear">
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+            </view>
+        </view>
+        <view class="sBox">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">推荐</view>
+                    <view class="tx2">更多</view>
+                    <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
+                </view>
+            </view>
+            <view class="intro fn-clear">
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+            </view>
+        </view>
+        <view class="sBox">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">精品</view>
+                    <view class="tx2">更多</view>
+                    <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
+                </view>
+            </view>
+            <view class="intro fn-clear">
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+                <view class="col">
+                    <image class="img" src="https://imagev2.xmcdn.com/group31/M0A/25/96/wKgJX1pdzZzjnr3NAAFNJ3rTL_0833.jpg" />
+                    <view class="tit">宝宝巴士·睡前故事|4-7岁儿童</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

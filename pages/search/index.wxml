@@ -24,41 +24,19 @@
                 </view>
             </view>
         </view>
-        <view class="sBox">
+        <view class="sBox van-hairline--top" wx:if="{{recommendList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">热门搜索</view>
                 </view>
             </view>
             <view class="intro">
-                <view class="colhot van-ellipsis">
-                    <text class="num">1</text>
-                    <text>ksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">2</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">3</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">4</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">5</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">6</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">7</text>
-                    <text>ksjdf</text>
-                </view>
+                <block wx:for="{{recommendList}}" wx:key="index">
+                    <view class="colhot van-ellipsis" bind:tap="openDetail" data-id="{{item.id}}">
+                        <text class="num">{{index+1}}</text>
+                        <text>测试</text>
+                    </view>
+                </block>
             </view>
         </view>
     </view>

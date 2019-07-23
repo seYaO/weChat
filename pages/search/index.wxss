@@ -14,9 +14,10 @@ page {
 }
 
 .colhot {
-    padding: 10rpx 0;
+    margin-bottom: 20rpx;
     font-size: 28rpx;
     color: #666;
+    font-weight: 500;
 }
 
 .colhot .num {

@@ -6,7 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        value: '梦',
+        value: '',
     },
 
     conditions({ hotType, matches }) {
@@ -32,7 +32,7 @@ Page({
             this.setData({ historyList })
         }
 
-        this.search('梦')
+        // this.search('梦')
     },
 
     search(text) {

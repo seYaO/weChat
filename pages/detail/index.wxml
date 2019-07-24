@@ -33,7 +33,7 @@
         
         <view class="sBox sAnnouncer" wx:if="{{announcerValue}}">
             <view class="aBox">
-                <swiper autoplay="{{false}}" display-multiple-items="{{1}}" current="{{0}}" circular="{{false}}" indicator-dots="{{true}}" indicator-active-color='#FF8400'>
+                <swiper autoplay="{{false}}" display-multiple-items="{{1}}" current="{{0}}" circular="{{false}}" indicator-dots="{{announcerList.length >1}}" indicator-active-color='#FF8400'>
                     <block wx:for="{{announcerList}}" wx:key="index">
                         <swiper-item class="warp" bindtap="openAnnouncer" data-values="{{item}}">
                             <view class="sflex">

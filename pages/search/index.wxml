@@ -1,65 +1,38 @@
 <view class="pSearch">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" show-action shape="round" placeholder="书名/作者/主播" />
+        <van-search value="{{ value }}" show-actionshape="round" input-align="center" placeholder="书名/作者/主播" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
     </view>
     <view class="container">
-        <view class="sBox">
+        <view class="sBox" wx:if="{{historyList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">搜索历史</view>
-                    <van-icon name="delete" size="1em" color="#999" />
+                    <van-icon name="delete" size="1em" color="#999" bind:click="clear" />
                 </view>
             </view>
             <view class="intro">
-                <view>
-                    <view class="history van-ellipsis">
-                        kakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdf
+                <block wx:for="{{historyList}}" wx:key="index">
+                    <view>
+                        <view class="history van-ellipsis">{{item}}</view>
                     </view>
-                </view>
-                <view>
-                    <view class="history van-ellipsis">kakasjdf</view>
-                </view>
-                <view>
-                    <view class="history van-ellipsis">kakasjdf</view>
-                </view>
+                </block>
             </view>
         </view>
-        <view class="sBox">
+        <view class="sBox van-hairline--top" wx:if="{{recommendList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">热门搜索</view>
                 </view>
             </view>
             <view class="intro">
-                <view class="colhot van-ellipsis">
-                    <text class="num">1</text>
-                    <text>ksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdfksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">2</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">3</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">4</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">5</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">6</text>
-                    <text>ksjdf</text>
-                </view>
-                <view class="colhot">
-                    <text class="num">7</text>
-                    <text>ksjdf</text>
-                </view>
+                <block wx:for="{{recommendList}}" wx:key="index">
+                    <view class="colhot van-ellipsis" bind:tap="openDetail" data-id="{{item.id}}">
+                        <text class="num">{{index+1}}</text>
+                        <text>测试</text>
+                    </view>
+                </block>
             </view>
         </view>
     </view>
+    <view class="container"></view>
 </view>

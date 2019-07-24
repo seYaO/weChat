@@ -3,25 +3,21 @@
         <van-search value="{{ value }}" show-action placeholder="请输入搜索关键词" />
     </view>
     <view class="container">
-        <view class="sBox">
+        <view class="sBox" wx:if="{{historyList}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">搜索历史</view>
-                    <van-icon name="delete" size="1em" color="#999" />
+                    <van-icon name="delete" size="1em" color="#999" bind:click="clear" />
                 </view>
             </view>
             <view class="intro">
-                <view>
-                    <view class="history van-ellipsis">
-                        kakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdf
+                <block wx:for="{{historyList}}" wx:key="index">
+                    <view>
+                        <view class="history van-ellipsis">
+                            {{item}}
+                        </view>
                     </view>
-                </view>
-                <view>
-                    <view class="history van-ellipsis">kakasjdf</view>
-                </view>
-                <view>
-                    <view class="history van-ellipsis">kakasjdf</view>
-                </view>
+                </block>
             </view>
         </view>
         <view class="sBox van-hairline--top" wx:if="{{recommendList}}">

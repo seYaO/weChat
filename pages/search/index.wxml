@@ -1,6 +1,6 @@
 <view class="pSearch">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" show-action placeholder="请输入搜索关键词" />
+        <van-search value="{{ value }}" show-action shape="round" placeholder="书名/作者/主播" />
     </view>
     <view class="container">
         <view class="sBox">

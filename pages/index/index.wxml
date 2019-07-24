@@ -1,27 +1,25 @@
 <view class="pIndex">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" placeholder="请输入搜索关键词" bind:focus="searchFocus" />
+        <van-search value="{{ value }}" placeholder="书名/作者/主播" shape="round" bind:focus="searchFocus" />
     </view>
     <view class="container">
         <view class="sBox">
             <van-row custom-class="rowcustom">
-                <van-col span="6">
-                    <view class="">
-                        <van-icon name="fire" size="2em" custom-class="icon iconorange" />
-                    </view>
+                <van-col span="6" bind:tap="openList" data-type="isGoods">
+                    <van-icon name="diamond" size="2em" custom-class="icon iconorange" />
                     <view class="text">精品</view>
                 </van-col>
                 <van-col span="6">
                     <van-icon name="apps-o" size="2em" custom-class="icon iconpurple" />
                     <view class="text">分类</view>
                 </van-col>
-                <van-col span="6">
+                <van-col span="6" bind:tap="openList" data-type="isLike">
                     <van-icon name="like" size="2em" custom-class="icon iconred" />
                     <view class="text">喜欢</view>
                 </van-col>
-                <van-col span="6">
-                    <van-icon name="diamond" size="2em" custom-class="icon iconyellow" />
-                    <view class="text">会员</view>
+                <van-col span="6" bind:tap="openList">
+                    <van-icon name="more" size="2em" custom-class="icon iconyellow" />
+                    <view class="text">更多</view>
                 </van-col>
             </van-row>
         </view>
@@ -29,7 +27,7 @@
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">喜欢</view>
-                    <view class="tx2">更多</view>
+                    <view class="tx2" bind:tap="openList" data-type="isLike">更多</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>
@@ -46,7 +44,7 @@
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">推荐</view>
-                    <view class="tx2">更多</view>
+                    <view class="tx2" bind:tap="openList" data-type="isRecommend">更多</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>
@@ -63,7 +61,7 @@
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">精品</view>
-                    <view class="tx2">更多</view>
+                    <view class="tx2" bind:tap="openList" data-type="isGoods">更多</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>

@@ -43,6 +43,13 @@ Page({
         this.init()
     },
 
+    openList(e) {
+        const { type = '' } = e.currentTarget.dataset
+        wx.navigateTo({
+            url: `/pages/list/index?hotType=${type}`,
+        })
+    },
+
     openDetail(e) {
         const { id } = e.currentTarget.dataset
 

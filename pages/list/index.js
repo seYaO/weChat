@@ -16,15 +16,21 @@ Page({
         list: null,
     },
 
-    conditions(array) {
+    conditions(obj = {}) {
         const query = new wx.BaaS.Query()
-        query.in('id', array)
+        if (obj.ids) {
+            query.in('id', obj.ids)
+        }
+        if (obj.hotType) {
+            query.compare(obj.hotType, '=', true)
+        }
+
         return query
     },
 
     getList({ refresh = false }) {
-        let { list } = this.data
-        const params = { table: 'books', limit, offset }
+        let { list, hotType = '' } = this.data
+        const params = { table: 'books', limit, offset, query: this.conditions({ hotType }) }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -60,8 +66,7 @@ Page({
                 let allArr = []
 
                 if (types && types[0]) {
-                    let arr = []
-                    const params = { table: 'types', limit: 1000, query: this.conditions(types) }
+                    const params = { table: 'types', limit: 1000, query: this.conditions({ ids: types }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -69,7 +74,7 @@ Page({
                 }
 
                 if (announcers && announcers[0]) {
-                    const params = { table: 'announcers', limit: 1000, query: this.conditions(announcers) }
+                    const params = { table: 'announcers', limit: 1000, query: this.conditions({ ids: announcers }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -130,6 +135,8 @@ Page({
      */
     onLoad: function (options) {
         wx.showLoading({ title: '加载中', })
+        this.setData({ ...options })
+
         this.getList({ refresh: true })
     },
 

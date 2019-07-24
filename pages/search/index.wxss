@@ -35,3 +35,22 @@ page {
 .colhot:nth-child(3) .num {
     color: #ffa139;
 }
+
+.search {
+    padding: 0 30rpx;
+}
+
+.search .icon {
+    padding: 0 20rpx;
+    flex-shrink: 0;
+}
+
+.search .text {
+    padding: 20rpx 0;
+    font-size: 24rpx;
+    flex: auto;
+}
+
+.highlight {
+    color: #fd5353
+}

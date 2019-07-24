@@ -1,6 +1,6 @@
 <view class="pIndex">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" placeholder="书名/作者/主播" shape="round" bind:focus="searchFocus" />
+        <van-search value="{{ value }}" placeholder="书名/作者/主播" shape="round" readonly bind:tap="searchFocus" />
     </view>
     <view class="container">
         <view class="sBox">

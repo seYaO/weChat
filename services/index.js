@@ -53,6 +53,35 @@
 // // query.in('id', ['5d29996ac1be5355431697da', '5d29996ac1be5355431697f5'])
 
 module.exports = {
+    conditions(options) {
+        const query = new wx.BaaS.Query()
+        // 特殊字段判断
+        if (options.hotType) {
+            query.compare(options.hotType, '=', true)
+        }
+        if (options.ids) {
+            query.in('id', options.ids)
+        }
+        
+        // 普遍字段判断
+        if (options.compare) { // 比较查询
+            query.compare(options.key, options.operator, options.value)
+        }
+        if (options.contain) { // 字符串查询
+            query.contains(options.contain.key, options.contain.value)
+        }
+        if (options.contains) { // 字符串查询
+            options.contains.map(item => {
+                query.contains(item.key, item.value)
+            })
+        }
+        if (options.matches) { // 正则
+            query.matches(options.matches.key, options.matches.regExp)
+        }
+        // let regExp = /梦回大清|倾城之恋|诛砂|香蜜沉沉|簪中录|执子之手/i
+        // query.matches('title', regExp)
+        return query
+    },
     // 查询数据列表---无条件
     list({ table, limit = 10, offset = 0, query, andQuery, orQuery }) {
         const MyTableObject = new wx.BaaS.TableObject(table)

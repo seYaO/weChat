@@ -30,7 +30,7 @@ Page({
 
     getList({ refresh = false }) {
         let { list, hotType = '' } = this.data
-        const params = { table: 'books', limit, offset, query: this.conditions({ hotType }) }
+        const params = { table: 'books', limit, offset, query: services.conditions({ hotType }) }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -66,7 +66,7 @@ Page({
                 let allArr = []
 
                 if (types && types[0]) {
-                    const params = { table: 'types', limit: 1000, query: this.conditions({ ids: types }) }
+                    const params = { table: 'types', limit: 1000, query: services.conditions({ ids: types }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -74,7 +74,7 @@ Page({
                 }
 
                 if (announcers && announcers[0]) {
-                    const params = { table: 'announcers', limit: 1000, query: this.conditions({ ids: announcers }) }
+                    const params = { table: 'announcers', limit: 1000, query: services.conditions({ ids: announcers }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {

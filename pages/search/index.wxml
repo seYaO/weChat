@@ -1,8 +1,8 @@
 <view class="pSearch">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" show-actionshape="round" input-align="center" placeholder="书名/作者/主播" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
+        <van-search value="{{ value }}" show-action shape="round" placeholder="书名/作者/主播" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
     </view>
-    <view class="container">
+    <view class="container" wx:if="{{!searchList}}">
         <view class="sBox" wx:if="{{historyList}}">
             <view class="aBox">
                 <view class="sflex">
@@ -28,11 +28,24 @@
                 <block wx:for="{{recommendList}}" wx:key="index">
                     <view class="colhot van-ellipsis" bind:tap="openDetail" data-id="{{item.id}}">
                         <text class="num">{{index+1}}</text>
-                        <text>测试</text>
+                        <text>{{item.title}}</text>
                     </view>
                 </block>
             </view>
         </view>
     </view>
-    <view class="container"></view>
+    <view class="container" wx:else>
+        <view class="search">
+            <block wx:for="{{searchList}}" wx:key="index">
+                <view class="sflex">
+                    <view class="icon">
+                        <van-icon name="search" color="#ccc"/>
+                    </view>
+                    <view class="text van-ellipsis van-hairline--bottom">
+                        <block wx:for="{{item.highLight}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index"><text class="highlight" wx:if="{{_item.isHighLight}}">{{_item.title}}</text><block wx:else>{{_item.title}}</block></block>
+                    </view>
+                </view>
+            </block>
+        </view>
+    </view>
 </view>

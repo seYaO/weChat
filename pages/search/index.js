@@ -6,7 +6,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        value: '',
+        value: '梦',
     },
 
     conditions({ hotType, matches }) {
@@ -22,7 +22,7 @@ Page({
     },
 
     init() {
-        services.list({ table: 'books', limit: 6, query: this.conditions({ hotType: 'isRecommend' }) }).then(res => {
+        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) }).then(res => {
             const { meta, objects } = res
             this.setData({ recommendList: objects })
         })
@@ -32,9 +32,12 @@ Page({
             this.setData({ historyList })
         }
 
-        let matches = {}, regExp = /梦/i
-        matches = { key: 'title', regExp }
-        services.list({ table: 'books', limit: 6, query: this.conditions({ matches }) }).then(res => {
+        this.search('梦')
+    },
+
+    search(text) {
+        let contain = { key: 'title', value: text }
+        services.list({ table: 'books', limit: 50, query: services.conditions({ contain }) }).then(res => {
             const { meta, objects } = res
             let searchList = []
             if (objects) {
@@ -42,7 +45,7 @@ Page({
                     let obj = {}
                     obj.title = item.title
                     obj.id = item.id
-                    obj.highLight = this.highLightWord(item.title, ['梦'])
+                    obj.highLight = this.highLightWord(item.title, [text])
                     searchList.push(obj)
                 })
             }
@@ -50,9 +53,20 @@ Page({
         })
     },
 
-    onSearch(){},
-    onChange(){},
-    onCancel(){},
+    onSearch(e) {
+        const value = e.detail
+        this.setData({ value })
+        // console.log('onSearch---', e)
+    },
+    onChange(e) {
+        const value = e.detail
+        this.setData({ value })
+        // console.log('onChange---', e)
+        this.search(value)
+    },
+    onCancel(e) {
+        wx.navigateBack()
+    },
 
     clear() {
         wx.setStorageSync('ting.history', null)
@@ -87,7 +101,7 @@ Page({
         })
         keyList = this.uniq(keyList);
         let keyStr = keyList.join('')
-        
+
         if (key.length) {
             title.split('').map(elem => {
                 if (keyStr.indexOf(elem) != -1) {

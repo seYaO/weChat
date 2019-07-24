@@ -50,6 +50,10 @@ Page({
         })
     },
 
+    onSearch(){},
+    onChange(){},
+    onCancel(){},
+
     clear() {
         wx.setStorageSync('ting.history', null)
     },

@@ -1,6 +1,6 @@
 <view class="pSearch">
     <view class="sticky van-hairline--bottom">
-        <van-search value="{{ value }}" show-action placeholder="请输入搜索关键词" />
+        <van-search value="{{ value }}" show-action input-align="center" placeholder="请输入搜索关键词" bind:search="onSearch" bind:change="onChange" bind:cancel="onCancel" />
     </view>
     <view class="container">
         <view class="sBox" wx:if="{{historyList}}">
@@ -36,4 +36,5 @@
             </view>
         </view>
     </view>
+    <view class="container"></view>
 </view>

@@ -1,5 +1,6 @@
 import Toast from '../../lib/toast/toast'
 import util from '../../utils/index'
+import { throttle } from '../../utils/throttle'
 import services from '../../services/index'
 
 let limit = 10 // 每页显示几条数据
@@ -12,20 +13,21 @@ Page({
      * 页面的初始数据
      */
     data: {
-        imgUrl: 'https://cloud-minapp-28547.cloud.ifanrusercontent.com/1hjHz464JJyX0dBe.jpeg',
+        dataloaded: false,
+        value: '',
+        coverImg: 'https://cloud-minapp-28547.cloud.ifanrusercontent.com/1hjHz464JJyX0dBe.jpeg',
         list: null,
     },
 
-    conditions(obj = {}) {
-        const query = new wx.BaaS.Query()
-        if (obj.ids) {
-            query.in('id', obj.ids)
+    init() {
+        let { search } = this.data
+        search = decodeURIComponent(search)
+        if (search) {
+            this.setData({ value: search })
+            this.getSearch(search)
+        } else {
+            this.getList({ refresh: true })
         }
-        if (obj.hotType) {
-            query.compare(obj.hotType, '=', true)
-        }
-
-        return query
     },
 
     getList({ refresh = false }) {
@@ -44,7 +46,7 @@ Page({
                 return item;
             })
             if (objects && objects[0]) {
-                this.setData({ list: refresh ? [...objects] : list.concat([...objects]), }, () => {
+                this.setData({ dataloaded: true, list: refresh ? [...objects] : list.concat([...objects]), }, () => {
                     this.updateList(limit, offset)
                 })
             }
@@ -53,6 +55,42 @@ Page({
                 wx.stopPullDownRefresh()
             }
             wx.hideLoading()
+        })
+    },
+
+    getSearch(text) {
+        const contain0 = { key: 'title', value: text }
+        const params0 = { table: 'books', limit: 100, query: services.conditions({ contain: contain0 }) }
+        const contain1 = { key: 'nickName', value: text }
+        const params1 = { table: 'announcers', limit: 100, query: services.conditions({ contain: contain1 }) }
+        const contain2 = { key: 'name', value: text }
+        const params2 = { table: 'authors', limit: 100, query: services.conditions({ contain: contain2 }) }
+
+        services.list(params0).then(res => {
+            const { meta, objects } = res
+            objects.map(item => {
+                item.typeList = []
+                item.announcerList = []
+                item.announcerValue = ''
+                item.authorObj = {}
+                item.minImgUrl = util.setImageSize(item.headerImgUrl) || ''
+                return item;
+            })
+            if (objects && objects[0]) {
+                this.setData({ dataloaded: true, list: objects, }, () => {
+                    this.updateList(100, 0)
+                })
+            }
+            wx.hideLoading()
+        })
+        services.list(params1).then(res => {
+            const { meta, objects } = res
+            this.setData({ announcers: objects })
+
+        })
+        services.list(params2).then(res => {
+            const { meta, objects } = res
+            this.setData({ authors: objects })
         })
     },
 
@@ -66,7 +104,7 @@ Page({
                 let allArr = []
 
                 if (types && types[0]) {
-                    const params = { table: 'types', limit: 1000, query: services.conditions({ ids: types }) }
+                    const params = { table: 'types', limit: 1000, query: services.conditions({ ids: types.slice(0, 4) }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -137,7 +175,7 @@ Page({
         wx.showLoading({ title: '加载中', })
         this.setData({ ...options })
 
-        this.getList({ refresh: true })
+        this.init()
     },
 
     /**
@@ -145,6 +183,12 @@ Page({
      */
     onPullDownRefresh() {
         console.log('页面相关事件处理函数--监听用户下拉动作')
+        const { search } = this.data
+        if (search) {
+            wx.stopPullDownRefresh()
+            return
+        }
+
         offset = 0
         this.getList({ refresh: true })
     },
@@ -154,10 +198,17 @@ Page({
      */
     onReachBottom() {
         console.log('页面上拉触底事件的处理函数')
+        const { search } = this.data
+        if (search) return
+
         if (offset < page) {
             offset++
             this.getList({})
         }
+    },
+    
+    onCancel(e) {
+        wx.navigateBack()
     },
 
     openDetail(e) {

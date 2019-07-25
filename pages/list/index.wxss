@@ -1,3 +1,46 @@
+.pList .sBox:first-child {
+    margin-top: 10px;
+}
+
+.pList .sBox .intro {
+    padding: 0;
+    padding-bottom: 20rpx;
+}
+
+.items-scroll {
+    height: 220rpx;
+    display: block;
+    white-space: nowrap;
+    font-size: 26rpx;
+    color: #333;
+}
+
+.items-list {
+    display: inline-block;
+    margin-right: 30rpx;
+    height: 220rpx;
+}
+
+.items-list:first-child {
+    margin-left: 30rpx;
+}
+
+.items-list .head {
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 150rpx;
+}
+
+.items-list .text {
+    margin-top: 20rpx;
+    width: 150rpx;
+    text-align: center;
+}
+
+.pList .sCard:first-child {
+    margin-top: 10px;
+}
+
 .pList .sCard .aTag {
     margin-bottom: 5px;
 }

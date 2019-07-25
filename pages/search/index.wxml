@@ -13,7 +13,7 @@
             <view class="intro">
                 <block wx:for="{{historyList}}" wx:key="index">
                     <view>
-                        <view class="history van-ellipsis">{{item}}</view>
+                        <view class="history van-ellipsis" bind:tap="openList" data-value="{{item}}">{{item}}</view>
                     </view>
                 </block>
             </view>
@@ -37,7 +37,7 @@
     <view class="container" wx:else>
         <view class="search">
             <block wx:for="{{searchList}}" wx:key="index">
-                <view class="sflex" bind:tap="openNext">
+                <view class="sflex" bind:tap="openNext" data-id="{{item.id}}">
                     <view class="icon">
                         <van-icon name="search" color="#ccc"/>
                     </view>

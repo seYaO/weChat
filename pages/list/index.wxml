@@ -1,28 +1,66 @@
-<view class="pList" wx:if="{{list}}">
-    <view class="sCard" wx:for="{{list}}" wx:key="index">
-        <view class="header">
-            <view class="thumb">
-                <view class="image" bind:tap="openDetail" data-id="{{item.id}}">
-                    <image class="image_img" src="{{item.minImgUrl || imgUrl}}"></image>
+<view class="pList" wx:if="{{dataloaded}}">
+    <view class="sticky van-hairline--bottom">
+        <van-search value="{{ value }}" show-action shape="round" placeholder="书名/作者/主播" readonly bind:tap="searchFocus" bind:cancel="onCancel" />
+    </view>
+    <view class="container" wx:if="{{list}}">
+        <view class="sBox" wx:if="{{announcers && announcers.length}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">主播</view>
                 </view>
             </view>
-            <view class="content">
-                <view class="title van-ellipsis">{{item.title}}</view>
-                <view class="desc van-ellipsis" wx:if="{{item.recommend}}">{{item.recommend}}</view>
-                <view wx:if="{{item.typeList && item.typeList.length}}" class="aTag">
-                    <block wx:for="{{item.typeList}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
-                        <van-tag type="danger" class="tag-mr">{{_item.name}}</van-tag>
-                    </block>
-                </view>
-                <view class="announcer" wx:if="{{item.announcerValue}}">播音: {{item.announcerValue}}</view>
+            <view class="intro">
+                <scroll-view id="items-scroll-view" class="items-scroll" scroll-x="{{true}}" scroll-with-animation scroll-left="{{ true }}">
+                    <view class="items-list" wx:for="{{announcers}}" wx:key="index">
+                        <image class="head" src="{{item.cover || coverImg}}" />
+                        <view class="text van-ellipsis">{{item.nickName}}</view>
+                    </view>
+                </scroll-view>
             </view>
         </view>
-        <view class="footer">
-            <view class="btn" data-value="{{item.cloudDownload}}" bindtap="getClipboard">
-                <text>存</text>
+        <view class="sBox" wx:if="{{authors && authors.length}}">
+            <view class="aBox">
+                <view class="sflex">
+                    <view class="tx1 tit">作者</view>
+                </view>
+            </view>
+            <view class="intro">
+                <scroll-view id="items-scroll-view" class="items-scroll" scroll-x="{{true}}" scroll-with-animation scroll-left="{{ true }}">
+                    <view class="items-list" wx:for="{{authors}}" wx:key="index">
+                        <image class="head" src="{{item.cover || coverImg}}" />
+                        <view class="text van-ellipsis">{{item.name}}</view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <view class="sCard" wx:for="{{list}}" wx:key="index">
+            <view class="header">
+                <view class="thumb">
+                    <view class="image" bind:tap="openDetail" data-id="{{item.id}}">
+                        <image class="image_img" src="{{item.minImgUrl || coverImg}}"></image>
+                    </view>
+                </view>
+                <view class="content">
+                    <view class="title van-ellipsis">{{item.title}}</view>
+                    <view class="desc van-ellipsis" wx:if="{{item.recommend}}">
+                        {{item.recommend}}
+                    </view>
+                    <view wx:if="{{item.typeList && item.typeList.length}}" class="aTag">
+                        <block wx:for="{{item.typeList}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
+                            <van-tag type="danger" class="tag-mr">{{_item.name}}</van-tag>
+                        </block>
+                    </view>
+                    <view class="announcer" wx:if="{{item.announcerValue}}">
+                        播音: {{item.announcerValue}}
+                    </view>
+                </view>
+            </view>
+            <view class="footer">
+                <view class="btn" data-value="{{item.cloudDownload}}" bindtap="getClipboard">
+                    <text>存</text>
+                </view>
             </view>
         </view>
     </view>
 </view>
-
 <van-toast id="van-toast" />

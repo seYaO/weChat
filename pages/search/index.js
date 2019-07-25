@@ -43,8 +43,11 @@ Page({
 
     onSearch(e) {
         const value = e.detail
-        this.setData({ value })
-        // console.log('onSearch---', e)
+        // this.setData({ value })
+        console.log('onSearch---', e)
+        wx.redirectTo({
+            url: `/pages/list/index?search=${encodeURIComponent(value)}`,
+        });
     },
     onChange: throttle(function (e) {
         const value = e.detail
@@ -65,6 +68,13 @@ Page({
         wx.setStorageSync('ting.history', null)
         this.setData({ historyList: null })
     },
+
+    openList(e) {
+        const {value}=e.currentTarget.dataset
+        wx.redirectTo({
+            url: `/pages/list/index?search=${encodeURIComponent(value)}`,
+        });
+    },
     
     /**
      * 生命周期函数--监听页面加载
@@ -74,6 +84,7 @@ Page({
     },
 
     openNext(e) {
+        const { id } = e.currentTarget.dataset
         let { historyList, value } = this.data
         historyList = historyList || []
         let idx = historyList.indexOf(value)
@@ -82,6 +93,10 @@ Page({
             this.setData({ historyList })
             wx.setStorageSync('ting.history', historyList)
         }
+
+        wx.navigateTo({
+            url: `/pages/detail/index?id=${id}`,
+        })
     },
 
     openDetail(e) {

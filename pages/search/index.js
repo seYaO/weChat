@@ -1,3 +1,5 @@
+import util from '../../utils/index'
+import { throttle } from '../../utils/throttle'
 import services from '../../services/index'
 
 Page({
@@ -7,18 +9,6 @@ Page({
      */
     data: {
         value: '',
-    },
-
-    conditions({ hotType, matches }) {
-        const query = new wx.BaaS.Query()
-        if (hotType) {
-            query.compare(hotType, '=', true)
-        }
-        if (matches) {
-            query.matches(matches.key, matches.regExp)
-        }
-
-        return query
     },
 
     init() {
@@ -31,8 +21,6 @@ Page({
         if (historyList) {
             this.setData({ historyList })
         }
-
-        // this.search('梦')
     },
 
     search(text) {
@@ -45,7 +33,7 @@ Page({
                     let obj = {}
                     obj.title = item.title
                     obj.id = item.id
-                    obj.highLight = this.highLightWord(item.title, [text])
+                    obj.words = util.highLightWord(item.title, [text])
                     searchList.push(obj)
                 })
             }
@@ -58,75 +46,42 @@ Page({
         this.setData({ value })
         // console.log('onSearch---', e)
     },
-    onChange(e) {
+    onChange: throttle(function (e) {
         const value = e.detail
         this.setData({ value })
         // console.log('onChange---', e)
-        this.search(value)
-    },
+        if (value) {
+            this.search(value)
+        } else {
+            this.setData({ searchList: null })
+        }
+
+    }, 500),
     onCancel(e) {
         wx.navigateBack()
     },
 
     clear() {
         wx.setStorageSync('ting.history', null)
+        this.setData({ historyList: null })
     },
-
-    uniq(array) {
-        var temp = [];
-        var index = [];
-        var l = array.length;
-        for (var i = 0; i < l; i++) {
-            for (var j = i + 1; j < l; j++) {
-                if (array[i] === array[j]) {
-                    i++;
-                    j = i;
-                }
-            }
-            temp.push(array[i]);
-            index.push(i);
-        }
-        return temp;
-    },
-
-    highLightWord(title = '', key = []) {
-        let keyList = [],
-            highLightArr = [];
-
-        key.map(item => {
-            let items = item.split('');
-            items.map((item) => {
-                keyList.push(item)
-            })
-        })
-        keyList = this.uniq(keyList);
-        let keyStr = keyList.join('')
-
-        if (key.length) {
-            title.split('').map(elem => {
-                if (keyStr.indexOf(elem) != -1) {
-                    highLightArr.push({
-                        title: elem,
-                        isHighLight: true,
-                    })
-                } else {
-                    highLightArr.push({
-                        title: elem,
-                        isHighLight: false,
-                    })
-                }
-            })
-        }
-        return highLightArr;
-    },
-
+    
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        // let arr = ['kakasjdf', '拉卡加水淀粉', 'kakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdfkakasjdf']
-        // wx.setStorageSync('ting.history', arr)
         this.init()
+    },
+
+    openNext(e) {
+        let { historyList, value } = this.data
+        historyList = historyList || []
+        let idx = historyList.indexOf(value)
+        if (idx == -1) {
+            historyList.splice(0, 0, value)
+            this.setData({ historyList })
+            wx.setStorageSync('ting.history', historyList)
+        }
     },
 
     openDetail(e) {

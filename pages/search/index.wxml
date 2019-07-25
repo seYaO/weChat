@@ -37,12 +37,14 @@
     <view class="container" wx:else>
         <view class="search">
             <block wx:for="{{searchList}}" wx:key="index">
-                <view class="sflex">
+                <view class="sflex" bind:tap="openNext">
                     <view class="icon">
                         <van-icon name="search" color="#ccc"/>
                     </view>
                     <view class="text van-ellipsis van-hairline--bottom">
-                        <block wx:for="{{item.highLight}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index"><text class="highlight" wx:if="{{_item.isHighLight}}">{{_item.title}}</text><block wx:else>{{_item.title}}</block></block>
+                        <block wx:for="{{item.words}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
+                            <text class="highlight" wx:if="{{_item.isHighLight}}">{{_item.title}}</text><block wx:else>{{_item.title}}</block>
+                        </block>
                     </view>
                 </view>
             </block>

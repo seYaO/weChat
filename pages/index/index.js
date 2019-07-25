@@ -15,22 +15,16 @@ Page({
         })
     },
 
-    conditions(key, value) {
-        const query = new wx.BaaS.Query()
-        query.compare(key, '=', value)
-        return query
-    },
-
     init() {
-        services.list({ table: 'books', limit: 6, query: this.conditions('isLike', true) }).then(res => {
+        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isLike' }) }).then(res => {
             const { meta, objects } = res
             this.setData({ likeList: objects })
         })
-        services.list({ table: 'books', limit: 6, query: this.conditions('isRecommend', true) }).then(res => {
+        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) }).then(res => {
             const { meta, objects } = res
             this.setData({ recommendList: objects })
         })
-        services.list({ table: 'books', limit: 6, query: this.conditions('isGoods', true) }).then(res => {
+        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isGoods' }) }).then(res => {
             const { meta, objects } = res
             this.setData({ goodsList: objects })
         })

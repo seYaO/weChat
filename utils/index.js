@@ -133,6 +133,55 @@ const setImageSize = (url) => {
     return url
 }
 
+function uniq(array) {
+    var temp = [];
+    var index = [];
+    var l = array.length;
+    for (var i = 0; i < l; i++) {
+        for (var j = i + 1; j < l; j++) {
+            if (array[i] === array[j]) {
+                i++;
+                j = i;
+            }
+        }
+        temp.push(array[i]);
+        index.push(i);
+    }
+    return temp;
+}
+
+// 关键字标亮
+function highLightWord(title = '', key = []) {
+    let keyList = [],
+        highLightArr = [];
+
+    key.map(item => {
+        let items = item.split('');
+        items.map((item) => {
+            keyList.push(item)
+        })
+    })
+    keyList = uniq(keyList);
+    let keyStr = keyList.join('')
+
+    if (key.length) {
+        title.split('').map(elem => {
+            if (keyStr.indexOf(elem) != -1) {
+                highLightArr.push({
+                    title: elem,
+                    isHighLight: true,
+                })
+            } else {
+                highLightArr.push({
+                    title: elem,
+                    isHighLight: false,
+                })
+            }
+        })
+    }
+    return highLightArr;
+}
+
 
 module.exports = {
     extend,
@@ -145,4 +194,5 @@ module.exports = {
     getDecimal,
     newline,
     setImageSize,
+    highLightWord,
 }

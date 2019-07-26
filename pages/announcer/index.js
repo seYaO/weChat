@@ -12,7 +12,17 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        wx.request({
+            // url: 'https://www.qwqoffice.com/html2wxml/example.html',
+            url: 'https://cloud-minapp-28765.cloud.ifanrusercontent.com/1hqtagdolX5SSJS4.md',
+            success: res => {
+                this.setData({ text: res.data });
+            }
+        })
+    },
 
+    wxmlTagATap(e) {
+        console.log(e);
     },
 
     /**

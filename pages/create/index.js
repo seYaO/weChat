@@ -285,5 +285,12 @@ Page({
         wx.BaaS.auth.loginWithWechat().then(user => {
             this.init()
         })
+
+        // 创建临时匿名用户
+        // wx.BaaS.auth.anonymousLogin().then(user => {
+        //     console.log(user)
+        // }).catch(err => {
+        //     // HError
+        // })
     },
 })

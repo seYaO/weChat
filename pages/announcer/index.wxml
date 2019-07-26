@@ -12,7 +12,8 @@
                     <view class="tx1 tit">书籍</view>
                 </view>
             </view>
-            <view class="intro">
+            <view class="intro" wx:if="{{text}}">
+                <htmltowxml text="{{text}}" type="md" bindWxmlTagATap="wxmlTagATap" ></htmltowxml>
                 <view class="">alksdjflkjaslkjdfdjs</view>
                 <view class="">alksdjflkjaslkjdfdjs</view>
                 <view class="">alksdjflkjaslkjdfdjs</view>

@@ -206,7 +206,13 @@ Page({
             this.getList({})
         }
     },
-    
+
+    searchFocus() {
+        wx.redirectTo({
+            url: `/pages/search/index`,
+        })
+    },
+
     onCancel(e) {
         wx.navigateBack()
     },

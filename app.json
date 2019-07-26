@@ -5,7 +5,9 @@
         "pages/list/index",
         "pages/detail/index",
         "pages/create/index",
-        "pages/userInfo/index"
+        "pages/userInfo/index",
+        "pages/announcer/index",
+        "pages/author/index"
     ],
     "window": {
         "backgroundTextStyle": "light",

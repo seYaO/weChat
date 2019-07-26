@@ -1,0 +1,27 @@
+<van-card
+    lazy-load="{{ true }}"
+    thumb="{{ values.minImgUrl || coverImg }}"
+    thumb-link="{{ values.link }}"
+    title="{{ values.title }}"
+    desc="{{ values.desc }}"
+    custom-class="product"
+    thumb-class="thumb"
+    title-class="van-multi-ellipsis--l2"
+    desc-class="desc van-ellipsis"
+    
+    
+>
+    <view slot="tags" class="tags" wx:if="{{ values.tags && values.tags.length }}">
+        <block wx:for="{{ values.tags }}" wx:key="index">
+            <van-tag type="danger" custom-class="tag-mr">{{ item }}</van-tag>
+        </block>
+    </view>
+    <view slot="bottom" class="bottom" wx:if="{{ values.announcerValue }}">
+        {{ values.announcerValue }}
+    </view>
+    <view slot="footer" class="footer" wx:if="{{ values.cloudDownload }}">
+        <view class="btn" data-value="{{ values.cloudDownload }}" bindtap="getClipboard">
+            <text>存</text>
+        </view>
+    </view>
+</van-card>

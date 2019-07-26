@@ -1,6 +1,4 @@
-import Toast from '../../lib/toast/toast'
 import util from '../../utils/index'
-import { throttle } from '../../utils/throttle'
 import services from '../../services/index'
 
 let limit = 10 // 每页显示几条数据
@@ -20,7 +18,7 @@ Page({
     },
 
     init() {
-        let { search } = this.data
+        let { search = '' } = this.data
         search = decodeURIComponent(search)
         if (search) {
             this.setData({ value: search })
@@ -119,13 +117,14 @@ Page({
                     allArr.push(null)
                 }
                 Promise.all(allArr).then(res => {
-                    let typeArr = [], announcerArr = [], announcerNum = 0, announcerValue = ''
+                    let typeArr = [], tags = [], announcerArr = [], announcerNum = 0, announcerValue = ''
                     res.map((item, index) => {
                         if (item) {
                             const { objects } = item
                             objects.map((_item, _index) => {
                                 if (index == 0) {
                                     typeArr.push({ id: _item.id, name: _item.name })
+                                    tags.push(_item.name)
                                 }
                                 if (index == 1) {
                                     if (_index < 3) {
@@ -137,6 +136,7 @@ Page({
                         }
                     })
                     announcerValue = `${announcerArr.join(',')}${announcerNum > 3 ? '...' : ''}`
+                    list[i].tags = tags
                     list[i].typeList = typeArr
                     list[i].announcerValue = announcerValue || '暂无'
                     this.setData({ list })
@@ -153,18 +153,6 @@ Page({
 
         Product.get(recordId).then(res => {
             typeof cb === 'function' && cb(res.data);
-        })
-    },
-
-    // 复制内容
-    getClipboard(e) {
-        const { value } = e.currentTarget.dataset
-        wx.setClipboardData({
-            data: value,
-            success(res) {
-                wx.hideToast()
-                Toast('内容已复制,打开百度网盘');
-            }
         })
     },
 
@@ -215,13 +203,5 @@ Page({
 
     onCancel(e) {
         wx.navigateBack()
-    },
-
-    openDetail(e) {
-        const { id } = e.currentTarget.dataset
-
-        wx.navigateTo({
-            url: `/pages/detail/index?id=${id}`,
-        })
     },
 })

@@ -37,38 +37,6 @@
     text-align: center;
 }
 
-.pList .sCard:first-child {
-    margin-top: 10px;
-}
-
-.pList .sCard .aTag {
-    margin-bottom: 5px;
-}
-
-.pList .sCard .announcer {
-    color: #666;
-}
-
-.pList .sCard .btn {
-    position: absolute;
-    bottom: -5px;
-    right: -10px;
-    width: 95rpx;
-    height: 95rpx;
-    color: #fff;
-    background: #ff5346;
-    border-top-left-radius: 95rpx;
-    border-bottom-right-radius: 10rpx;
-}
-
-.pList .sCard .btn>text {
-    position: absolute;
-    bottom: 16rpx;
-    right: 16rpx;
-    font-size: 40rpx;
-    font-weight: bold;
-}
-
-.tag-mr {
-    margin-right: 5px;
+.sProduct {
+    padding: 0 10px;
 }

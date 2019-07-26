@@ -1,7 +1,7 @@
 <view class="pAnnouncer">
     <view class="header sflex col sticky shadow--bottom">
         <image class="cover" src="{{coverImg}}" />
-        <view class="">
+        <view class="name">
             laksjdlflsak
         </view>
     </view>
@@ -12,90 +12,27 @@
                     <view class="tx1 tit">书籍</view>
                 </view>
             </view>
-            <view class="intro" wx:if="{{text}}">
-                <htmltowxml text="{{text}}" type="md" bindWxmlTagATap="wxmlTagATap" ></htmltowxml>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
-                <view class="">alksdjflkjaslkjdfdjs</view>
+            <view class="intro">
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
+                <project-product values="{{values}}" />
             </view>
         </view>
         
     </view>
 </view>
+
+<!-- <htmltowxml text="{{text}}" type="md" bindWxmlTagATap="wxmlTagATap" ></htmltowxml> -->

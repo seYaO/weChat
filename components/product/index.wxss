@@ -1,0 +1,52 @@
+@import '../../lib/common/index.wxss';
+
+.tag-mr {
+    margin-right: 10px;
+}
+
+.product {
+    margin-top: 10px;
+    padding: 5px 10px !important;
+    border-radius: 10rpx;
+}
+
+.product--white {
+    background: #fff !important;
+}
+
+.desc {
+    margin-top: 4px;
+}
+
+.tags {
+    margin-top: 4px;
+}
+
+.bottom {
+    margin-top: 4px;
+    color: #666;
+}
+
+.footer {
+    position: relative;
+}
+
+.btn {
+    position: absolute;
+    bottom: -5px;
+    right: -10px;
+    width: 95rpx;
+    height: 95rpx;
+    color: #fff;
+    background: #ff5346;
+    border-top-left-radius: 95rpx;
+    border-bottom-right-radius: 10rpx;
+}
+
+.btn>text {
+    position: absolute;
+    bottom: 16rpx;
+    right: 16rpx;
+    font-size: 40rpx;
+    font-weight: bold;
+}

@@ -65,6 +65,7 @@
         "van-collapse": "./lib/collapse/index",
         "van-collapse-item": "./lib/collapse-item/index",
         "van-picker": "./lib/picker/index",
+        "project-product": "./components/product/index",
         "wxparser": "plugin://wxparserPlugin/wxparser",
         "htmltowxml": "plugin://htmltowxml/view"
     },

@@ -5,7 +5,7 @@
                 <view class="sflex header">
                     <image class="headImg" src="{{minImgUrl}}" />
                     <view class="tx1">
-                        <view class="tit">{{datas.title}}</view>
+                        <view class="tit van-multi-ellipsis--l2">{{datas.title}}</view>
                         <view class="sflex" wx:if="{{authorName}}">
                             <text class="">{{authorName}} 著</text>
                         </view>

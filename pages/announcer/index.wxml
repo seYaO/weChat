@@ -15,7 +15,7 @@
     <view wx:if="{{dataloaded}}">
         <view class="header" id="header">
             <view class="personal-background">
-                <view class="img" style="background-image: url('https://imagev2.xmcdn.com/group31/M06/70/39/wKgJSVmHBIDxj-HSAAHK6_mwayA057.jpg');"></view>
+                <view class="img" style="background-image: url('{{cover || coverImg}}');"></view>
             </view>
             <view class="personal-cover sflex col">
                 <image class="cover" src="{{cover || coverImg}}" />

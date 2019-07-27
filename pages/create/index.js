@@ -1,16 +1,9 @@
 const app = getApp()
-import Toast from '../../lib/toast/toast'
 import util from '../../utils/index'
 import services from '../../services/index'
-
-
+import operation from './operation'
 const baiduData = require('../../services/baiduData')
-const valueObj = {
-    typeValue: '多人播,穿越,古言,言情',
-    authorValue: '天下无病',
-    annValue: '清灵,阑珊梦,小编C,糖葫芦,红樱桃,生死朗读,南瓜楠少,鲛綃,猫镇豆子,訫念,拈水笑,兮小颜,百里屠屠,南割式,沁沁,馨少主',
-    updateId: '5d29996ac1be535543169841',
-}
+const testData = require('../../services/data')
 const reg = /\s*,\s*/
 
 Page({
@@ -45,7 +38,7 @@ Page({
     validate() {
         const { updateId } = this.data
         if (!updateId) {
-            Toast('bookId不能为空');
+            getApp().showToast('bookId不能为空');
             return false
         }
 
@@ -53,51 +46,7 @@ Page({
     },
 
     createStore() {
-        const values = baiduData.value
-        let arr = values.split('\n'), _arr = [], list = []
-        for (let i = 0; i < arr.length - 1; i++) {
-            if (util.trim(arr[i])) {
-                _arr.push(util.trim(arr[i]))
-            }
-        }
-        for (let i = 0; i < _arr.length - 1; i = i + 2) {
-            list.push({ name: _arr[i], desc: _arr[i + 1] })
-        }
-
-        console.log(list)
-
-        // const MyTableObject = new wx.BaaS.TableObject('store')
-        // MyTableObject.createMany(list).then(res => {
-        //     console.log(res.data.succeed)
-        // })
-    },
-
-    create({ table, key, values }, cb) {
-        const params = { table, limit: 1000 }
-        services.list(params).then(res => {
-            const { meta, objects } = res
-            let list = []
-
-            objects.map(item => {
-                let idx = values.indexOf(item[key])
-                if (idx > -1) {
-                    values.splice(idx, 1);
-                }
-            })
-
-            values.map(item => {
-                list.push({ [key]: item })
-            })
-            // console.log(list)
-
-            if (list.length > 0) {
-                services.createMany({ table, list }).then(res => {
-                    return typeof cb === 'function' && cb(res)
-                })
-            } else {
-                return typeof cb === 'function' && cb()
-            }
-        })
+        operation.createStore()
     },
 
     // 类型
@@ -106,12 +55,12 @@ Page({
 
         const values = this.data.typeValue.split(reg)
 
-        this.create({ table: 'types', key: 'name', values }, (res) => {
+        operation.create({ table: 'types', key: 'name', values }, (res) => {
             if (res) {
                 console.log('类型数据批量新建---', res.succeed)
-                Toast('类型数据批量新建成功')
+                getApp().showToast('类型数据批量新建成功')
             } else {
-                Toast('无需更新类型数据')
+                getApp().showToast('无需更新类型数据')
             }
         })
     },
@@ -122,12 +71,12 @@ Page({
 
         const values = this.data.authorValue.split(reg)
 
-        this.create({ table: 'authors', key: 'name', values }, (res) => {
+        operation.create({ table: 'authors', key: 'name', values }, (res) => {
             if (res) {
                 console.log('作者数据批量新建---', res.succeed)
-                Toast('作者数据批量新建成功')
+                getApp().showToast('作者数据批量新建成功')
             } else {
-                Toast('无需更新作者数据')
+                getApp().showToast('无需更新作者数据')
             }
         })
     },
@@ -138,12 +87,12 @@ Page({
 
         const values = this.data.annValue.split(reg)
 
-        this.create({ table: 'announcers', key: 'nickName', values }, (res) => {
+        operation.create({ table: 'announcers', key: 'nickName', values }, (res) => {
             if (res) {
                 console.log('播音员数据批量新建---', res.succeed)
-                Toast('播音员数据批量新建成功')
+                getApp().showToast('播音员数据批量新建成功')
             } else {
-                Toast('无需更新播音员数据')
+                getApp().showToast('无需更新播音员数据')
             }
         })
 
@@ -154,54 +103,8 @@ Page({
         if (!this.validate()) return
 
         const { typeValue, authorValue, annValue, updateId } = this.data
-        const typeDatas = services.list({ table: 'types', limit: 1000 })
-        const authorDatas = services.list({ table: 'authors', limit: 1000 })
-        const announcerDatas = services.list({ table: 'announcers', limit: 1000 })
 
-        Promise.all([typeDatas, authorDatas, announcerDatas]).then(res => {
-            let key = '', text, arr;
-            for (let i = 0; i < 3; i++) {
-                if (i == 0) {
-                    key = 'types'
-                    text = typeValue.split(reg)
-                    arr = res[0].objects
-                } else if (i == 1) {
-                    key = 'authorId'
-                    text = util.trim(authorValue)
-                    arr = res[1].objects
-                } else if (i == 2) {
-                    key = 'announcers'
-                    text = annValue.split(reg)
-                    arr = res[2].objects
-                }
-                contrast(key, text, arr)
-            }
-        })
-
-        function contrast(key, text, arr) {
-            // console.log(key, text, arr)
-            let _value = '', _arr = [], _obj
-            arr.map(item => {
-                if (key == 'authorId') {
-                    if (item.name == text) {
-                        _value = item.id
-                    }
-                } else {
-                    let _key = key == 'types' ? 'name' : 'nickName'
-                    let idx = text.indexOf(item[_key])
-                    if (idx > -1) {
-                        _arr.push(item.id)
-                    }
-                }
-            })
-            _obj = { [key]: key == 'authorId' ? _value : _arr }
-            // console.log(_obj)
-            services.update({ table: 'books', id: updateId, values: _obj }).then(res => {
-                console.log('数据更新---', res)
-                Toast('数据更新成功')
-            })
-        }
-
+        operation.updateBaidu({ typeValue, authorValue, annValue, updateId })
     },
 
     // 数据批量新建
@@ -227,7 +130,7 @@ Page({
         const params = { table: 'books', list }
         services.createMany(params).then(res => {
             console.log('数据批量新建---', res.succeed)
-            Toast('数据批量新建成功')
+            getApp().showToast('数据批量新建成功')
         })
     },
 
@@ -274,6 +177,94 @@ Page({
         services.updateMany(params).then(res => {
             console.log(res)
         })
+    },
+    /**
+     * 
+     */
+    updateAnnouncer() {
+        // 喜马拉雅喜欢
+        // const { followingsPageInfo } = testData.data
+        // let filter = ["昔夜之音","千寻清语","南音专辑屋"]
+        // let arr = [], datas = []
+        // followingsPageInfo.map(item => {
+        //     arr.push(item.anchorNickName)
+        //     if (filter.indexOf(item.anchorNickName) > -1) {
+        //         datas.push({ name: item.anchorNickName, cover: `https:${item.coverPath}`, desc: item.description })
+        //     }
+        // })
+        // console.log(followingsPageInfo)
+        // console.log(arr)
+        // console.log(JSON.stringify(arr))
+        // console.log(datas)
+        // console.log(JSON.stringify(datas))
+
+        const list = testData
+        let arr = [], obj = {}, updateArr = [], createArr = []
+        list.map(item => {
+            arr.push(item.name)
+            obj[item.name] = {
+                nickName: item.name,
+                cover: item.cover,
+                intro: item.desc,
+            }
+        })
+        // console.log(list)
+        // console.log(arr)
+        // console.log(obj)
+
+        const params = { table: 'announcers', limit: 1000 }
+
+        services.list(params).then(res => {
+            const { meta, objects } = res
+
+            objects.map(item => {
+                let idx = arr.indexOf(item.nickName)
+                if (idx > -1) {
+                    updateArr.push({ ...obj[item.nickName], id: item.id })
+                    arr.splice(idx, 1)
+                }
+            })
+
+            arr.map(item => {
+                createArr.push(obj[item])
+            })
+
+            // console.log(objects)
+            // console.log(arr)
+            console.log(updateArr)
+            console.log(createArr)
+            // create(createArr)
+            update(updateArr)
+        })
+
+        // arr.map(item => {
+        //     createArr.push(obj[item])
+        // })
+        // console.log(createArr)
+
+        function update(list) {
+            list.map(item => {
+                const { id, ...other } = item
+                fn(id, other)
+            })
+
+
+            function fn(updateId, _obj) {
+                // console.log('数据更新>>>>>>', updateId, _obj)
+                services.update({ table: 'announcers', id: updateId, values: _obj }).then(res => {
+                    console.log('数据更新---', res)
+                    getApp().showToast('数据更新成功')
+                })
+            }
+        }
+
+        function create(list) {
+            // console.log('播音员数据批量新建>>>>>>', list)
+            services.createMany({ table: 'announcers', list }).then(res => {
+                console.log('播音员数据批量新建---', res.succeed)
+            })
+        }
+
     },
 
     /**

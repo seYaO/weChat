@@ -51,6 +51,9 @@
             <van-button type="warning" round bind:click="update">批量更新</van-button>
             <van-button type="warning" round bind:click="updateSelect">条件更新</van-button>
         </view>
+        <view class="sflex bet">
+            <van-button type="danger" round bind:click="updateAnnouncer">批量处理播音员</van-button>
+        </view>
     </view>
     <button bind:tap="createStore">新增店铺</button>
     

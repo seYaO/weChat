@@ -55,6 +55,7 @@ page {
 .pAnnouncer .cover {
     width: 150rpx;
     height: 150rpx;
+    border: 4rpx solid #fff;
     border-radius: 150rpx;
 }
 

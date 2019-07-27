@@ -204,4 +204,12 @@ Page({
     onCancel(e) {
         wx.navigateBack()
     },
+
+    openAnnouncer(e) {
+        const { id } = e.currentTarget.dataset
+
+        wx.navigateTo({
+            url: `/pages/announcer/index?id=${id}`,
+        })
+    }
 })

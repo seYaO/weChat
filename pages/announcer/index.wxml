@@ -1,38 +1,46 @@
-<view class="pAnnouncer">
-    <view class="header sflex col sticky shadow--bottom">
-        <image class="cover" src="{{coverImg}}" />
-        <view class="name">
-            laksjdlflsak
+<!-- style="padding-top:{{statusBarHeight}}px;background-color:{{decorateType ? detail.decorateColor(decorateType) : showNavbarColor ? '#ffffff' : 'rgba(255,255,255,0)'}};height:{{totalTopHeight}}px;"> -->
+
+<project-navbar values="{{ {showNavbarColor, menuWidth, title: nickName} }}" wx:if="{{menuWidth}}" />
+<scroll-view
+    class="pAnnouncer"
+    scroll-y="{{!isoverflow}}" 
+    scroll-with-animation="true"
+    lower-threshold="{{100}}"
+    bindscroll="scroll" 
+    scroll-top="{{scrollTop}}"
+    enable-back-to-top="{{true}}"
+    bindscrolltoupper="top"
+    bindscrolltolower="scrolltolower"
+>
+    <view wx:if="{{dataloaded}}">
+        <view class="header" id="header">
+            <view class="personal-background">
+                <view class="img" style="background-image: url('https://imagev2.xmcdn.com/group31/M06/70/39/wKgJSVmHBIDxj-HSAAHK6_mwayA057.jpg');"></view>
+            </view>
+            <view class="personal-cover sflex col">
+                <image class="cover" src="{{cover || coverImg}}" />
+                <view class="name">{{nickName}}</view>
+                <view  class="desc">{{intro}}</view>
+            </view>
         </view>
-    </view>
-    <view class="container">
-        <view class="sBox">
-            <view class="aBox">
-                <view class="sflex">
-                    <view class="tx1 tit">书籍</view>
+        <view class="container">
+            <view class="sBox">
+                <view class="aBox">
+                    <view class="sflex">
+                        <view class="tx1 tit">书籍</view>
+                    </view>
+                </view>
+                <view class="intro">
+                    <block wx:for="{{list}}" wx:key="index">
+                        <project-product values="{{ {...item, desc: item.recommend, link: '/pages/detail/index?id=' + item.id } }}" />
+                    </block>
                 </view>
             </view>
-            <view class="intro">
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-                <project-product values="{{values}}" />
-            </view>
+            
         </view>
-        
     </view>
-</view>
+</scroll-view>
+
+
 
 <!-- <htmltowxml text="{{text}}" type="md" bindWxmlTagATap="wxmlTagATap" ></htmltowxml> -->

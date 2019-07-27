@@ -196,6 +196,30 @@ const saveImage = (url) => {
     })
 }
 
+// 获取DOM节点
+const querySelect = (el) => {
+    return new Promise((resolve, reject) => {
+        let querry = wx.createSelectorQuery();
+        if (Object.prototype.toString.call(el).indexOf('String') > 0) {
+            el = [el];
+        };
+        if (Object.prototype.toString.call(el).indexOf('Array') > 0) {
+            try {
+                el.forEach(v => {
+                    querry.select(v).boundingClientRect();
+                });
+                querry.exec(res => {
+                    resolve(res);
+                })
+            } catch (e) {
+                reject(e);
+            };
+        } else {
+            reject('参数只能是String或者Array');
+        };
+    })
+}
+
 module.exports = {
     requestData,
     getLogin,
@@ -204,4 +228,5 @@ module.exports = {
     requestPayment,
     tmpWechatImage,
     saveImage,
+    querySelect,
 }

@@ -1,0 +1,7 @@
+<view class="trs navbar {{values.showNavbarColor ? 'navbar-background-color' : 'navbar-background-color0'}}" wx:if="{{values}}">
+    <view style="width:{{values.menuWidth}}px; padding-left:6rpx" bind:tap="clickEvent">
+        <van-icon name="arrow-left" size="1.5em" custom-class="arrow {{values.showNavbarColor ? '' : 'nav-shoaw'}}" />
+    </view>
+    <view class="trs nav-title {{values.showNavbarColor ? 'nav-title-color' : 'nav-title-color0'}} van-ellipsis">{{values.title}}</view>
+    <view style="width:{{values.menuWidth}}px"></view>
+</view>

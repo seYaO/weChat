@@ -233,19 +233,17 @@ Page({
 
     // -------------------
     unique() {
-        const params = { table: 'books', limit: 1000 }
+        const params = { table: 'announcers', limit: 1000 }
 
         services.list(params).then(res => {
             const { meta, objects } = res
             let list = [], result = [], obj = {}, arr = [], uniqueObj = {}
 
             objects.map(item => {
-                if (item.announcers.length > 4) {
-                    list.push(item.id)
-                }
+                console.log(item.nickName)
             })
 
-            console.log(JSON.stringify(list))
+            // console.log(JSON.stringify(list))
         })
     },
     update() {

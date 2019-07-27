@@ -62,7 +62,10 @@ module.exports = {
         if (options.ids) {
             query.in('id', options.ids)
         }
-        
+        if (options.ins) {
+            query.in(options.ins.key, options.ins.array)
+        }
+
         // 普遍字段判断
         if (options.compare) { // 比较查询
             query.compare(options.key, options.operator, options.value)

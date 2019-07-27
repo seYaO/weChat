@@ -11,8 +11,8 @@
             </view>
             <view class="intro">
                 <scroll-view id="items-scroll-view" class="items-scroll" scroll-x="{{true}}" scroll-with-animation scroll-left="{{ true }}">
-                    <view class="items-list" wx:for="{{announcers}}" wx:key="index" bind:tap="openAnnouncer" data-id="{{item.id}}">
-                        <image class="head" src="{{item.cover || coverImg}}" />
+                    <view class="items-list" wx:for="{{announcers}}" wx:key="index">
+                        <image class="head" src="{{item.cover || coverImg}}" bind:tap="openAnnouncer" data-id="{{item.id}}" />
                         <view class="text van-ellipsis">{{item.nickName}}</view>
                     </view>
                 </scroll-view>

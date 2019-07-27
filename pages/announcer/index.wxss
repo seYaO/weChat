@@ -70,10 +70,6 @@ page {
     font-size: 24rpx;
 }
 
-.pAnnouncer .sBox:first-child {
-    margin-top: 10px;
-}
-
 .pAnnouncer .sBox .intro {
     padding: 0 20rpx 30rpx 20rpx;
 }

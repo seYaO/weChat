@@ -17,7 +17,7 @@
         </block>
     </view>
     <view slot="bottom" class="bottom" wx:if="{{ values.announcerValue }}">
-        {{ values.announcerValue }}
+        播音：{{ values.announcerValue }}
     </view>
     <view slot="footer" class="footer" wx:if="{{ values.cloudDownload }}">
         <view class="btn" data-value="{{ values.cloudDownload }}" bindtap="getClipboard">

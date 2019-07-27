@@ -122,7 +122,9 @@ Page({
     openAnnouncer(e) {
         const { values } = e.currentTarget.dataset
 
-        console.log(values)
+        wx.navigateTo({
+            url: `/pages/announcer/index?id=${values.id}`,
+        })
     },
 
     /**

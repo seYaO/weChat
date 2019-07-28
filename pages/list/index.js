@@ -14,7 +14,7 @@ Page({
         dataloaded: false,
         value: '',
         coverImg: 'https://cloud-minapp-28547.cloud.ifanrusercontent.com/1hjHz464JJyX0dBe.jpeg',
-        list: null,
+        list: [],
     },
 
     init() {

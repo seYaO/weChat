@@ -1,4 +1,4 @@
-<view class="pList" wx:if="{{dataloaded}}">
+<view class="pList">
     <view class="sticky van-hairline--bottom">
         <van-search value="{{ value }}" show-action shape="round" placeholder="书名/作者/主播" readonly bind:tap="searchFocus" bind:cancel="onCancel" />
     </view>
@@ -33,10 +33,12 @@
                 </scroll-view>
             </view>
         </view>
-        <view class="sProduct" wx:if="{{list}}">
-            <block wx:for="{{list}}" wx:key="index">
-                <project-product values="{{ {...item, desc: item.recommend, link: '/pages/detail/index?id=' + item.id } }}" />
-            </block>
+        <view class="sProduct">
+            <project-skeleton col="{{6}}" row="{{2}}" avatar="{{true}}" avatar-size="80" avatar-shape="square" title="{{true}}" loading="{{!list.length}}" >
+                <block wx:for="{{list}}" wx:key="index">
+                    <project-product values="{{ {...item, desc: item.recommend, link: '/pages/detail/index?id=' + item.id } }}" />
+                </block>
+            </project-skeleton>
         </view>
     </view>
 </view>

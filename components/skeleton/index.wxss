@@ -5,9 +5,11 @@
 
 .skeleton {
     display: flex;
+    background: #fff;
 }
 
-.skeleton__vertical:not(:first-child) {
+.skeleton__vertical {
+    padding: 10px;
     margin-top: 20px;
 }
 

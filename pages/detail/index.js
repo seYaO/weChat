@@ -67,7 +67,7 @@ Page({
     typeData(ids) {
         const params = { table: 'types', limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
-            services.list(params).then(res=>{
+            services.list(params).then(res => {
                 resolve({ typeList: res.objects })
             })
         })
@@ -84,7 +84,7 @@ Page({
     announcerData(ids) {
         const params = { table: 'announcers', limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
-            services.list(params).then(res=>{
+            services.list(params).then(res => {
                 resolve({ announcerList: res.objects })
             })
         })
@@ -106,6 +106,11 @@ Page({
         if (authorObj) {
             this.setData({ authorName: authorObj.name, authorIntro: util.newline(authorObj.intro) })
         }
+    },
+
+    previewImage(e) {
+        const { img } = e.currentTarget.dataset
+        wxInfo.previewImage(img, [img])
     },
 
     /**

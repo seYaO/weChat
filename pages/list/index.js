@@ -1,3 +1,4 @@
+const app = getApp()
 import util from '../../utils/index'
 import services from '../../services/index'
 
@@ -13,24 +14,38 @@ Page({
     data: {
         dataloaded: false,
         value: '',
+        authorId: '',
+        isAll: false,
         coverImg: 'https://cloud-minapp-28547.cloud.ifanrusercontent.com/1hjHz464JJyX0dBe.jpeg',
         list: [],
     },
 
     init() {
-        let { search = '' } = this.data
+        let { search = '', authorId = '' } = this.data
+        let isAll = !!search || !!authorId
         search = decodeURIComponent(search)
         if (search) {
-            this.setData({ value: search })
             this.getSearch(search)
-        } else {
-            this.getList({ refresh: true })
         }
+
+        this.setData({ value: search }, () => {
+            this.getList({ refresh: true })
+        })
     },
 
     getList({ refresh = false }) {
-        let { list, hotType = '' } = this.data
-        const params = { table: 'books', limit, offset, query: services.conditions({ hotType }) }
+        let { list, hotType = '', value = '', authorId = '' } = this.data
+        let query = {}
+        if (hotType) {
+            query.hotType = hotType
+        }
+        if (value) {
+            query.contain = { key: 'title', value }
+        }
+        if (authorId) {
+            query.ins = { key: 'authorId', array: [authorId] }
+        }
+        const params = { table: 'books', limit, offset, query: services.conditions(query) }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -52,35 +67,15 @@ Page({
             if (refresh) {
                 wx.stopPullDownRefresh()
             }
-            wx.hideLoading()
         })
     },
 
     getSearch(text) {
-        const contain0 = { key: 'title', value: text }
-        const params0 = { table: 'books', limit: 100, query: services.conditions({ contain: contain0 }) }
         const contain1 = { key: 'nickName', value: text }
         const params1 = { table: 'announcers', limit: 100, query: services.conditions({ contain: contain1 }) }
         const contain2 = { key: 'name', value: text }
         const params2 = { table: 'authors', limit: 100, query: services.conditions({ contain: contain2 }) }
 
-        services.list(params0).then(res => {
-            const { meta, objects } = res
-            objects.map(item => {
-                item.typeList = []
-                item.announcerList = []
-                item.announcerValue = ''
-                item.authorObj = {}
-                item.minImgUrl = util.setImageSize(item.headerImgUrl) || ''
-                return item;
-            })
-            if (objects && objects[0]) {
-                this.setData({ dataloaded: true, list: objects, }, () => {
-                    this.updateList(100, 0)
-                })
-            }
-            wx.hideLoading()
-        })
         services.list(params1).then(res => {
             const { meta, objects } = res
             if (objects && objects[0]) {
@@ -162,10 +157,14 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-        wx.showLoading({ title: '加载中', })
+    onLoad(options) {
         this.setData({ ...options })
-
+        const { listNavBarTitle } = app.globalData
+        if (listNavBarTitle) {
+            wx.setNavigationBarTitle({
+                title: listNavBarTitle
+            })
+        }
         this.init()
     },
 
@@ -174,11 +173,6 @@ Page({
      */
     onPullDownRefresh() {
         console.log('页面相关事件处理函数--监听用户下拉动作')
-        const { search } = this.data
-        if (search) {
-            wx.stopPullDownRefresh()
-            return
-        }
 
         offset = 0
         this.getList({ refresh: true })
@@ -189,8 +183,6 @@ Page({
      */
     onReachBottom() {
         console.log('页面上拉触底事件的处理函数')
-        const { search } = this.data
-        if (search) return
 
         if (offset < page) {
             offset++
@@ -214,5 +206,14 @@ Page({
         wx.navigateTo({
             url: `/pages/announcer/index?id=${id}`,
         })
-    }
+    },
+
+    openAuthor(e) {
+        const { id, name } = e.currentTarget.dataset
+        app.globalData.listNavBarTitle = name
+
+        wx.redirectTo({
+            url: `/pages/list/index?authorId=${id}`,
+        })
+    },
 })

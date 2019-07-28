@@ -3,7 +3,7 @@
         <view class="sBox sTop">
             <view class="aBox">
                 <view class="sflex header">
-                    <image class="headImg" src="{{minImgUrl}}" />
+                    <image class="headImg" src="{{minImgUrl}}" data-img="{{datas.headerImgUrl}}" bind:tap="previewImage" />
                     <view class="tx1">
                         <view class="tit van-multi-ellipsis--l2">{{datas.title}}</view>
                         <view class="sflex" wx:if="{{authorName}}">

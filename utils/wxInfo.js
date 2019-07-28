@@ -117,24 +117,6 @@ function hasUserInfo() {
     })
 }
 
-function getImageInfo(url) {
-    return new Promise((resolve, reject) => {
-        if (url == '' || !url) {
-            resolve('');
-            return;
-        }
-        wx.getImageInfo({
-            src: url,
-            success(res) {
-                resolve(res.path);
-            },
-            fail(err) {
-                resolve('');
-            }
-        })
-    })
-}
-
 // 支付
 function requestPayment(params) {
     return new Promise((resolve, reject) => {
@@ -159,8 +141,16 @@ function requestPayment(params) {
     })
 }
 
+// 全屏预览图片
+function previewImage(current = '', urls = []) {
+    wx.previewImage({
+        current,
+        urls
+    })
+}
+
 /**
- * 缓存图片
+ * 缓存图片/获取图片信息
  * @param {*} url 
  */
 const tmpWechatImage = (url) => {
@@ -232,6 +222,7 @@ module.exports = {
     getUserInfo,
     hasUserInfo,
     requestPayment,
+    previewImage,
     tmpWechatImage,
     saveImage,
     querySelect,

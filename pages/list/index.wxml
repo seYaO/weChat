@@ -27,14 +27,14 @@
             <view class="intro">
                 <scroll-view id="items-scroll-view" class="items-scroll" scroll-x="{{true}}" scroll-with-animation scroll-left="{{ true }}">
                     <view class="items-list" wx:for="{{authors}}" wx:key="index">
-                        <image class="head" src="{{item.cover || coverImg}}" />
+                        <image class="head" src="{{item.cover || coverImg}}" bind:tap="openAuthor" data-id="{{item.id}}" data-name="{{item.name}}" />
                         <view class="text van-ellipsis">{{item.name}}</view>
                     </view>
                 </scroll-view>
             </view>
         </view>
         <view class="sProduct">
-            <project-skeleton col="{{6}}" row="{{2}}" avatar="{{true}}" avatar-size="80" avatar-shape="square" title="{{true}}" loading="{{!list.length}}" >
+            <project-skeleton col="{{6}}" row="{{2}}" avatar="{{true}}" avatar-size="90" avatar-shape="square" title="{{true}}" loading="{{!list.length}}" >
                 <block wx:for="{{list}}" wx:key="index">
                     <project-product values="{{ {...item, desc: item.recommend, link: '/pages/detail/index?id=' + item.id } }}" />
                 </block>

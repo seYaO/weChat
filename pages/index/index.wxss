@@ -31,8 +31,12 @@
     font-size: 24rpx;
 }
 
+.pIndex .cols {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .pIndex .col {
-    float: left;
     margin-right: 15rpx;
     margin-bottom: 20rpx;
     width: 220rpx;
@@ -52,4 +56,8 @@
 .pIndex .col .tit {
     font-size: 24rpx;
     font-weight: 500;
+}
+
+.pIndex .sBox .intro {
+    padding-bottom: 30rpx;
 }

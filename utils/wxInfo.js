@@ -220,6 +220,12 @@ const querySelect = (el) => {
     })
 }
 
+// 获取当前页面栈
+const getCurrentPages = (cb) => {
+    const arr = getCurrentPages()
+    console.log(arr)
+}
+
 module.exports = {
     requestData,
     getLogin,
@@ -229,4 +235,5 @@ module.exports = {
     tmpWechatImage,
     saveImage,
     querySelect,
+    getCurrentPages,
 }

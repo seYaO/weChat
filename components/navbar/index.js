@@ -16,8 +16,8 @@ Component({
     },
 
     created() {
-        const { values } = this.data
-        this.setData({ ...values })
+        // const { values } = this.data
+        // this.setData({ ...values })
     },
 
     methods: {

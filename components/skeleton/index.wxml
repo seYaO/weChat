@@ -1,0 +1,23 @@
+<block wx:if="{{loading}}">
+    <view class="skeleton--{{type}} {{animate ? 'skeleton--animate' : ''}}">
+        <block wx:for="{{cols}}" wx:key="index">
+            <view class="skeleton skeleton__{{type}}">
+                <view wx:if="{{avatar}}" class="skeleton__avatar skeleton__avatar--{{avatarShape}}" style="width: {{avatarSize}}px; height: {{avatarSize}}px;"></view>
+                <view class="skeleton__content" wx:if="{{type == 'vertical'}}">
+                    <view wx:if="{{title}}" class="skeleton__title" style="width: {{titleWidth}}%;"></view>
+                    <block wx:for="{{rows}}" wx:for-item="_item" wx:for-index="_index" wx:key="_index">
+                        <view class="skeleton__row" style="width: {{_item}}%;"></view>
+                    </block>
+                </view>
+                <block wx:else>
+                    <view wx:if="{{title}}" class="skeleton__title"></view>
+                </block>
+            </view>
+        </block>
+    </view>
+    
+
+    
+</block>
+
+<slot wx:else />

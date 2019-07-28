@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
 
 Page({
@@ -12,6 +13,8 @@ Page({
     },
 
     init() {
+        // wxInfo.getCurrentPages()
+
         const { id = '' } = this.data
         const params = { id, table: 'books' }
 

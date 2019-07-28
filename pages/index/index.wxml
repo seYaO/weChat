@@ -23,24 +23,28 @@
                 </van-col>
             </van-row>
         </view>
-        <view class="sBox" wx:if="{{likeList}}">
+        <view class="sBox">
             <view class="aBox">
                 <view class="sflex">
-                    <view class="tx1 tit">喜欢</view>
+                    <view class="tx1 tit">喜欢  {{likeList.length}}</view>
                     <view class="tx2" bind:tap="openList" data-type="isLike">更多</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>
-            <view class="intro fn-clear">
-                <block wx:for="{{likeList}}" wx:key="index">
-                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                        <image class="img" src="{{item.headerImgUrl}}" />
-                        <view class="tit">{{item.title}}</view>
+            <view class="intro">
+                <project-skeleton type="horizontal" col="{{6}}" avatar="{{true}}" avatar-size="100" avatar-shape="square" title="{{true}}" loading="{{!likeList.length}}" >
+                    <view class="cols">
+                        <block wx:for="{{likeList}}" wx:key="index">
+                            <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <view class="tit">{{item.title}}</view>
+                            </view>
+                        </block>
                     </view>
-                </block>
+                </project-skeleton>
             </view>
         </view>
-        <view class="sBox" wx:if="{{recommendList}}">
+        <view class="sBox">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">推荐</view>
@@ -48,16 +52,20 @@
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>
-            <view class="intro fn-clear">
-                <block wx:for="{{recommendList}}" wx:key="index">
-                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                        <image class="img" src="{{item.headerImgUrl}}" />
-                        <view class="tit">{{item.title}}</view>
+            <view class="intro">
+                <project-skeleton type="horizontal" col="{{6}}" avatar="{{true}}" avatar-size="100" avatar-shape="square" title="{{true}}" loading="{{!recommendList.length}}" >
+                    <view class="cols">
+                        <block wx:for="{{recommendList}}" wx:key="index">
+                            <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <view class="tit">{{item.title}}</view>
+                            </view>
+                        </block>
                     </view>
-                </block>
+                </project-skeleton>
             </view>
         </view>
-        <view class="sBox" wx:if="{{goodsList}}">
+        <view class="sBox">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">精品</view>
@@ -65,13 +73,17 @@
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>
             </view>
-            <view class="intro fn-clear">
-                <block wx:for="{{goodsList}}" wx:key="index">
-                    <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                        <image class="img" src="{{item.headerImgUrl}}" />
-                        <view class="tit">{{item.title}}</view>
+            <view class="intro">
+                <project-skeleton type="horizontal" col="{{6}}" avatar="{{true}}" avatar-size="100" avatar-shape="square" title="{{true}}" loading="{{!goodsList.length}}" >
+                    <view class="cols">
+                        <block wx:for="{{goodsList}}" wx:key="index">
+                            <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
+                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <view class="tit">{{item.title}}</view>
+                            </view>
+                        </block>
                     </view>
-                </block>
+                </project-skeleton>
             </view>
         </view>
     </view>

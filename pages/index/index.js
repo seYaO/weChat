@@ -1,3 +1,5 @@
+import util from '../../utils/index'
+import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
 
 Page({
@@ -7,6 +9,11 @@ Page({
      */
     data: {
         value: '',
+        pages: {},
+        dataloaded: false,
+        likeList: [],
+        recommendList: [],
+        goodsList: []
     },
 
     searchFocus() {
@@ -16,24 +23,32 @@ Page({
     },
 
     init() {
-        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isLike' }) }).then(res => {
-            const { meta, objects } = res
-            this.setData({ likeList: objects })
-        })
-        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) }).then(res => {
-            const { meta, objects } = res
-            this.setData({ recommendList: objects })
-        })
-        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isGoods' }) }).then(res => {
-            const { meta, objects } = res
-            this.setData({ goodsList: objects })
+
+        const like = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isLike' }) })
+        const recommend = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) })
+        const goods = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isGoods' }) })
+
+        Promise.all([like, recommend, goods]).then(res => {
+            let arr = ['likeList', 'recommendList', 'goodsList']
+            let obj = { likeList: [], recommendList: [], goodsList: [] }
+            res.map((item, index) => {
+                const { meta, objects } = item
+                objects.map(item => {
+                    item.minImgUrl = util.setImageSize(item.headerImgUrl) || ''
+                    return item;
+                })
+                obj[arr[index]] = objects
+            })
+            this.setData({ ...obj })
         })
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad(options) {
+        // wxInfo.getCurrentPages()
+        // getCurrentPages()
         this.init()
     },
 

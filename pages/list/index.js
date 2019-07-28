@@ -83,12 +83,15 @@ Page({
         })
         services.list(params1).then(res => {
             const { meta, objects } = res
-            this.setData({ announcers: objects })
-
+            if (objects && objects[0]) {
+                this.setData({ dataloaded: true, announcers: objects })
+            }
         })
         services.list(params2).then(res => {
             const { meta, objects } = res
-            this.setData({ authors: objects })
+            if (objects && objects[0]) {
+                this.setData({ dataloaded: true, authors: objects })
+            }
         })
     },
 

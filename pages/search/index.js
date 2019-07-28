@@ -43,8 +43,8 @@ Page({
 
     onSearch(e) {
         const value = e.detail
-        // this.setData({ value })
         console.log('onSearch---', e)
+        this.setHistory(value)
         wx.redirectTo({
             url: `/pages/list/index?search=${encodeURIComponent(value)}`,
         });
@@ -69,23 +69,9 @@ Page({
         this.setData({ historyList: null })
     },
 
-    openList(e) {
-        const {value}=e.currentTarget.dataset
-        wx.redirectTo({
-            url: `/pages/list/index?search=${encodeURIComponent(value)}`,
-        });
-    },
-    
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-        this.init()
-    },
-
-    openNext(e) {
-        const { id } = e.currentTarget.dataset
+    setHistory(text) {
         let { historyList, value } = this.data
+        value = text || value
         historyList = historyList || []
         let idx = historyList.indexOf(value)
         if (idx == -1) {
@@ -93,6 +79,25 @@ Page({
             this.setData({ historyList })
             wx.setStorageSync('ting.history', historyList)
         }
+    },
+
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad(options) {
+        this.init()
+    },
+
+    openList(e) {
+        const { value } = e.currentTarget.dataset
+        wx.redirectTo({
+            url: `/pages/list/index?search=${encodeURIComponent(value)}`,
+        });
+    },
+
+    openNext(e) {
+        const { id } = e.currentTarget.dataset
+        this.setHistory()
 
         wx.navigateTo({
             url: `/pages/detail/index?id=${id}`,

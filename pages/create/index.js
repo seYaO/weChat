@@ -1,5 +1,6 @@
 const app = getApp()
 import util from '../../utils/index'
+import comServices from '../../services/common'
 import services from '../../services/index'
 import operation from './operation'
 const baiduData = require('../../services/baiduData')
@@ -265,6 +266,36 @@ Page({
             })
         }
 
+    },
+
+    updateAuthor() {
+        const params = { table: 'books', limit: 1000 }
+        let list = []
+
+        services.list(params).then(res => {
+            const { meta, objects } = res
+
+            objects.map(item => {
+                if (item.authorId) {
+                    const pointer = services.getPointer({ table: 'authors', id: item.authorId })
+                    fn(item.id, { authorPointer: pointer })
+                }
+            })
+        })
+
+        function fn(updateId, _obj) {
+            // console.log('数据更新>>>>>>', updateId, _obj)
+            services.update({ table: 'books', id: updateId, values: _obj }).then(res => {
+                console.log('数据更新---', res)
+                // getApp().showToast('数据更新成功')
+            })
+        }
+    },
+
+    updateTest() {
+        let albumId = 16556782, pageSize = 600, pageNum = 1
+        comServices.index({ params: { albumId } })
+        comServices.list({ params: { albumId, pageSize, pageNum } })
     },
 
     /**

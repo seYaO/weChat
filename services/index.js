@@ -85,6 +85,10 @@ module.exports = {
         // query.matches('title', regExp)
         return query
     },
+    getPointer({ table, id }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        return MyTableObject.getWithoutData(id)
+    },
     // 查询数据列表---无条件
     list({ table, limit = 10, offset = 0, query, andQuery, orQuery }) {
         const MyTableObject = new wx.BaaS.TableObject(table)

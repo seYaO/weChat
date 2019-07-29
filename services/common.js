@@ -38,9 +38,48 @@ const list = ({ params = {}, header = {} }) => {
     })
 }
 
+/**
+ * 基础信息/懒人
+ * ?id=69288
+ * @param {*} param0 
+ */
+const albumInfo = ({ params = {}, header = {} }) => {
+    return new Promise((resolve, reject) => {
+        requestData({
+            url: `https://m.lrts.me/ajax/getAlbumInfo`,
+            header,
+            // method: 'POST',
+            data: params,
+            success(res) {
+                resolve(res.data)
+            }
+        })
+    })
+}
+
+/**
+ * 基础信息/懒人
+ * ?id=69288
+ * @param {*} param0 
+ */
+const bookInfo = ({ params = {}, header = {} }) => {
+    return new Promise((resolve, reject) => {
+        requestData({
+            url: `https://m.lrts.me/ajax/getBookInfo`,
+            header,
+            // method: 'POST',
+            data: params,
+            success(res) {
+                resolve(res.data)
+            }
+        })
+    })
+}
 
 
 module.exports = {
     index,
     list,
+    albumInfo,
+    bookInfo,
 }

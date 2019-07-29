@@ -48,7 +48,7 @@
         </view>
         <view class="sflex bet">
             <van-button type="warning" round bind:click="unique">去重</van-button>
-            <van-button type="warning" round bind:click="update">批量更新</van-button>
+            <!-- <van-button type="warning" round bind:click="update">批量更新</van-button> -->
             <van-button type="warning" round bind:click="updateSelect">条件更新</van-button>
         </view>
         <view class="sflex bet">

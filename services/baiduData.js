@@ -10,8 +10,8 @@ let list = [
         types: '',
         author: '尤前',
         authorIntro: '起点女生网优秀作家，作者专注于塑造精品，人物描写很丰满，在情节中展现角色，用角色推进故事的能力非常的强，在读者群体中有着良好的口碑。',
-        announcers: '清灵',
-        subAnnouncers: '',
+        announcers: '清灵,阑珊梦,南瓜楠少,小编C',
+        subAnnouncers: '妖仙,南割式,鲛绡,红樱桃,猫镇豆子,玲珑',
     },
     {
         id: '5d3dba5ef3231513d3b73473',
@@ -21,8 +21,8 @@ let list = [
         isAlbum: true,
         pageSize: 1000,
         types: '',
-        author: '',
-        announcers: '',
+        author: '木雨潇潇',
+        announcers: '掷地有声',
         subAnnouncers: '',
     },
     {
@@ -33,8 +33,9 @@ let list = [
         isAlbum: true,
         pageSize: 1000,
         types: '',
-        author: '',
-        announcers: '',
+        author: '长尾',
+        authorIntro:'锦文小说网签约作者，人物刻画细腻，写作剧情跌宕起伏',
+        announcers: '掷地有声',
         subAnnouncers: '',
     },
     {
@@ -44,9 +45,9 @@ let list = [
         tingId: '40440', // ting ID   
         pageSize: 1000,
         types: '',
-        author: '',
-        announcers: '斗音帝，陌声人文化传媒，播音忧蓝，CV执事，剧舞吧芸飞，姝艾',
-        subAnnouncers: '',
+        author: '洛神',
+        announcers: '忧蓝,CV执事,芸飞',
+        subAnnouncers: '斗音帝,姝艾',
     },
     {
         id: '5d3dba5ef3231513d3b7346b',
@@ -55,9 +56,9 @@ let list = [
         tingId: '37927', // ting ID 
         pageSize: 1000,
         types: '',
-        author: '',
-        announcers: '"寐尹，布兰德，墨千临，霜色微凉，建霆，糖醋炒栗子，天中月，文浩，黎落，海凌，甜de心，特立独行的草，CV执事，呆小蕊，居士很忙，主播海风，风韵，蓝豆娘，朔小踹，一世奈何，一凡，苏小e，骤雨惊弦"',
-        subAnnouncers: '',
+        author: '洛心辰',
+        announcers: '"寐尹,布兰德,墨千临,霜色微凉"',
+        subAnnouncers: '建霆,糖醋炒栗子,天中月,文浩,黎落,海凌,甜de心,特立独行的草,CV执事,呆小蕊,居士很忙,海风,风韵,蓝豆娘,朔小踹,一世奈何,一凡,苏小e',
     },
     {
         id: '5d3dba5ef3231513d3b7346c',
@@ -67,7 +68,7 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: '有声竹子酱，瑾遥，微笑暖心，铭铄，播音西瓜',
+        announcers: '竹子酱,瑾遥,微笑暖心,铭铄,西瓜',
         subAnnouncers: '',
     },
     {
@@ -78,7 +79,7 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: '播音一色，梵叶，八月居',
+        announcers: '一色,梵叶,八月居',
         subAnnouncers: '',
     },
     {
@@ -89,7 +90,7 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: '木怀南，莱兮',
+        announcers: '莱兮,木怀南',
         subAnnouncers: '',
     },
     {
@@ -100,8 +101,8 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: 'GoJu惊蛰，布兰德，相国小龙，好小爱新，陆离，懿阎大饺砸，未言，骤雨惊弦',
-        subAnnouncers: '',
+        announcers: 'GoJu惊蛰,布兰德',
+        subAnnouncers: '相国小龙,好小爱新,陆离,懿阎大饺砸,未言',
     },
     {
         id: '5d3dba5ef3231513d3b73470',
@@ -111,7 +112,7 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: '播音枫茗，播音奕渊，声情并貌',
+        announcers: '枫茗,奕渊',
         subAnnouncers: '',
     },
     {
@@ -122,7 +123,7 @@ let list = [
         pageSize: 1000,
         types: '',
         author: '',
-        announcers: '莱兮，倔强的小红军，木怀南',
+        announcers: '莱兮,倔强的小红军,木怀南',
         subAnnouncers: '',
     }
 ]

@@ -250,7 +250,11 @@ module.exports = {
             }
 
             Promise.all([xima0, xima1, ting]).then(res => {
-                let directory = [], typeValue = '', announcerValue = '', authorValue = '', types = [], headerImgUrl = '', recommend = '', intro = '', authorIntro = '', announcerIntro = ''
+                let directory = [], typeValue = '', announcerValue = '', subAnnouncerValue = '', authorValue = '', types = [], headerImgUrl = '', recommend = '', intro = '', authorIntro = '', announcerIntro = ''
+                authorValue = options.author || ''
+                authorIntro = options.authorIntro || ''
+                announcerValue = options.announcers || ''
+                subAnnouncerValue = options.subAnnouncers || ''
 
                 if (options.albumId) {
                     const { mainInfo } = res[0].data
@@ -271,6 +275,7 @@ module.exports = {
                     metas.map(item => {
                         types.push(item.metaDisplayName)
                     })
+                    headerImgUrl = `https:${cover}`
                 }
                 if (options.tingId) {
                     let extraInfos, labels, description
@@ -309,38 +314,38 @@ module.exports = {
                         types.splice(idx, 1);
                     }
                 })
-                typeValue = types.join(',')
-
-
-                // console.log({
-                //     typeValue,
-                //     authorIntro,
-                //     // cover: `https:${cover}`,
-                //     headerImgUrl,
-                //     recommend,
-                //     intro,
-                //     announcerIntro,
-                //     directory,
-                // })
-
-                // directory
-                // console.log(metas, detailRichIntro, cover, tracks)
+                typeValue = types.join(',');
+                let obj = {
+                    id: options.id,
+                    typeValue,
+                    announcerValue,
+                    subAnnouncerValue,
+                    authorValue,
+                    headerImgUrl,
+                    recommend,
+                    intro,
+                    authorIntro,
+                    announcerIntro,
+                    directory,
+                }
 
                 // 展示xima
                 console.log(intro.match(regHtml))
 
+                createIds(obj)
+
 
                 // 下一个
-                ximaIndex++
-                console.log(ximaIndex)
-                if (ximaIndex < ximaList.length) {
-                    ximaFn(ximaList[ximaIndex])
-                }
+                // ximaIndex++
+                // console.log(ximaIndex)
+                // if (ximaIndex < ximaList.length) {
+                //     ximaFn(ximaList[ximaIndex])
+                // }
             })
         }
 
-        function createIds() {
-            //
+        function createIds(data) {
+            console.log(data)
         }
 
         function update(id, values) {

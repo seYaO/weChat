@@ -1,3 +1,4 @@
+const app = getApp()
 import util from '../../utils/index'
 import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
@@ -16,7 +17,7 @@ Page({
         // wxInfo.getCurrentPages()
 
         const { id = '' } = this.data
-        const params = { id, table: 'books' }
+        const params = { id, table: 'books', expand: ['authorPointer'] }
 
         services.detail(params).then(res => {
             let intro = res.intro || ''
@@ -33,7 +34,7 @@ Page({
                 figureIntro = util.newline(figureIntro)
             }
 
-            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro }, () => {
+            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro, authorObj: res.authorPointer }, () => {
                 this.updateData()
             })
         })
@@ -46,12 +47,11 @@ Page({
     },
 
     updateData() {
-        const { announcers, authorId, types } = this.data.datas
+        const { announcers, types } = this.data.datas
         const typeData = this.typeData(types)
-        const authorData = this.authorData(authorId)
         const announcerData = this.announcerData(announcers)
 
-        Promise.all([typeData, authorData, announcerData]).then(res => {
+        Promise.all([typeData, announcerData]).then(res => {
             let obj = {}
             if (res && res[0]) {
                 res.map(item => {
@@ -132,6 +132,15 @@ Page({
 
         wx.navigateTo({
             url: `/pages/announcer/index?id=${values.id}`,
+        })
+    },
+
+    openAuthor() {
+        const { id, name } = this.data.authorObj
+        app.globalData.listNavBarTitle = name
+
+        wx.redirectTo({
+            url: `/pages/list/index?authorId=${id}`,
         })
     },
 

@@ -43,7 +43,8 @@ Page({
             query.contain = { key: 'title', value }
         }
         if (authorId) {
-            query.ins = { key: 'authorId', array: [authorId] }
+            const pointer = services.getPointer({ table: 'authors', id: authorId })
+            query.compare = { key: 'authorPointer', operator: '=', value: pointer }
         }
         const params = { table: 'books', limit, offset, query: services.conditions(query) }
 

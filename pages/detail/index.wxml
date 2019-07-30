@@ -62,7 +62,7 @@
         </view>
         <view class="sBox" wx:if="{{authorIntro}}">
             <view class="aBox">
-                <view class="sflex">
+                <view class="sflex" bind:tap="openAuthor">
                     <view class="tx1 tit">作者简介</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>

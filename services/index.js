@@ -63,15 +63,18 @@ module.exports = {
             query.in('id', options.ids)
         }
         if (options.ins) {
-            query.in(options.ins.key, options.ins.array)
+            const { key, array } = options.ins
+            query.in(key, array)
         }
 
         // 普遍字段判断
         if (options.compare) { // 比较查询
-            query.compare(options.key, options.operator, options.value)
+            const { key, operator, value } = options.compare
+            query.compare(key, operator, value)
         }
         if (options.contain) { // 字符串查询
-            query.contains(options.contain.key, options.contain.value)
+            const { key, value } = options.contain
+            query.contains(key, value)
         }
         if (options.contains) { // 字符串查询
             options.contains.map(item => {
@@ -79,7 +82,8 @@ module.exports = {
             })
         }
         if (options.matches) { // 正则
-            query.matches(options.matches.key, options.matches.regExp)
+            const { key, regExp } = options.matches
+            query.matches(key, regExp)
         }
         // let regExp = /梦回大清|倾城之恋|诛砂|香蜜沉沉|簪中录|执子之手/i
         // query.matches('title', regExp)
@@ -90,7 +94,7 @@ module.exports = {
         return MyTableObject.getWithoutData(id)
     },
     // 查询数据列表---无条件
-    list({ table, limit = 10, offset = 0, query, andQuery, orQuery }) {
+    list({ table, limit = 10, offset = 0, query, andQuery, orQuery, expand = [], orderBy = '-created_at' }) {
         const MyTableObject = new wx.BaaS.TableObject(table)
         query = query || new wx.BaaS.Query()
         if (andQuery) {
@@ -99,9 +103,14 @@ module.exports = {
         if (orQuery) {
             query = orQuery
         }
+        MyTableObject.setQuery(query)
+        // if (expand) {
+        //     // MyTableObject.expand(['authorPointer'])
+        //     MyTableObject.expand(expand)
+        // }
 
         return new Promise((resolve, reject) => {
-            MyTableObject.setQuery(query).orderBy('-created_at').limit(limit).offset(offset * limit).find().then(res => {
+            MyTableObject.setQuery(query).expand(expand).orderBy(orderBy).limit(limit).offset(offset * limit).find().then(res => {
                 resolve(res.data)
             })
         })
@@ -109,10 +118,10 @@ module.exports = {
     // 查询数据列表---and
     listAnd() { },
     // 查询单条数据
-    detail({ table, id }) {
+    detail({ table, id, expand = [] }) {
         const MyTableObject = new wx.BaaS.TableObject(table)
         return new Promise((resolve, reject) => {
-            MyTableObject.get(id).then(res => {
+            MyTableObject.expand(expand).get(id).then(res => {
                 resolve(res.data)
             })
         })

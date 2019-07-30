@@ -101,7 +101,7 @@ module.exports = {
         }
 
         return new Promise((resolve, reject) => {
-            MyTableObject.setQuery(query).limit(limit).offset(offset * limit).find().then(res => {
+            MyTableObject.setQuery(query).orderBy('-created_at').limit(limit).offset(offset * limit).find().then(res => {
                 resolve(res.data)
             })
         })

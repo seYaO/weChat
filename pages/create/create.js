@@ -3,36 +3,56 @@ import services from '../../services/index'
 const baiduData = require('../../services/baiduData')
 const reg = /\s*,\s*/
 
-function create({ table, key, values }, cb) {
+function create({ table, key, values, desc = '' }, cb) {
     const params = { table, limit: 1000 }
-    services.list(params).then(res => {
-        const { meta, objects } = res
-        let list = []
+    return new Promise((resolve, reject) => {
+        services.list(params).then(res => {
+            const { meta, objects } = res
+            let list = []
 
-        objects.map(item => {
-            let idx = values.indexOf(item[key])
-            if (idx > -1) {
-                values.splice(idx, 1);
+            objects.map(item => {
+                let idx = values.indexOf(item[key])
+                if (idx > -1) {
+                    values.splice(idx, 1);
+                }
+            })
+
+            values.map(item => {
+                let obj = { [key]: item }
+                if (desc) {
+                    obj.intro = desc
+                }
+                list.push(obj)
+            })
+            // console.log(list)
+
+            if (list.length > 0) {
+                services.createMany({ table, list }).then(res => {
+                    resolve(res)
+                    return typeof cb === 'function' && cb(res)
+                })
+            } else {
+                resolve('')
+                return typeof cb === 'function' && cb()
             }
         })
-
-        values.map(item => {
-            list.push({ [key]: item })
-        })
-        // console.log(list)
-
-        if (list.length > 0) {
-            // services.createMany({ table, list }).then(res => {
-            //     return typeof cb === 'function' && cb(res)
-            // })
-        } else {
-            return typeof cb === 'function' && cb()
-        }
     })
 }
 
 module.exports = {
     create,
+    createJson() {
+        const datas = baiduData.list
+        let list = []
+        datas.map(item => {
+            list.push({ content: JSON.stringify(item) })
+        })
+
+        services.createMany({ table: 'json', list }).then(res => {
+            console.log('JSON数据批量新建---', res.succeed)
+            getApp().showToast('JSON数据批量新建成功')
+        })
+    },
     // 新增店铺
     createStore() {
         const values = baiduData.value

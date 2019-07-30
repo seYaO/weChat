@@ -4,7 +4,7 @@ import comServices from '../../services/common'
 import create from './create'
 const baiduData = require('../../services/baiduData')
 const testData = require('../../services/testData')
-const reg = /\s*,\s*/
+const reg = /\s*[,，、]\s*/
 const regAttr = /\s*?[a-zA-Z0-9_-]+\s*?=\s*?([‘"])[\s\S].*?\1/ig
 const regImg = /<img.*?s[a-zA-Z0-9_-]+\s*?=\s*?([‘"])[\s\S].*?>/g
 const regHtml = /<(p)>([\s\S]*?)<\/\1>/g
@@ -250,7 +250,7 @@ module.exports = {
             }
 
             Promise.all([xima0, xima1, ting]).then(res => {
-                let directory = [], typeValue = '', announcerValue = '', subAnnouncerValue = '', authorValue = '', types = [], headerImgUrl = '', recommend = '', intro = '', authorIntro = '', announcerIntro = ''
+                let directory = [], directoryValue = '', typeValue = '', announcerValue = '', subAnnouncerValue = '', authorValue = '', types = [], headerImgUrl = '', recommend = '', intro = '', authorIntro = '', announcerIntro = ''
                 authorValue = options.author || ''
                 authorIntro = options.authorIntro || ''
                 announcerValue = options.announcers || ''
@@ -276,6 +276,7 @@ module.exports = {
                         types.push(item.metaDisplayName)
                     })
                     headerImgUrl = `https:${cover}`
+                    directoryValue = JSON.stringify(directory)
                 }
                 if (options.tingId) {
                     let extraInfos, labels, description
@@ -326,44 +327,99 @@ module.exports = {
                     intro,
                     authorIntro,
                     announcerIntro,
-                    directory,
+                    directory: directoryValue,
                 }
 
                 // 展示xima
-                console.log(intro.match(regHtml))
+                // console.log(intro.match(regHtml))
+                // console.log(obj)
 
                 createIds(obj)
-
-
-                // 下一个
-                // ximaIndex++
-                // console.log(ximaIndex)
-                // if (ximaIndex < ximaList.length) {
-                //     ximaFn(ximaList[ximaIndex])
-                // }
             })
         }
 
         function createIds(data) {
-            console.log(data)
-        }
+            let annValue = data.announcerValue
+            if (data.subAnnouncerValue) {
+                annValue += ',' + data.subAnnouncerValue
+            }
+            const typeArr = data.typeValue.split(reg)
+            const authorArr = data.authorValue.split(reg)
+            const annArr = annValue.split(reg)
+            const params0 = { table: 'types', key: 'name', values: typeArr }
+            const params1 = { table: 'authors', key: 'name', values: authorArr, desc: data.authorIntro } // 作者
+            const params2 = { table: 'announcers', key: 'nickName', values: annArr }
 
-        function update(id, values) {
-            services.update({ table: 'books', id, values }).then(res => {
-                console.log('数据更新---', res)
-                getApp().showToast('数据更新成功')
+            Promise.all([create.create(params0), create.create(params1), create.create(params2)]).then(res => {
+                selectIds(data)
             })
         }
 
-        // function createTypes(values) {
-        //     create.create({ table: 'types', key: 'name', values }, (res) => {
-        //         if (res) {
-        //             console.log('类型数据批量新建---', res.succeed)
-        //             getApp().showToast('类型数据批量新建成功')
-        //         } else {
-        //             getApp().showToast('无需更新类型数据')
-        //         }
-        //     })
-        // }
+        function selectIds(data) {
+            const typeArr = data.typeValue.split(reg)
+            const authorArr = data.authorValue.split(reg)
+            const announcerArr = data.announcerValue.split(reg)
+            const subAnnouncerArr = data.subAnnouncerValue.split(reg)
+            const ins0 = { key: 'name', array: typeArr }
+            const params0 = { table: 'types', limit: 100, query: services.conditions({ ins: ins0 }) }
+            const ins1 = { key: 'name', array: authorArr }
+            const params1 = { table: 'authors', limit: 100, query: services.conditions({ ins: ins1 }) }
+            const ins2 = { key: 'nickName', array: announcerArr }
+            const params2 = { table: 'announcers', limit: 100, query: services.conditions({ ins: ins2 }) }
+            const ins3 = { key: 'nickName', array: subAnnouncerArr }
+            const params3 = { table: 'announcers', limit: 100, query: services.conditions({ ins: ins3 }) }
+            const arr = [typeArr, authorArr, announcerArr, subAnnouncerArr]
+
+            // console.log(arr)
+            Promise.all([services.list(params0), services.list(params1), services.list(params2), services.list(params3)]).then(res => {
+                // console.log(res)
+                let obj = {}
+                res.map((item, index) => {
+                    const { objects } = item
+                    const ids = resultIds(arr[index], objects)
+                    switch (index) {
+                        case 0:
+                            obj.types = ids;
+                            break;
+                        case 1:
+                            obj.authorId = String(ids);
+                            obj.authorPointer = services.getPointer({ table: 'authors', id: obj.authorId })
+                            break;
+                        case 2:
+                            obj.announcers = ids;
+                            break;
+                        case 3:
+                            obj.subAnnouncers = ids;
+                            break;
+                    }
+                })
+                obj = { ...obj, headerImgUrl: data.headerImgUrl, recommend: data.recommend, intro: data.intro, announcerIntro: data.announcerIntro, directory: data.directory }
+                update(data.id, obj)
+            })
+        }
+
+        function resultIds(names, arr) {
+            let ids = new Array(names.length)
+            arr.map(item => {
+                let idx = names.indexOf(item.name || item.nickName)
+                if (idx > -1) {
+                    ids[idx] = item.id
+                }
+            })
+            return ids
+        }
+
+        function update(id, values) {
+            // console.log({ id, values })
+            services.update({ table: 'books', id, values }).then(res => {
+                console.log('数据更新---', ximaIndex)
+                // getApp().showToast('数据更新成功')
+                // 下一个
+                ximaIndex++
+                if (ximaIndex < ximaList.length) {
+                    ximaFn(ximaList[ximaIndex])
+                }
+            })
+        }
     },
 }

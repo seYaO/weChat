@@ -26,7 +26,7 @@
         <view class="sBox">
             <view class="aBox">
                 <view class="sflex" bind:tap="openList" data-type="isLike">
-                    <view class="tx1 tit">喜欢  {{likeList.length}}</view>
+                    <view class="tx1 tit">喜欢</view>
                     <view class="tx2">更多</view>
                     <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
                 </view>

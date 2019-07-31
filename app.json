@@ -1,10 +1,6 @@
 {
     "pages": [
-        "pages/list/list",
-        "pages/home/home",
-        "pages/detail/detail",
-        "pages/create/create"
-        
+        "pages/index/index"
     ],
     "window": {
         "backgroundTextStyle": "light",

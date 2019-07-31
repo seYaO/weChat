@@ -1,4 +1,4 @@
-// pages/detail/detail.js
+// pages/index/index.js
 Page({
 
   /**
@@ -7,6 +7,8 @@ Page({
   data: {
 
   },
+
+  init(){},
 
   /**
    * 生命周期函数--监听页面加载

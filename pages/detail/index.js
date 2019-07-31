@@ -1,5 +1,6 @@
 const app = getApp()
 import util from '../../utils/index'
+import config from '../../utils/config'
 import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
 
@@ -17,7 +18,7 @@ Page({
         // wxInfo.getCurrentPages()
 
         const { id = '' } = this.data
-        const params = { id, table: 'books', expand: ['authorPointer'] }
+        const params = { id, table: config.tables.books, expand: ['authorPointer'] }
 
         services.detail(params).then(res => {
             let intro = res.intro || ''
@@ -65,7 +66,7 @@ Page({
     },
 
     typeData(ids) {
-        const params = { table: 'types', limit: 1000, query: this.conditions(ids) }
+        const params = { table: config.tables.types, limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
             services.list(params).then(res => {
                 resolve({ typeList: res.objects })
@@ -73,16 +74,8 @@ Page({
         })
     },
 
-    authorData(id) {
-        return new Promise((resolve, reject) => {
-            services.detail({ id, table: 'authors' }).then(res => {
-                resolve({ authorObj: res })
-            })
-        })
-    },
-
     announcerData(ids) {
-        const params = { table: 'announcers', limit: 1000, query: this.conditions(ids) }
+        const params = { table: config.tables.announcers, limit: 1000, query: this.conditions(ids) }
         return new Promise((resolve, reject) => {
             services.list(params).then(res => {
                 resolve({ announcerList: res.objects })

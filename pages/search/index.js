@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import config from '../../utils/config'
 import { throttle } from '../../utils/throttle'
 import services from '../../services/index'
 
@@ -12,7 +13,7 @@ Page({
     },
 
     init() {
-        services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) }).then(res => {
+        services.list({ table: config.tables.books, limit: 6, query: services.conditions({ hotType: 'isRecommend' }) }).then(res => {
             const { meta, objects } = res
             this.setData({ recommendList: objects })
         })
@@ -25,7 +26,7 @@ Page({
 
     search(text) {
         let contain = { key: 'title', value: text }
-        services.list({ table: 'books', limit: 50, query: services.conditions({ contain }) }).then(res => {
+        services.list({ table: config.tables.books, limit: 50, query: services.conditions({ contain }) }).then(res => {
             const { meta, objects } = res
             let searchList = []
             if (objects) {

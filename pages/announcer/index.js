@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import config from '../../utils/config'
 import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
 
@@ -53,8 +54,8 @@ Page({
     init() {
         const { id = '' } = this.data
         const query = services.conditions({ ins: { key: 'announcers', array: [id] } })
-        const params = { table: 'books', limit: 100, query }
-        services.detail({ id, table: 'announcers' }).then(res => {
+        const params = { table: config.tables.books, limit: 100, query }
+        services.detail({ id, table: config.tables.announcers }).then(res => {
             const { cover, nickName, intro } = res
             this.setData({ dataloaded: true, cover: util.setImageSize(cover) || '', nickName, intro })
             wx.hideLoading()
@@ -88,7 +89,7 @@ Page({
                 let allArr = []
 
                 if (types && types[0]) {
-                    const params = { table: 'types', limit: 1000, query: services.conditions({ ids: types.slice(0, 4) }) }
+                    const params = { table: config.tables.types, limit: 1000, query: services.conditions({ ids: types.slice(0, 4) }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -96,7 +97,7 @@ Page({
                 }
 
                 if (announcers && announcers[0]) {
-                    const params = { table: 'announcers', limit: 1000, query: services.conditions({ ids: announcers }) }
+                    const params = { table: config.tables.announcers, limit: 1000, query: services.conditions({ ids: announcers }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {

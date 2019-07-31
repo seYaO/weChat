@@ -1,5 +1,6 @@
 const app = getApp()
 import util from '../../utils/index'
+import config from '../../utils/config'
 import services from '../../services/index'
 
 let limit = 10 // 每页显示几条数据
@@ -43,10 +44,10 @@ Page({
             query.contain = { key: 'title', value }
         }
         if (authorId) {
-            const pointer = services.getPointer({ table: 'authors', id: authorId })
+            const pointer = services.getPointer({ table: config.tables.authors, id: authorId })
             query.compare = { key: 'authorPointer', operator: '=', value: pointer }
         }
-        const params = { table: 'books', limit, offset, query: services.conditions(query) }
+        const params = { table: config.tables.books, limit, offset, query: services.conditions(query) }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -73,9 +74,9 @@ Page({
 
     getSearch(text) {
         const contain1 = { key: 'nickName', value: text }
-        const params1 = { table: 'announcers', limit: 100, query: services.conditions({ contain: contain1 }) }
+        const params1 = { table: config.tables.announcers, limit: 100, query: services.conditions({ contain: contain1 }) }
         const contain2 = { key: 'name', value: text }
-        const params2 = { table: 'authors', limit: 100, query: services.conditions({ contain: contain2 }) }
+        const params2 = { table: config.tables.authors, limit: 100, query: services.conditions({ contain: contain2 }) }
 
         services.list(params1).then(res => {
             const { meta, objects } = res
@@ -101,7 +102,7 @@ Page({
                 let allArr = []
 
                 if (types && types[0]) {
-                    const params = { table: 'types', limit: 1000, query: services.conditions({ ids: types.slice(0, 4) }) }
+                    const params = { table: config.tables.types, limit: 1000, query: services.conditions({ ids: types.slice(0, 4) }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {
@@ -109,7 +110,7 @@ Page({
                 }
 
                 if (announcers && announcers[0]) {
-                    const params = { table: 'announcers', limit: 1000, query: services.conditions({ ids: announcers }) }
+                    const params = { table: config.tables.announcers, limit: 1000, query: services.conditions({ ids: announcers }) }
                     const res = services.list(params)
                     allArr.push(res)
                 } else {

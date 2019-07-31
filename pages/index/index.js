@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import config from '../../utils/config'
 import wxInfo from '../../utils/wxInfo'
 import services from '../../services/index'
 
@@ -24,9 +25,9 @@ Page({
 
     init() {
 
-        const like = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isLike' }) })
-        const recommend = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isRecommend' }) })
-        const goods = services.list({ table: 'books', limit: 6, query: services.conditions({ hotType: 'isGoods' }) })
+        const like = services.list({ table: config.tables.books, limit: 6, query: services.conditions({ hotType: 'isLike' }) })
+        const recommend = services.list({ table: config.tables.books, limit: 6, query: services.conditions({ hotType: 'isRecommend' }) })
+        const goods = services.list({ table: config.tables.books, limit: 6, query: services.conditions({ hotType: 'isGoods' }) })
 
         Promise.all([like, recommend, goods]).then(res => {
             let arr = ['likeList', 'recommendList', 'goodsList']

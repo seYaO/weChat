@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import config from '../../utils/config'
 import services from '../../services/index'
 const baiduData = require('../../services/baiduData')
 const reg = /\s*,\s*/
@@ -48,7 +49,7 @@ module.exports = {
             list.push({ content: JSON.stringify(item) })
         })
 
-        services.createMany({ table: 'json', list }).then(res => {
+        services.createMany({ table: config.tables.json, list }).then(res => {
             console.log('JSON数据批量新建---', res.succeed)
             getApp().showToast('JSON数据批量新建成功')
         })
@@ -78,7 +79,7 @@ module.exports = {
         if (!this.validate()) return
         const values = this.data.typeValue.split(reg)
 
-        create({ table: 'types', key: 'name', values }, (res) => {
+        create({ table: config.tables.types, key: 'name', values }, (res) => {
             if (res) {
                 console.log('类型数据批量新建---', res.succeed)
                 getApp().showToast('类型数据批量新建成功')
@@ -92,7 +93,7 @@ module.exports = {
         if (!this.validate()) return
         const values = this.data.authorValue.split(reg)
 
-        operation.create({ table: 'authors', key: 'name', values }, (res) => {
+        operation.create({ table: config.tables.authors, key: 'name', values }, (res) => {
             if (res) {
                 console.log('作者数据批量新建---', res.succeed)
                 getApp().showToast('作者数据批量新建成功')
@@ -106,7 +107,7 @@ module.exports = {
         if (!this.validate()) return
         const values = this.data.annValue.split(reg)
 
-        operation.create({ table: 'announcers', key: 'nickName', values }, (res) => {
+        operation.create({ table: config.tables.announcers, key: 'nickName', values }, (res) => {
             if (res) {
                 console.log('播音员数据批量新建---', res.succeed)
                 getApp().showToast('播音员数据批量新建成功')
@@ -136,7 +137,7 @@ module.exports = {
 
         return false
 
-        const params = { table: 'books', list }
+        const params = { table: config.tables.books, list }
         services.createMany(params).then(res => {
             console.log('数据批量新建---', res.succeed)
             getApp().showToast('数据批量新建成功')

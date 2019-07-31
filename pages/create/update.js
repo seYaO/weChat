@@ -1,4 +1,5 @@
 import util from '../../utils/index'
+import config from '../../utils/config'
 import services from '../../services/index'
 import comServices from '../../services/common'
 import create from './create'
@@ -14,7 +15,7 @@ let ximaIndex = 0
 
 module.exports = {
     unique() {
-        const params = { table: 'announcers', limit: 1000 }
+        const params = { table: config.tables.announcers, limit: 1000 }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -29,7 +30,7 @@ module.exports = {
     },
     update() {
         const params = {
-            table: 'books',
+            table: config.tables.books,
             limit: 1000,
             list: [
                 { key: 'isLike', value: false },
@@ -46,9 +47,9 @@ module.exports = {
         if (!this.validate()) return
         const { typeValue, authorValue, annValue, updateId } = this.data
 
-        const typeDatas = services.list({ table: 'types', limit: 1000 })
-        const authorDatas = services.list({ table: 'authors', limit: 1000 })
-        const announcerDatas = services.list({ table: 'announcers', limit: 1000 })
+        const typeDatas = services.list({ table: config.tables.types, limit: 1000 })
+        const authorDatas = services.list({ table: config.tables.authors, limit: 1000 })
+        const announcerDatas = services.list({ table: config.tables.announcers, limit: 1000 })
 
         Promise.all([typeDatas, authorDatas, announcerDatas]).then(res => {
             let key = '', text, arr;
@@ -88,7 +89,7 @@ module.exports = {
             })
             _obj = { [key]: key == 'authorId' ? _value : _arr }
             // console.log(_obj)
-            services.update({ table: 'books', id: updateId, values: _obj }).then(res => {
+            services.update({ table: config.tables.books, id: updateId, values: _obj }).then(res => {
                 console.log('数据更新---', res)
                 getApp().showToast('数据更新成功')
             })
@@ -127,7 +128,7 @@ module.exports = {
         // console.log(arr)
         // console.log(obj)
 
-        const params = { table: 'announcers', limit: 1000 }
+        const params = { table: config.tables.announcers, limit: 1000 }
 
         services.list(params).then(res => {
             const { meta, objects } = res
@@ -166,7 +167,7 @@ module.exports = {
 
             function fn(updateId, _obj) {
                 // console.log('数据更新>>>>>>', updateId, _obj)
-                services.update({ table: 'announcers', id: updateId, values: _obj }).then(res => {
+                services.update({ table: config.tables.announcers, id: updateId, values: _obj }).then(res => {
                     console.log('数据更新---', res)
                     getApp().showToast('数据更新成功')
                 })
@@ -175,7 +176,7 @@ module.exports = {
 
         function create(list) {
             // console.log('播音员数据批量新建>>>>>>', list)
-            services.createMany({ table: 'announcers', list }).then(res => {
+            services.createMany({ table: config.tables.announcers, list }).then(res => {
                 console.log('播音员数据批量新建---', res.succeed)
             })
         }
@@ -183,7 +184,7 @@ module.exports = {
     },
     // 更新作者
     updateAuthor() {
-        const params = { table: 'books', limit: 1000 }
+        const params = { table: config.tables.books, limit: 1000 }
         let list = []
 
         services.list(params).then(res => {
@@ -191,7 +192,7 @@ module.exports = {
 
             objects.map(item => {
                 if (item.authorId) {
-                    const pointer = services.getPointer({ table: 'authors', id: item.authorId })
+                    const pointer = services.getPointer({ table: config.tables.authors, id: item.authorId })
                     fn(item.id, { authorPointer: pointer })
                 }
             })
@@ -199,7 +200,7 @@ module.exports = {
 
         function fn(updateId, _obj) {
             // console.log('数据更新>>>>>>', updateId, _obj)
-            services.update({ table: 'books', id: updateId, values: _obj }).then(res => {
+            services.update({ table: config.tables.books, id: updateId, values: _obj }).then(res => {
                 console.log('数据更新---', res)
                 // getApp().showToast('数据更新成功')
             })
@@ -212,7 +213,7 @@ module.exports = {
         const query = {
             matches: { key: 'title', regExp }
         }
-        const params = { table: 'books', limit: 1000, query: services.conditions(query), list: [{ key: 'isGoods', value: true }] }
+        const params = { table: config.tables.books, limit: 1000, query: services.conditions(query), list: [{ key: 'isGoods', value: true }] }
         services.updateMany(params).then(res => {
             console.log(res)
         })
@@ -346,9 +347,9 @@ module.exports = {
             const typeArr = data.typeValue.split(reg)
             const authorArr = data.authorValue.split(reg)
             const annArr = annValue.split(reg)
-            const params0 = { table: 'types', key: 'name', values: typeArr }
-            const params1 = { table: 'authors', key: 'name', values: authorArr, desc: data.authorIntro } // 作者
-            const params2 = { table: 'announcers', key: 'nickName', values: annArr }
+            const params0 = { table: config.tables.types, key: 'name', values: typeArr }
+            const params1 = { table: config.tables.authors, key: 'name', values: authorArr, desc: data.authorIntro } // 作者
+            const params2 = { table: config.tables.announcers, key: 'nickName', values: annArr }
 
             Promise.all([create.create(params0), create.create(params1), create.create(params2)]).then(res => {
                 selectIds(data)
@@ -361,13 +362,13 @@ module.exports = {
             const announcerArr = data.announcerValue.split(reg)
             const subAnnouncerArr = data.subAnnouncerValue.split(reg)
             const ins0 = { key: 'name', array: typeArr }
-            const params0 = { table: 'types', limit: 100, query: services.conditions({ ins: ins0 }) }
+            const params0 = { table: config.tables.types, limit: 100, query: services.conditions({ ins: ins0 }) }
             const ins1 = { key: 'name', array: authorArr }
-            const params1 = { table: 'authors', limit: 100, query: services.conditions({ ins: ins1 }) }
+            const params1 = { table: config.tables.authors, limit: 100, query: services.conditions({ ins: ins1 }) }
             const ins2 = { key: 'nickName', array: announcerArr }
-            const params2 = { table: 'announcers', limit: 100, query: services.conditions({ ins: ins2 }) }
+            const params2 = { table: config.tables.announcers, limit: 100, query: services.conditions({ ins: ins2 }) }
             const ins3 = { key: 'nickName', array: subAnnouncerArr }
-            const params3 = { table: 'announcers', limit: 100, query: services.conditions({ ins: ins3 }) }
+            const params3 = { table: config.tables.announcers, limit: 100, query: services.conditions({ ins: ins3 }) }
             const arr = [typeArr, authorArr, announcerArr, subAnnouncerArr]
 
             // console.log(arr)
@@ -383,7 +384,7 @@ module.exports = {
                             break;
                         case 1:
                             obj.authorId = String(ids);
-                            obj.authorPointer = services.getPointer({ table: 'authors', id: obj.authorId })
+                            obj.authorPointer = services.getPointer({ table: config.tables.authors, id: obj.authorId })
                             break;
                         case 2:
                             obj.announcers = ids;
@@ -411,7 +412,7 @@ module.exports = {
 
         function update(id, values) {
             // console.log({ id, values })
-            services.update({ table: 'books', id, values }).then(res => {
+            services.update({ table: config.tables.books, id, values }).then(res => {
                 console.log('数据更新---', ximaIndex)
                 // getApp().showToast('数据更新成功')
                 // 下一个

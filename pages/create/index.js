@@ -1,5 +1,6 @@
 const app = getApp()
 import util from '../../utils/index'
+import config from '../../utils/config'
 import comServices from '../../services/common'
 import services from '../../services/index'
 import create from './create'

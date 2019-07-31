@@ -5,7 +5,7 @@ module.exports = {
         types: 'types', // 类型
         authors: 'authors', // 作者
         announcers: 'announcers', // 播音
-        // books: 'books', // 书
-        books: 'booksTest', // 书 测试
+        books: 'books', // 书
+        // books: 'booksTest', // 书 测试
     },
 }

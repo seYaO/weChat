@@ -1,0 +1,9 @@
+花千骨（多人小说剧）
+
+metas  [types]
+detailRichIntro  [intro]
+cover [cover]
+
+https://www.ximalaya.com/revision/album?albumId=18741946
+https://www.ximalaya.com/revision/album/v1/getTracksList?albumId=18741946&pageSize=600&pageNum=1
+https://m.lrts.me/ajax/getAlbumInfo?id=69288

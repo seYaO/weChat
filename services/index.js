@@ -1,138 +1,184 @@
-const { https, apiPrefix } = require('../utils/index');
-const { loginType } = require('../utils/config');
-
 /**
- * 用户信息
- * @param {*} cb 
+ * 比较查询
+ * query.compare(key, operator, value)
+ * operator 包含 =, !=, <, <=, >, >=
+ * query.compare('amount', '>',  1)
+ * query.compare('amount', '>',  1) 多个查询
+ * 
+ * 字符串查询
+ * query.contains('name', 'apple')
+ * query.matches('name', regExp)  正则匹配
+ * 
+ * 数组查询
+ * query.in(fieldName, array)  field 的类型不限制，field 的 value 含有 array 中的一个或多个
+ * query.notIn(fieldName, array)  field 的类型不限制，field 的 value 不含有 array 中的任何一个
+ * query.arrayContains(fieldName, array)  field 的类型必须为数组, field 的 value 包含 array 中的每一个 ( * sdk version >= v1.1.1 )
+ * query.compare(fieldName, '=', array)  如果希望查找数组中只包含指定数组中所有的值的记录，可以使用比较查询
+ * 
+ * null 或非 null 查询
+ * query.isNull('name')
+ * query.isNull(['name', 'price'])
+ * query.isNotNull('name')
+ * query.isNotNull(['name', 'price'])
+ * 
+ * 空或非空查询
+ * query.exists('name')
+ * query.exists(['name', 'price'])
+ * query.notExists('name')
+ * query.notExists(['name', 'price'])
  */
-const getUserInfo = (cb) => {
-    wx.login({
-        success(res){
-            const { code } = res;
-            if(!code) return;
 
-            wx.getUserInfo({
-                success(_res){
-                    const { ...other } = _res;
-                    return typeof cb === 'function' && cb(null, { code, ...other });
-                },
-                fail(err){
-                    return typeof cb === 'function' && cb(err);
-                    console.log(err)
-                }
-            });
-        }
-    })
-}
 
-/**
- * 登陆信息
- * @param {*} param0 
- * @param {*} cb 
- * GET /login
- */
-const login = ({ code, iv, encryptedData }, cb) => {
-    let params = { code, iv, encryptedData, types: loginType };
-    https({
-        url: `${apiPrefix}/login`,
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    })
-}
+// let query1 = new wx.BaaS.Query()
+// query1.contains('title', '一')
+// let query2 = new wx.BaaS.Query()
+// query2.contains('title', '光')
+// // //...
 
-/**
- * 发起活动列表接口
- * @param {*} param0 
- * @param {*} cb 
- * GET /open/lvyou/product/getProducts
- */
-const sponsors = ({ params, header = {} }, cb) => {
-    https({
-        url: `${apiPrefix}/party/created/list`,
-        header,
-        method: 'post',
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    });
-}
+// // // and 查询
+// let andQuery = wx.BaaS.Query.and(query1, query2)
 
-/**
- * 发起活动接口
- * @param {*} param0 
- * @param {*} cb 
- * GET /part/add
- */
-const sponsor = ({ params, header = {} }, cb) => {
-    https({
-        url: `${apiPrefix}/party/add`,
-        header,
-        method: 'post',
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    });
-}
+// // or 查询中包含 and 查询
+// let query3 = new wx.BaaS.Query()
+// query3.contains('title', '一')
+// let query4 = new wx.BaaS.Query()
+// // query4.contains('title', '光')
+// let orQuery = wx.BaaS.Query.or(query4)
 
-/**
- * 投票
- * @param {*} param0 
- * @param {*} cb 
- * GET /part/add
- */
-const participate = ({ params, header = {} }, cb) => {
-    https({
-        url: `${apiPrefix}/vote/add`,
-        header,
-        method: 'post',
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    });
-}
 
-/**
- * 参与活动列表接口
- * @param {*} param0 
- * @param {*} cb 
- * GET /open/lvyou/product/getProducts
- */
-const participates = ({ params, header = {} }, cb) => {
-    https({
-        url: `${apiPrefix}/party/joined/list`,
-        header,
-        method: 'post',
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    });
-}
 
-/**
- * 详情页初始化数据--产品详情接口
- * @param {*} param0 
- * @param {*} cb 
- * GET /party/detail
- */
-const detail = ({ params, header = {} }, cb) => {
-    https({
-        url: `${apiPrefix}/party/detail`,
-        header,
-        data: params
-    }, (err, res) => {
-        typeof cb === 'function' && cb(res);
-    });
-}
-
+// // query.contains('title', '一')
+// // let regExp = /宝|光/i
+// // query.matches('title', regExp)
+// // query.in('id', ['5d29996ac1be5355431697da', '5d29996ac1be5355431697f5'])
 
 module.exports = {
-    getUserInfo, // 用户信息
-    login, // 登陆信息
-    sponsor,
-    participate,
-    sponsors, // 发起活动列表
-    participates, // 参与活动列表
-    detail, // 详情页
+    conditions(options) {
+        const query = new wx.BaaS.Query()
+        // 特殊字段判断
+        if (options.hotType) {
+            query.compare(options.hotType, '=', true)
+        }
+        if (options.ids) {
+            query.in('id', options.ids)
+        }
+        if (options.ins) {
+            const { key, array } = options.ins
+            query.in(key, array)
+        }
+
+        // 普遍字段判断
+        if (options.compare) { // 比较查询
+            const { key, operator, value } = options.compare
+            query.compare(key, operator, value)
+        }
+        if (options.contain) { // 字符串查询
+            const { key, value } = options.contain
+            query.contains(key, value)
+        }
+        if (options.contains) { // 字符串查询
+            options.contains.map(item => {
+                query.contains(item.key, item.value)
+            })
+        }
+        if (options.matches) { // 正则
+            const { key, regExp } = options.matches
+            query.matches(key, regExp)
+        }
+        // let regExp = /梦回大清|倾城之恋|诛砂|香蜜沉沉|簪中录|执子之手/i
+        // query.matches('title', regExp)
+        return query
+    },
+    getPointer({ table, id }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        return MyTableObject.getWithoutData(id)
+    },
+    // 查询数据列表---无条件
+    list({ table, limit = 10, offset = 0, query, andQuery, orQuery, expand = [], orderBy = '-created_at' }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        query = query || new wx.BaaS.Query()
+        if (andQuery) {
+            query = andQuery
+        }
+        if (orQuery) {
+            query = orQuery
+        }
+        MyTableObject.setQuery(query)
+        // if (expand) {
+        //     // MyTableObject.expand(['authorPointer'])
+        //     MyTableObject.expand(expand)
+        // }
+
+        return new Promise((resolve, reject) => {
+            MyTableObject.setQuery(query).expand(expand).orderBy(orderBy).limit(limit).offset(offset * limit).find().then(res => {
+                resolve(res.data)
+            })
+        })
+    },
+    // 查询数据列表---and
+    listAnd() { },
+    // 查询单条数据
+    detail({ table, id, expand = [] }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        return new Promise((resolve, reject) => {
+            MyTableObject.expand(expand).get(id).then(res => {
+                resolve(res.data)
+            })
+        })
+    },
+    // 数据批量新建
+    createMany({ table, list }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        return new Promise((resolve, reject) => {
+            MyTableObject.createMany(list).then(res => {
+                resolve(res.data)
+            })
+        })
+    },
+    // 新增数据
+    create({ table, id }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+
+    },
+    // 数据批量更新
+    updateMany({ table, limit = 10, offset = 0, list = [], query, andQuery, orQuery }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        query = query || new wx.BaaS.Query()
+        if (andQuery) {
+            query = andQuery
+        }
+        if (orQuery) {
+            query = orQuery
+        }
+        const records = MyTableObject.limit(limit).offset(offset * limit).getWithoutData(query)
+        list.map(item => {
+            records.set(item.key, item.value)
+        })
+
+        return new Promise((resolve, reject) => {
+            records.update().then(res => {
+                resolve(res.data)
+            })
+        })
+    },
+    // 更新数据
+    update({ table, id, values }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        const product = MyTableObject.getWithoutData(id)
+        return new Promise((resolve, reject) => {
+            product.set(values).update().then(res => {
+                resolve(res.data)
+            })
+        })
+    },
+    // 删除数据
+    delete({ table, id }) {
+        const MyTableObject = new wx.BaaS.TableObject(table)
+        return new Promise((resolve, reject) => {
+            MyTableObject.delete(id).then(res => {
+                resolve(res.data)
+            })
+        })
+    }
 }
 

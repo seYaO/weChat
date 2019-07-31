@@ -88,53 +88,6 @@ function isNotEmptyString(str) {
     return typeof str === "string" && str !== "";
 }
 
-
-/**
- * 格式化时间
- * @param date Date 时间
- * @param format 格式化 "yyyy-MM-dd hh:mm:ss www"=format
- * @returns {string} 格式化后字符串
- */
-function format(date, format) {
-    if (typeof date == 'string') {
-        date = this.parseDate(date)
-    }
-    var o = {
-        "M+": date.getMonth() + 1,
-        "d+": date.getDate(),
-        "h+": date.getHours(),
-        "m+": date.getMinutes(),
-        "s+": date.getSeconds(),
-        "q+": Math.floor((date.getMonth() + 3) / 3),
-        "S": date.getMilliseconds()
-    };
-
-    var w = [
-        ['日', '一', '二', '三', '四', '五', '六'],
-        ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-        ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
-    ];
-
-
-    if (/(y+)/.test(format)) {
-        format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-
-    if (/(w+)/.test(format)) {
-        format = format.replace(RegExp.$1, w[RegExp.$1.length - 1][date.getDay()]);
-    }
-    for (var k in o) {
-        if (new RegExp("(" + k + ")").test(format)) {
-            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
-        }
-    }
-    return format;
-}
-
-function parseDate(date) {
-    return new Date(Date.parse(date.replace(/-/g, "/")));
-}
-
 /**
  * 小数位数处理
  * @param {*} price 
@@ -155,49 +108,91 @@ const getDecimal = (value, number) => {
     return Number(value);
 }
 
-/**
- * 列表页面防抖处理
- * @param {*} url 
- * @param {*} size 
- */
-const throttle = (func, delay, mustRunDelay) => {
+const newline = (str = '') => {
+    str = str.replace(/\\n/g, "<br/>")
+    str = str.replace(/\r\n/g, "<br/>")
+    str = str.replace(/\n/g, "<br/>")
+    return str
+}
 
-    var startTime = null,
-        timer = null;
-    return (function() {
-        var context = this,
-            args = arguments,
-            currentTime;
-        clearTimeout(timer);
-        if (!startTime) {
-            startTime = Date.now();
+/**
+ * 图片地址处理
+ * @param {*} url 
+ * https://imagev2.xmcdn.com/group29/M07/D2/D6/wKgJWVlgT1iwnJJzAAGe1uBYMMs847.jpg
+ * https://bookpic.lrts.me/49ccee6f1b2f4aaebba56d11eea1db56.jpg
+ */
+const setImageSize = (url) => {
+    if (!url) {
+        return null;
+    }
+
+    if (url.indexOf("imagev2.xmcdn.com") > -1) {
+        url = `${url}!strip=1&quality=7&magick=jpg&op_type=5&upload_type=album&name=mobile_large&device_type=ios`
+    }
+
+    return url
+}
+
+function uniq(array) {
+    var temp = [];
+    var index = [];
+    var l = array.length;
+    for (var i = 0; i < l; i++) {
+        for (var j = i + 1; j < l; j++) {
+            if (array[i] === array[j]) {
+                i++;
+                j = i;
+            }
         }
-        currentTime = Date.now();
-        if (currentTime - startTime >= mustRunDelay) {
-            func.apply(context, args);
-            startTime = null;
-            clearTimeout(timer);
-        } else {
-            timer = setTimeout(function() {
-                func.apply(context, args);
-                startTime = null;
-                clearTimeout(timer);
-            }, delay);
-        }
+        temp.push(array[i]);
+        index.push(i);
+    }
+    return temp;
+}
+
+// 关键字标亮
+function highLightWord(title = '', key = []) {
+    let keyList = [],
+        highLightArr = [];
+
+    key.map(item => {
+        let items = item.split('');
+        items.map((item) => {
+            keyList.push(item)
+        })
     })
+    keyList = uniq(keyList);
+    let keyStr = keyList.join('')
+
+    if (key.length) {
+        title.split('').map(elem => {
+            if (keyStr.indexOf(elem) != -1) {
+                highLightArr.push({
+                    title: elem,
+                    isHighLight: true,
+                })
+            } else {
+                highLightArr.push({
+                    title: elem,
+                    isHighLight: false,
+                })
+            }
+        })
+    }
+    return highLightArr;
 }
 
 
 module.exports = {
     extend,
     isNotEmptyString,
-    format,
-    parseDate,
     trim,
     unique,
     isFunction,
     isObject,
     isArray,
     getDecimal,
-    throttle,
+    newline,
+    setImageSize,
+    highLightWord,
 }

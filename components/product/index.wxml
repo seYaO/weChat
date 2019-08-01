@@ -5,7 +5,7 @@
     title="{{ values.title }}"
     desc="{{ values.desc }}"
     custom-class="product"
-    thumb-class="thumb"
+    thumb-class="thumb shadow--right-bottom"
     title-class="van-multi-ellipsis--l2"
     desc-class="desc van-ellipsis"
     

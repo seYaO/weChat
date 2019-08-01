@@ -36,7 +36,7 @@
                     <view class="cols">
                         <block wx:for="{{likeList}}" wx:key="index">
                             <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <image class="img shadow--right-bottom" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
                                 <view class="tit">{{item.title}}</view>
                             </view>
                         </block>
@@ -57,7 +57,7 @@
                     <view class="cols">
                         <block wx:for="{{recommendList}}" wx:key="index">
                             <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <image class="img shadow--right-bottom" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
                                 <view class="tit">{{item.title}}</view>
                             </view>
                         </block>
@@ -78,7 +78,7 @@
                     <view class="cols">
                         <block wx:for="{{goodsList}}" wx:key="index">
                             <view class="col" bind:tap="openDetail" data-id="{{item.id}}">
-                                <image class="img" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
+                                <image class="img shadow--right-bottom" lazy-load="{{true}}" src="{{item.minImgUrl}}" />
                                 <view class="tit">{{item.title}}</view>
                             </view>
                         </block>

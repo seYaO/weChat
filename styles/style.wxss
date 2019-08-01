@@ -15,6 +15,7 @@
     right: 30rpx;
     z-index: 1;
 }
+
 /* 
  * ------------------------------------------------------------------
  * ------------------------------------------------------------------
@@ -206,4 +207,12 @@
     transform: translate(-50%);
     box-shadow: 0 3rpx 3rpx #eceef1;
     transition: all 0.3s ease-in-out;
+}
+
+/* --- */
+.wx-cover,
+.list-cover::after {
+    height: 100%;
+    background: linear-gradient(right, #FFF, rgba(255, 255, 255, .1)) !important;
+    background: -webkit-linear-gradient(right, #FFF, rgba(255, 255, 255, .1)) !important;
 }

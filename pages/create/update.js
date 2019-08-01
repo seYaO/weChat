@@ -30,7 +30,7 @@ module.exports = {
     },
     update() {
         const params = {
-            table: config.tables.books,
+            table: 'books',
             limit: 1000,
             list: [
                 { key: 'isLike', value: false },
@@ -38,9 +38,9 @@ module.exports = {
                 { key: 'isGoods', value: false }
             ]
         }
-        services.updateMany(params).then(res => {
-            console.log(res)
-        })
+        // services.updateMany(params).then(res => {
+        //     console.log(res)
+        // })
     },
     // 更新部分字段
     updateBaidu() {

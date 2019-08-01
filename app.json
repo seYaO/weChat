@@ -68,6 +68,7 @@
         "project-product": "./components/product/index",
         "project-navbar": "./components/navbar/index",
         "project-skeleton": "./components/skeleton/index",
+        "popMask": "./components/popMask/index",
         "wxparser": "plugin://wxparserPlugin/wxparser",
         "htmltowxml": "plugin://htmltowxml/view"
     },

@@ -83,3 +83,12 @@
     color: #999;
     width: 550rpx;
 }
+
+.dir-scroll-content {
+    padding: 20rpx;
+    background: #fff;
+}
+
+.dir-list {
+    padding: 20rpx 0;
+}

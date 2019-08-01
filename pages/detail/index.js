@@ -14,6 +14,15 @@ Page({
         dataloaded: false,
     },
 
+    // 配置项
+    setConfig() {
+        this.dirMask = this.selectComponent("#dirMask")
+        this.dirMask.setConfig({
+            title: '目录结构',
+            // scrollToView: true
+        });
+    },
+
     init() {
         // wxInfo.getCurrentPages()
 
@@ -25,6 +34,7 @@ Page({
             let announcerIntro = res.announcerIntro || ''
             let figureIntro = res.figureIntro || ''
             let minImgUrl = util.setImageSize(res.headerImgUrl) || ''
+            let directory = ''
             if (intro) {
                 intro = util.newline(intro)
             }
@@ -34,8 +44,17 @@ Page({
             if (figureIntro) {
                 figureIntro = util.newline(figureIntro)
             }
+            if (res.directory) {
+                let arr = JSON.parse(res.directory)
+                directory = []
+                arr.map((item, index) => {
+                    let num = index + 1
+                    directory.push({ num: ('000' + num).slice(-3), title: item })
+                })
+                // directory = JSON.parse(res.directory)
+            }
 
-            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro, authorObj: res.authorPointer }, () => {
+            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro, authorObj: res.authorPointer, directory }, () => {
                 this.updateData()
             })
         })
@@ -112,6 +131,7 @@ Page({
     onLoad(options) {
         wx.showLoading({ title: '加载中' })
         this.setData({ ...options })
+        this.setConfig()
 
         this.init()
     },
@@ -126,6 +146,12 @@ Page({
         wx.navigateTo({
             url: `/pages/announcer/index?id=${values.id}`,
         })
+    },
+
+    openDir() {
+        const { directory } = this.data
+
+        this.dirMask.showPopMasker()
     },
 
     openAuthor() {

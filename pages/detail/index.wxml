@@ -50,6 +50,14 @@
                 </swiper>
             </view>
         </view>
+        <view class="sBox" wx:if="{{directory}}">
+            <view class="aBox" bind:tap="openDir">
+                <view class="sflex">
+                    <view class="tx1 tit">目录</view>
+                    <image class="arrow" src="https://file.40017.cn/top/minapp/scenery/arrow_right2.png"></image>
+                </view>
+            </view>
+        </view>
         <view class="sBox" wx:if="{{intro}}">
             <view class="aBox">
                 <view class="sflex">
@@ -93,3 +101,16 @@
         </view>
     </view>
 </view>
+
+<popMask id='dirMask' style="z-index: 99; position: relative;">
+    <view class="dir-scroll-content">
+        <scroll-view scroll-y="true" style="height:100%">
+            <block wx:for="{{directory}}" wx:key="index">
+                <view class="dir-list van-hairline--bottom">
+                    <van-tag color="#f2826a" plain>{{item.num}}</van-tag>
+                    <text class="">{{item.title}}</text>
+                </view>
+            </block>
+        </scroll-view>
+    </view>
+</popMask>

@@ -143,4 +143,38 @@ module.exports = {
             getApp().showToast('数据批量新建成功')
         })
     },
+    createToBook() {
+        const ids = ['5d3dbaf6f3231513d3b735d4', '5d3dba5ef3231513d3b73471', '5d3dba5ef3231513d3b73473', '5d29996ac1be5355431697d5', '5d29996ac1be5355431697d7', '5d29996ac1be5355431697dc', '5d29996ac1be5355431697e5', '5d29996ac1be5355431697e1', '5d29996ac1be5355431697dd', '5d29996ac1be535543169841', '5d29996ac1be535543169840', '5d29996ac1be535543169839', '5d29996ac1be535543169838']
+        const params = { table: config.tables.books, limit: 50, query: services.conditions({ ids }) }
+
+        services.list(params).then(res => {
+            const { meta, objects } = res
+            let list = []
+
+            objects.map(item => {
+                const { announcers, authorId, headerImgUrl, intro, title, types } = item
+                list.push({
+                    announcers, authorId, headerImgUrl, intro, title, types,
+                    authorPointer: services.getPointer({ table: config.tables.authors, id: authorId })
+                })
+            })
+            // console.log(list)
+
+            services.createMany({ table: 'books', list }).then(res => {
+                console.log('数据批量新建---', res.succeed)
+                getApp().showToast('数据批量新建成功')
+            })
+        })
+
+        // const params = {
+        //     table: 'books',
+        //     limit: 1000,
+        //     list: [
+        //         { key: 'cloudDownload', value: '' },
+        //     ]
+        // }
+        // services.updateMany(params).then(res => {
+        //     console.log(res)
+        // })
+    },
 }

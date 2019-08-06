@@ -70,19 +70,9 @@
         "project-navbar": "./components/navbar/index",
         "project-skeleton": "./components/skeleton/index",
         "project-parser": "./components/parser/index",
-        "popMask": "./components/popMask/index",
-        "wxparser": "plugin://wxparserPlugin/wxparser",
-        "htmltowxml": "plugin://htmltowxml/view"
+        "project-html2wxml": "./components/html2wxml/index",
+        "popMask": "./components/popMask/index"
     },
-    "plugins": {
-        "wxparserPlugin": {
-            "version": "0.2.1",
-            "provider": "wx9d4d4ffa781ff3ac"
-        },
-        "htmltowxml": {
-            "version": "1.4.0",
-            "provider": "wxa51b9c855ae38f3c"
-        }
-    },
+    "plugins": {},
     "sitemapLocation": "sitemap.json"
 }

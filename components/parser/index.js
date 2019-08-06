@@ -46,6 +46,7 @@ Component({
                     })
                 } else if (typeof html == 'string') {
                     html2nodes(html, this.data.tagStyle).then(res => {
+                        console.log(res)
                         this.setData({
                             nodes: res.nodes,
                             controls: {
@@ -153,9 +154,16 @@ Component({
         },
         //内部方法
         _previewImg(e) {
+            console.log('_previewImg >>>>>>>>', e)
             wx.previewImage({
                 current: e.detail,
                 urls: this.imgList.length ? this.imgList : [e.detail],
+                success(res) {
+                    console.log('_previewImg success >>>>>>>>', res)
+                },
+                fail(err) {
+                    console.log('_previewImg fail >>>>>>>>', err)
+                },
             })
         },
         _playVideo(e) {

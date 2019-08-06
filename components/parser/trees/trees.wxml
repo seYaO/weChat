@@ -1,4 +1,3 @@
-<!-- Parser/trees/trees.wxml -->
 <wxs module="cssHandler" src="./cssHandler.wxs" />
 <block wx:for='{{nodes}}' wx:key>
     <block wx:if="{{!item.continue}}">

@@ -7,7 +7,8 @@
         "pages/create/index",
         "pages/userInfo/index",
         "pages/announcer/index",
-        "pages/author/index"
+        "pages/author/index",
+        "pages/test/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -68,6 +69,7 @@
         "project-product": "./components/product/index",
         "project-navbar": "./components/navbar/index",
         "project-skeleton": "./components/skeleton/index",
+        "project-parser": "./components/parser/index",
         "popMask": "./components/popMask/index",
         "wxparser": "plugin://wxparserPlugin/wxparser",
         "htmltowxml": "plugin://htmltowxml/view"

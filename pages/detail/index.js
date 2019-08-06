@@ -54,7 +54,7 @@ Page({
                 // directory = JSON.parse(res.directory)
             }
 
-            this.setData({ minImgUrl, datas: res, intro, announcerIntro, figureIntro, authorObj: res.authorPointer, directory }, () => {
+            this.setData({ minImgUrl, datas: res, authorObj: res.authorPointer, directory }, () => {
                 this.updateData()
             })
         })

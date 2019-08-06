@@ -58,17 +58,17 @@
                 </view>
             </view>
         </view>
-        <view class="sBox" wx:if="{{intro}}">
+        <view class="sBox" wx:if="{{datas.intro}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">内容概述</view>
                 </view>
             </view>
             <view class="intro van-hairline--top">
-                <wxparser rich-text="{{intro}}" />
+                <project-parser html="{{datas.intro}}" img-mode="widthFix"/>
             </view>
         </view>
-        <view class="sBox" wx:if="{{authorIntro}}">
+        <view class="sBox" wx:if="{{authorObj.intro}}">
             <view class="aBox">
                 <view class="sflex" bind:tap="openAuthor">
                     <view class="tx1 tit">作者简介</view>
@@ -76,27 +76,27 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
-                <wxparser rich-text="{{authorIntro}}" />
+                <project-parser html="{{authorObj.intro}}" img-mode="widthFix"/>
             </view>
         </view>
-        <view class="sBox" wx:if="{{announcerIntro}}">
+        <view class="sBox" wx:if="{{datas.announcerIntro}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">主播简介</view>
                 </view>
             </view>
             <view class="intro van-hairline--top">
-                <wxparser rich-text="{{announcerIntro}}" />
+                <project-parser html="{{datas.announcerIntro}}" img-mode="widthFix"/>
             </view>
         </view>
-        <view class="sBox" wx:if="{{figureIntro}}">
+        <view class="sBox" wx:if="{{datas.figureIntro}}">
             <view class="aBox">
                 <view class="sflex">
                     <view class="tx1 tit">人物形象</view>
                 </view>
             </view>
             <view class="intro van-hairline--top">
-                <wxparser rich-text="{{figureIntro}}" />
+                <project-parser html="{{datas.figureIntro}}" img-mode="widthFix"/>
             </view>
         </view>
     </view>

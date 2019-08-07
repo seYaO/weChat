@@ -65,6 +65,7 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <!-- <htmltowxml text="{{datas.intro}}" /> -->
                 <project-parser html="{{datas.intro}}" img-mode="widthFix"/>
             </view>
         </view>
@@ -76,6 +77,7 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <!-- <htmltowxml text="{{authorObj.intro}}" /> -->
                 <project-parser html="{{authorObj.intro}}" img-mode="widthFix"/>
             </view>
         </view>
@@ -86,6 +88,7 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <!-- <htmltowxml text="{{datas.announcerIntro}}" /> -->
                 <project-parser html="{{datas.announcerIntro}}" img-mode="widthFix"/>
             </view>
         </view>
@@ -96,6 +99,7 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <!-- <htmltowxml text="{{datas.figureIntro}}" /> -->
                 <project-parser html="{{datas.figureIntro}}" img-mode="widthFix"/>
             </view>
         </view>

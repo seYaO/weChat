@@ -1,3 +1,4 @@
 <!-- <project-parser html="{{html}}" img-mode="widthFix"/> -->
-<project-parser html="{{text}}" type="md" img-mode="widthFix"/>
+<htmltowxml text="{{html}}" />
+<!-- <htmltowxml text="{{text}}" type="md" /> -->
 

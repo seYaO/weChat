@@ -136,6 +136,7 @@ Parser.prototype.write = function (chunk) {
 };
 
 function html2nodes(data, tagStyle) {
+    // debugger
     return new Promise(function (resolve, reject) {
         try {
             let style = '';

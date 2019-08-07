@@ -1,5 +1,6 @@
 //Parser组件
 const html2nodes = require('./Parser.js');
+const showdown = require('./showdown')
 const initData = function (Component) {
     setTimeout(() => {
         Component.createSelectorQuery().select('#contain').boundingClientRect(res => {
@@ -45,8 +46,13 @@ Component({
                         nodes: []
                     })
                 } else if (typeof html == 'string') {
+                    if (this.data.type == 'md' || this.data.type == 'markdown') {
+                        var converter = new showdown.Converter();
+                        html = converter.makeHtml(html);
+                    }
+
                     html2nodes(html, this.data.tagStyle).then(res => {
-                        console.log(res)
+                        console.log('string >>>>>', res, this.data.tagStyle)
                         this.setData({
                             nodes: res.nodes,
                             controls: {
@@ -100,6 +106,10 @@ Component({
                     });
                 }
             }
+        },
+        type: {
+            type: String,
+            value: 'html'
         },
         'autocopy': {
             type: Boolean,

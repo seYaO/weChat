@@ -70,7 +70,6 @@
         "project-navbar": "./components/navbar/index",
         "project-skeleton": "./components/skeleton/index",
         "project-parser": "./components/parser/index",
-        "project-html2wxml": "./components/html2wxml/index",
         "popMask": "./components/popMask/index"
     },
     "plugins": {},

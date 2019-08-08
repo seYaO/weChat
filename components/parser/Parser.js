@@ -1,6 +1,7 @@
 //Parser.js
 const Tokenizer = require("./Tokenizer.js");
 const DomHandler = require("./DomHandler.js");
+const hljs = require('./highlight/index')
 const trustAttrs = {
     align: true,
     alt: true,
@@ -132,6 +133,7 @@ Parser.prototype.onend = function () {
     });
 };
 Parser.prototype.write = function (chunk) {
+    // console.log('html2nodes write >>>>>>>>>',chunk)
     this._tokenizer.parse(chunk);
 };
 
@@ -140,12 +142,27 @@ function html2nodes(data, tagStyle) {
     return new Promise(function (resolve, reject) {
         try {
             let style = '';
-            data = data.replace(/<style.*?>([\s\S]*?)<\/style>/gi, function () {
-                console.log('html2nodes >>>',arguments)
-                style += arguments[1];
+            data = data.replace(/<style.*?>([\s\S]*?)<\/style>/gi, function (...args) {
+                // console.log('html2nodes style >>>>>>>>>',arguments)
+                style += args[1];
                 return '';
             });
+            data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
+                let reg = /<code.*?>([\s\S]*?)<\/code>/gi, _html = args[1]
+                if (args[1].match(reg)) {
+                    _html = _html.replace(reg, function (..._args) {
+                        const result = hljs.highlightAuto(_args[1])
+                        return result.value
+                    })
+                } else {
+                    const result = hljs.highlightAuto(_args[1])
+                    _html = result.value
+                }
+                _html = `<pre>${_html}</pre>`
+                return _html;
+            });
             let handler = new DomHandler(style, tagStyle);
+            // console.log('html2nodes handler >>>>>>>>>', data)
             new Parser(handler, (res) => {
                 return resolve(res);
             }).write(data);

@@ -17,3 +17,8 @@
 - `pages/list/index`
 - `pages/detail/index`
 - `pages/announcer/index`
+
+## demo
+
+- 仿网易云音乐demo下载地址：http://t.cn/EJqmdq5
+- 精品demo实战项目下载地址：http://t.cn/ExJMe95

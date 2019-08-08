@@ -10,6 +10,10 @@
         "pages/author/index",
         "pages/test/index"
     ],
+    "requiredBackgroundModes": [
+        "audio",
+        "location"
+    ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#ff5346",
@@ -70,6 +74,7 @@
         "project-navbar": "./components/navbar/index",
         "project-skeleton": "./components/skeleton/index",
         "project-parser": "./components/parser/index",
+        "project-html2wxml": "./components/html2wxml/html2wxml",
         "popMask": "./components/popMask/index",
         "wxparser": "plugin://wxparserPlugin/wxparser",
         "htmltowxml": "plugin://htmltowxml/view"

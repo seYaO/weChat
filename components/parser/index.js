@@ -1,6 +1,9 @@
 //Parser组件
 const html2nodes = require('./Parser.js');
-const showdown = require('./showdown')
+// const showdown = require('./showdown')
+const showdown = require('./showdown-2.0.0')
+const hljs = require('./highlight/index')
+
 const initData = function (Component) {
     setTimeout(() => {
         Component.createSelectorQuery().select('#contain').boundingClientRect(res => {
@@ -29,6 +32,13 @@ Component({
             type: null,
             value: '',
             observer: function (html) {
+                // 
+                // hljs.registerLanguage('css', '.box {  display: flex;}');
+                // hljs.highlightAuto(event.data)
+                // console.log(hljs)
+
+
+
                 let hideAnimation = {},
                     showAnimation = {};
                 if (this.data.showWithAnimation) {
@@ -50,6 +60,10 @@ Component({
                         var converter = new showdown.Converter();
                         html = converter.makeHtml(html);
                     }
+                    // console.log('html >>>>>>>>',html)
+                    // let ss = `    `
+                    // const result = hljs.highlightAuto(ss)
+                    // console.log('hljs >>>>>>>>>',result)
 
                     html2nodes(html, this.data.tagStyle).then(res => {
                         console.log('string >>>>>', res, this.data.tagStyle)

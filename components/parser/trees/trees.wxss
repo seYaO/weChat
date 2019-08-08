@@ -49,6 +49,14 @@
     text-decoration: underline;
 }
 
+.pre {
+    white-space: pre;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #ececec;
+    border-radius: 6px;
+}
+
 .code {
     display: inline;
     font-family: monospace;

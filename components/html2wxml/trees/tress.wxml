@@ -1,0 +1,11 @@
+<block wx:for='{{nodes}}' wx:key>
+    <block wx:if="{{!item.continue}}">
+        文本内容  
+    </block>
+    <!-- 链接 -->
+    <!-- <navigator wx:elif="{{item.name=='a'}}" url="{{item.attrs.href}}" style="{{item.attrs.style}}" data-href='{{item.attrs.href}}' hover-class="navigator-hover" bindtap="tapEvent">
+        <trees id="node" nodes="{{item.children}}" controls="{{controls}}" />
+    </navigator> -->
+    <!-- 继续递归 -->
+    <trees wx:else id="node" class="{{item.name}}" style="{{item.attrs.style}}" nodes="{{item.children}}" controls="{{controls}}" />
+</block>

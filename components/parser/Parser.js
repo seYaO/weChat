@@ -141,6 +141,7 @@ function html2nodes(data, tagStyle) {
         try {
             let style = '';
             data = data.replace(/<style.*?>([\s\S]*?)<\/style>/gi, function () {
+                console.log('html2nodes >>>',arguments)
                 style += arguments[1];
                 return '';
             });

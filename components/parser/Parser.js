@@ -1,6 +1,7 @@
 //Parser.js
 const Tokenizer = require("./Tokenizer.js");
 const DomHandler = require("./DomHandler.js");
+const Discode = require('./Discode')
 const hljs = require('./highlight/index')
 const trustAttrs = {
     align: true,
@@ -133,8 +134,10 @@ Parser.prototype.onend = function () {
     });
 };
 Parser.prototype.write = function (chunk) {
-    // console.log('html2nodes write >>>>>>>>>',chunk)
+    // console.log('html2nodes write >>>>>>>>>')
     this._tokenizer.parse(chunk);
+    // console.log('html2nodes write >>>>>>>>>', this._cbs)
+
 };
 
 function html2nodes(data, tagStyle) {
@@ -143,27 +146,35 @@ function html2nodes(data, tagStyle) {
         try {
             let style = '';
             data = data.replace(/<style.*?>([\s\S]*?)<\/style>/gi, function (...args) {
-                // console.log('html2nodes style >>>>>>>>>',arguments)
                 style += args[1];
                 return '';
             });
             data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
-                let reg = /<code.*?>([\s\S]*?)<\/code>/gi, _html = args[1]
+
+                let reg = /<code.*?(language-[a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = args[1], _class = ''
+
                 if (args[1].match(reg)) {
                     _html = _html.replace(reg, function (..._args) {
-                        const result = hljs.highlightAuto(_args[1])
+                        _class = _args[1]
+                        const result = hljs.highlightAuto(_args[2])
+                        console.log(result)
                         return result.value
                     })
+                    _html = `<code>${_html}</code>`
                 } else {
                     const result = hljs.highlightAuto(_args[1])
                     _html = result.value
                 }
-                _html = `<pre>${_html}</pre>`
+                _html = `<div class='${_class}' id='code'><pre class='${_class}'>${_html}</pre></div>`
                 return _html;
             });
+            // data = Discode.strDiscode(data);
             let handler = new DomHandler(style, tagStyle);
-            // console.log('html2nodes handler >>>>>>>>>', data)
+            console.log(JSON.stringify(data))
+
             new Parser(handler, (res) => {
+                // debugger
+                // console.log('html2nodes handler >>>>>>>>>', handler, res)
                 return resolve(res);
             }).write(data);
         } catch (err) {

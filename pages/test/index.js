@@ -17,7 +17,7 @@ Page({
             }
         })
         wx.request({
-            url: 'https://cloud-minapp-28765.cloud.ifanrusercontent.com/1hvZmypTyz8uEFzk.md',
+            url: 'https://cloud-minapp-28765.cloud.ifanrusercontent.com/1hvttlfaKHMXv5ul.md',
             success: res => {
                 this.setData({ text: res.data });
             }

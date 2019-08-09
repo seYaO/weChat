@@ -138,11 +138,13 @@ function initStyle(tagStyle) {
     tagStyle.blockquote = tagStyle.blockquote || 'background-color:#f6f6f6;border-left:3px solid #dbdbdb;color:#6c6c6c;padding:5px 0 5px 10px';
     tagStyle.center = 'text-align:center;' + (tagStyle.center || "");
     tagStyle.cite = "font-style:italic;" + (tagStyle.cite || "");
-    tagStyle.code = tagStyle.code || 'padding:0 1px 0 1px;margin-left:2px;margin-right:2px;background-color:#f8f8f8;border:1px solid #cccccc;border-radius:3px';
+    tagStyle.code = ''
+    // tagStyle.code = tagStyle.code || 'padding:0 1px 0 1px;margin-left:2px;margin-right:2px;background-color:#f8f8f8;border:1px solid #cccccc;border-radius:3px';
     tagStyle.dd = "margin-left:40px;" + (tagStyle.dd || "");
     tagStyle.img = "max-width:100%;" + (tagStyle.img || "");
     tagStyle.mark = "display:inline;background-color:yellow;" + (tagStyle.mark || "");
-    tagStyle.pre = "overflow:scroll;" + (tagStyle.pre || 'background-color:#f6f8fa;padding:5px;border-radius:5px;');
+    // tagStyle.pre = "overflow:scroll;" + (tagStyle.pre || 'background-color:#f6f8fa;padding:5px;border-radius:5px;');
+    tagStyle.pre = ''
     tagStyle.s = "display:inline;text-decoration:line-through;" + (tagStyle.s || "");
     tagStyle.u = "display:inline;text-decoration:underline;" + (tagStyle.u || "");
     //低版本兼容
@@ -156,6 +158,7 @@ function initStyle(tagStyle) {
 }
 
 function DomHandler(style, tagStyle = {}) {
+    // debugge
     this.imgList = [];
     this.nodes = [];
     this.title = "";
@@ -184,8 +187,8 @@ DomHandler.prototype.onopentag = function (name, attrs) {
         (this._style[name] ? (this._style[name] + ';') : '') +
         (this._style['#' + attrs.id] ? (this._style['#' + attrs.id] + ';') : '') +
         (this._style['.' + attrs.class] ? (this._style['.' + attrs.class] + ';') : '');
-    delete attrs.class;
-    delete attrs.id;
+    // delete attrs.class;
+    // delete attrs.id;
     //处理属性
     switch (name) {
         case 'div':
@@ -256,16 +259,18 @@ DomHandler.prototype.onopentag = function (name, attrs) {
             return;
     }
     attrs.style = matched + attrs.style;
+    // debugger
     if (textTag[name]) element.continue = true;
     else if (blockTag[name]) name = 'div';
     else if (!trustTag[name]) name = 'span';
     element.name = name;
     element.attrs = attrs;
+    
     this._addDomElement(element);
     this._tagStack.push(element);
 };
 DomHandler.prototype.ontext = function (data) {
-    if (/\S/.test(data)) {
+    if (/[\s\S]/.test(data)) {
         let element = {
             text: data.replace(/&nbsp;/g, '\u00A0'),
             type: 'text'

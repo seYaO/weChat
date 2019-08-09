@@ -156,6 +156,7 @@ function html2nodes(data, tagStyle) {
                 if (args[1].match(reg)) {
                     _html = _html.replace(reg, function (..._args) {
                         _class = _args[1]
+                        // ,['html', 'js', 'css', 'php']
                         const result = hljs.highlightAuto(_args[2])
                         console.log(result)
                         return result.value

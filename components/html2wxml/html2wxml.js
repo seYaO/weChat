@@ -1,5 +1,5 @@
 var html2wxml = require('html2wxml-main.js');
-const showdown = require('../parser/showdown-2.0.0')
+const showdown = require('../parser/showdown')
 const html2nodes = require('../parser/Parser');
 
 Component({

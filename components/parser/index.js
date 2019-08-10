@@ -1,9 +1,6 @@
 //Parser组件
-const html2nodes = require('./Parser.js');
-// const showdown = require('./showdown')
-const showdown = require('./showdown-2.0.0')
-var marked = require('marked');
-var highlight = require('highlight.js');
+const html2nodes = require('./Parser');
+const showdown = require('./showdown')
 
 const initData = function (Component) {
     setTimeout(() => {

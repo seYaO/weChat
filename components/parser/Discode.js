@@ -100,19 +100,21 @@ function strGreeceDiscode(str) {
 }
 
 // 
-
 function strcharacterDiscode(str) {
     // 加入常用解析
     str = str.replace(/&nbsp;/g, ' ');
     str = str.replace(/&quot;/g, "'");
     str = str.replace(/&amp;/g, '&');
-    // str = str.replace(/&lt;/g, '‹');
-    // str = str.replace(/&gt;/g, '›');
 
-    str = str.replace(/&lt;/g, '<');
-    str = str.replace(/&gt;/g, '>');
+    str = str.replace(/&lt;/g, '‹');
+    str = str.replace(/&gt;/g, '›');
+
+    //str = str.replace(/&lt;/g, '<');
+    //str = str.replace(/&gt;/g, '>');
     str = str.replace(/&#8226;/g, '•');
-
+    str = str.replace(/↵/g, '\n');
+    // console.log('character转义完成')
+    // console.log(str)
     return str;
 }
 
@@ -183,6 +185,13 @@ function strMoreDiscode(str) {
     return str;
 }
 
+function strAngleBrackets(str) {
+    str = str.replace(/‹/g, '<');
+    str = str.replace(/›/g, '>');
+
+    return str
+}
+
 function strDiscode(str) {
     str = strNumDiscode(str);
     str = strGreeceDiscode(str);
@@ -202,6 +211,7 @@ function urlToHttpUrl(url, rep) {
 }
 
 module.exports = {
-    strDiscode: strDiscode,
-    urlToHttpUrl: urlToHttpUrl
+    strDiscode,
+    strAngleBrackets,
+    urlToHttpUrl
 }

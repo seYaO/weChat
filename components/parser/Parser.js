@@ -1,7 +1,10 @@
 //Parser.js
 const Tokenizer = require("./Tokenizer.js");
 const DomHandler = require("./DomHandler.js");
+const Discode = require('./Discode');
+const Prism = require('./prism.all')
 const highlight = require('highlight.js');
+
 const trustAttrs = {
     align: true,
     alt: true,
@@ -133,14 +136,57 @@ Parser.prototype.onend = function () {
     });
 };
 Parser.prototype.write = function (chunk) {
-    // console.log('html2nodes write >>>>>>>>>')
     this._tokenizer.parse(chunk);
-    // console.log('html2nodes write >>>>>>>>>', this._cbs)
-
 };
+function hljs(data) {
+    data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
+        let reg = /<code.*?language-([a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = args[1], lang = '', code = ''
+
+        if (args[1].match(reg)) {
+            _html = _html.replace(reg, function (..._args) {
+                lang = _args[1]
+                code = _args[2]
+                // console.log(code)
+                const result = highlight.highlightAuto(code)
+                let hcode = Prism.highlight(code, Prism.languages[lang], lang);
+                // console.log(hcode)
+                return result.value
+                // return hcode
+            })
+            _html = `<code>${_html}</code>`
+        } else {
+            const result = hljs.highlightAuto(_args[1])
+            _html = result.value
+        }
+        // _html = Discode.strDiscode(_html);
+        // console.log(_html)
+        _html = `<div class='language-${lang}' id='code'><pre class='language-${lang}'>${_html}</pre></div>`
+        return _html;
+    });
+    return data
+}
+function removeDOCTYPE(html) {
+    return html
+        .replace(/<\?xml.*\?>\n/, '')
+        .replace(/<.*!doctype.*\>\n/, '')
+        .replace(/<.*!DOCTYPE.*\>\n/, '');
+}
+
+function trimHtml(html) {
+    return html
+        // .replace(/\r?\n+/g, '')
+        .replace(/<!--.*?-->/ig, '')
+        .replace(/\/\*.*?\*\//ig, '')
+        .replace(/[ ]+</ig, '<')
+}
 
 function html2nodes(data, tagStyle) {
-    // debugger
+    //处理字符串
+    data = removeDOCTYPE(data);
+    data = trimHtml(data);
+    data = Discode.strDiscode(data);
+    data = hljs(data);
+    
     return new Promise(function (resolve, reject) {
         try {
             let style = '';
@@ -148,30 +194,6 @@ function html2nodes(data, tagStyle) {
                 style += args[1];
                 return '';
             });
-            data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
-                // console.log(args[0])
-                // let ss = hljs.highlightAuto(args[0])
-                // console.log(ss)
-
-                let reg = /<code.*?(language-[a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = args[1], _class = ''
-
-                if (args[1].match(reg)) {
-                    _html = _html.replace(reg, function (..._args) {
-                        _class = _args[1]
-                        // ,['html', 'js', 'css', 'php']
-                        const result = highlight.highlightAuto(_args[2])
-                        // console.log(result)
-                        return result.value
-                    })
-                    _html = `<code>${_html}</code>`
-                } else {
-                    const result = highlight.highlightAuto(_args[1])
-                    _html = result.value
-                }
-                _html = `<div class='${_class}' id='code'><pre class='${_class}'>${_html}</pre></div>`
-                return _html;
-            });
-            // data = Discode.strDiscode(data);
             let handler = new DomHandler(style, tagStyle);
             // console.log(JSON.stringify(data))
 

@@ -2,7 +2,8 @@
 const html2nodes = require('./Parser.js');
 // const showdown = require('./showdown')
 const showdown = require('./showdown-2.0.0')
-const hljs = require('./highlight/index')
+var marked = require('marked');
+var highlight = require('highlight.js');
 
 const initData = function (Component) {
     setTimeout(() => {
@@ -32,13 +33,6 @@ Component({
             type: null,
             value: '',
             observer: function (html) {
-                // 
-                // hljs.registerLanguage('css', '.box {  display: flex;}');
-                // hljs.highlightAuto(event.data)
-                // console.log(hljs)
-
-
-
                 let hideAnimation = {},
                     showAnimation = {};
                 if (this.data.showWithAnimation) {
@@ -60,13 +54,9 @@ Component({
                         var converter = new showdown.Converter();
                         html = converter.makeHtml(html);
                     }
-                    // console.log('html >>>>>>>>',html)
-                    // let ss = `    `
-                    // const result = hljs.highlightAuto(ss)
-                    // console.log('hljs >>>>>>>>>',result)
 
                     html2nodes(html, this.data.tagStyle).then(res => {
-                        console.log('string >>>>>', res, this.data.tagStyle)
+                        // console.log('string >>>>>', res, this.data.tagStyle)
                         this.setData({
                             nodes: res.nodes,
                             controls: {

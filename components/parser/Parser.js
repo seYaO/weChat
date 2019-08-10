@@ -1,8 +1,7 @@
 //Parser.js
 const Tokenizer = require("./Tokenizer.js");
 const DomHandler = require("./DomHandler.js");
-const Discode = require('./Discode')
-const hljs = require('./highlight/index')
+const highlight = require('highlight.js');
 const trustAttrs = {
     align: true,
     alt: true,
@@ -150,6 +149,9 @@ function html2nodes(data, tagStyle) {
                 return '';
             });
             data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
+                // console.log(args[0])
+                // let ss = hljs.highlightAuto(args[0])
+                // console.log(ss)
 
                 let reg = /<code.*?(language-[a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = args[1], _class = ''
 
@@ -157,13 +159,13 @@ function html2nodes(data, tagStyle) {
                     _html = _html.replace(reg, function (..._args) {
                         _class = _args[1]
                         // ,['html', 'js', 'css', 'php']
-                        const result = hljs.highlightAuto(_args[2])
-                        console.log(result)
+                        const result = highlight.highlightAuto(_args[2])
+                        // console.log(result)
                         return result.value
                     })
                     _html = `<code>${_html}</code>`
                 } else {
-                    const result = hljs.highlightAuto(_args[1])
+                    const result = highlight.highlightAuto(_args[1])
                     _html = result.value
                 }
                 _html = `<div class='${_class}' id='code'><pre class='${_class}'>${_html}</pre></div>`
@@ -171,7 +173,7 @@ function html2nodes(data, tagStyle) {
             });
             // data = Discode.strDiscode(data);
             let handler = new DomHandler(style, tagStyle);
-            console.log(JSON.stringify(data))
+            // console.log(JSON.stringify(data))
 
             new Parser(handler, (res) => {
                 // debugger

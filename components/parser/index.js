@@ -53,7 +53,7 @@ Component({
                     }
 
                     html2nodes(html, this.data.tagStyle).then(res => {
-                        // console.log('string >>>>>', res, this.data.tagStyle)
+                        console.log('string >>>>>', res, this.data.tagStyle)
                         this.setData({
                             nodes: res.nodes,
                             controls: {

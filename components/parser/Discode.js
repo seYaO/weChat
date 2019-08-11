@@ -40,7 +40,7 @@ function strNumDiscode(str) {
     return str;
 }
 
-//HTML 支持的希腊字母
+// HTML 支持的希腊字母
 function strGreeceDiscode(str) {
     str = str.replace(/&Alpha;/g, 'Α');
     str = str.replace(/&Beta;/g, 'Β');
@@ -99,7 +99,7 @@ function strGreeceDiscode(str) {
     return str;
 }
 
-// 
+// HTML 基础符号
 function strcharacterDiscode(str) {
     // 加入常用解析
     str = str.replace(/&nbsp;/g, ' ');
@@ -113,6 +113,7 @@ function strcharacterDiscode(str) {
     //str = str.replace(/&gt;/g, '>');
     str = str.replace(/&#8226;/g, '•');
     str = str.replace(/↵/g, '\n');
+    // str = str.replace(/↵/g, '');
     // console.log('character转义完成')
     // console.log(str)
     return str;
@@ -177,9 +178,19 @@ function strOtherDiscode(str) {
     return str;
 }
 
+// HTML 更多符号
 function strMoreDiscode(str) {
     // str = str.replace(/\r\n/g, "");
     // str = str.replace(/\n/g, "");
+
+    // str = str.replace(/code/g, "wxxxcode-style");
+    return str;
+}
+
+// HTML Enter
+function strEnterDiscode(str) {
+    str = str.replace(/\r\n/g, "");
+    str = str.replace(/\n/g, "");
 
     // str = str.replace(/code/g, "wxxxcode-style");
     return str;
@@ -213,5 +224,6 @@ function urlToHttpUrl(url, rep) {
 module.exports = {
     strDiscode,
     strAngleBrackets,
+    strEnterDiscode,
     urlToHttpUrl
 }

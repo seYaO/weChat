@@ -139,31 +139,93 @@ Parser.prototype.write = function (chunk) {
     this._tokenizer.parse(chunk);
 };
 function hljs(data) {
-    data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
-        let reg = /<code.*?language-([a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = args[1], lang = '', code = ''
-
-        if (args[1].match(reg)) {
-            _html = _html.replace(reg, function (..._args) {
-                lang = _args[1]
-                code = _args[2]
-                // console.log(code)
-                const result = highlight.highlightAuto(code)
-                let hcode = Prism.highlight(code, Prism.languages[lang], lang);
-                // console.log(hcode)
-                return result.value
-                // return hcode
-            })
-            _html = `<code>${_html}</code>`
-        } else {
-            const result = hljs.highlightAuto(_args[1])
-            _html = result.value
+    let html = data;
+    let tagArr = data.match(/<\/?pre[^>]*>/g);
+    if (tagArr == null) {
+        return html;
+    }
+    let indexArr = [];
+    for (let i = 0; i < tagArr.length; i++) {
+        if (i == 0) {
+            indexArr.push(data.indexOf(tagArr[i]));
         }
-        // _html = Discode.strDiscode(_html);
-        // console.log(_html)
-        _html = `<div class='language-${lang}' id='code'><pre class='language-${lang}'>${_html}</pre></div>`
-        return _html;
-    });
-    return data
+        else {
+            indexArr.push(data.indexOf(tagArr[i], indexArr[i - 1]));
+        }
+    }
+    let cls, preArr = [];
+    for (let i = 0; i < tagArr.length - 1; i = i + 2) {
+        let code = html.substring(indexArr[i], indexArr[i + 1]).replace(/<pre[^>]*>/, '');
+        let codeArr = code.match(/<\/?code[^>]*>/g);
+        let lang = '';
+        if (codeArr) {
+            cls = getStartInfo(codeArr[0])
+            lang = cls.split(' ')[0];
+            if (/lang-(.*)/i.test(lang)) {
+                lang = lang.replace(/lang-(.*)/i, '$1');
+            } else if (/languages?-(.*)/i.test(lang)) {
+                lang = lang.replace(/languages?-(.*)/i, '$1');
+            }
+            code = code.replace(/<\/?code[^>]*>/g, '');
+        }
+        const result = highlight.highlightAuto(code)
+        preArr.push({
+            lang,
+            value: result.value
+        })
+    }
+    html = Discode.strEnterDiscode(html);
+    // console.log(html)
+    // console.log(preArr)
+    let idx = 0, index = 0
+    for (let i = 0; i < tagArr.length - 1; i = i + 2) {
+        const startIdx = html.indexOf(tagArr[i], index)
+        const endIdx = html.indexOf(tagArr[i + 1], startIdx)
+        index = endIdx
+        // console.log(startIdx, endIdx)
+        let code = html.substring(startIdx, endIdx) + '</pre>';
+        let { lang, value } = preArr[idx]
+        // console.log(code)
+        // console.log(value)
+        value = `<div class='language-${lang}' id='code'><pre class='language-${lang}'>${value}</pre></div>`
+        html = html.replace(code, value);
+        idx++;
+    }
+    // console.log(html)
+    // data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
+    //     let reg = /<code.*?language-([a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = '', lang = '', code = ''
+
+    //     if (args[1].match(reg)) {
+    //         _html = _html.replace(reg, function (..._args) {
+    //             lang = _args[1]
+    //             code = _args[2]
+    //             const result = highlight.highlightAuto(code)
+    //             return result.value
+    //         })
+    //         _html = `<code>${_html}</code>`
+    //     } else {
+    //         const result = highlight.highlightAuto(args[1])
+    //         _html = result.value
+    //     }
+    //     _html = `<div class='language-${lang}' id='code'><pre class='language-${lang}'>${_html}</pre></div>`
+    //     return _html;
+    // });
+    return html
+
+    function getStartInfo(str) {
+        return matchRule(str, 'class');
+    }
+
+    function matchRule(str, rule) {
+        let value = '';
+        let re = new RegExp(rule + '=[\'"]?([^\'"]*)');
+        // console.log('regexp:'+re)
+        if (str.match(re) !== null) {
+            value = str.match(re)[1];
+            // console.log('value:'+value)
+        }
+        return value;
+    }
 }
 function removeDOCTYPE(html) {
     return html
@@ -185,8 +247,9 @@ function html2nodes(data, tagStyle) {
     data = removeDOCTYPE(data);
     data = trimHtml(data);
     data = Discode.strDiscode(data);
+    // console.log(data)
     data = hljs(data);
-    
+
     return new Promise(function (resolve, reject) {
         try {
             let style = '';

@@ -1,4 +1,5 @@
 @import '../styles/default.wxss';
+@import '../styles/styles.wxss';
 
 /* 链接受到点击的hover-class，可自定义修改 */
 .navigator-hover {

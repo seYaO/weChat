@@ -1,3 +1,18 @@
+function removeDOCTYPE(html) {
+    return html
+        .replace(/<\?xml.*\?>\n/, '')
+        .replace(/<.*!doctype.*\>\n/, '')
+        .replace(/<.*!DOCTYPE.*\>\n/, '');
+}
+
+function trimHtml(html) {
+    return html
+        // .replace(/\r?\n+/g, '')
+        .replace(/<!--.*?-->/ig, '')
+        .replace(/\/\*.*?\*\//ig, '')
+        .replace(/[ ]+</ig, '<')
+}
+
 // HTML 支持的数学符号
 function strNumDiscode(str) {
     str = str.replace(/&forall;/g, '∀');
@@ -204,6 +219,8 @@ function strAngleBrackets(str) {
 }
 
 function strDiscode(str) {
+    str = removeDOCTYPE(str);
+    str = trimHtml(str);
     str = strNumDiscode(str);
     str = strGreeceDiscode(str);
     str = strcharacterDiscode(str);

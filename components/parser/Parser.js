@@ -227,25 +227,9 @@ function hljs(data) {
         return value;
     }
 }
-function removeDOCTYPE(html) {
-    return html
-        .replace(/<\?xml.*\?>\n/, '')
-        .replace(/<.*!doctype.*\>\n/, '')
-        .replace(/<.*!DOCTYPE.*\>\n/, '');
-}
-
-function trimHtml(html) {
-    return html
-        // .replace(/\r?\n+/g, '')
-        .replace(/<!--.*?-->/ig, '')
-        .replace(/\/\*.*?\*\//ig, '')
-        .replace(/[ ]+</ig, '<')
-}
 
 function html2nodes(data, tagStyle) {
     //处理字符串
-    data = removeDOCTYPE(data);
-    data = trimHtml(data);
     data = Discode.strDiscode(data);
     // console.log(data)
     data = hljs(data);

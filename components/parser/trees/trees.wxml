@@ -66,7 +66,7 @@
     </block>
     <!-- 纯文本类型 -->
     <block wx:elif="{{item.type == 'text'}}">
-        <text decode>{{cssHandler.setText(item.text)}}</text>
+        <text decode="{{item.decode}}">{{cssHandler.setText(item.text)}}</text>
     </block>
     <block wx:elif="{{item.name == 'br'}}">
         <text>\n</text>

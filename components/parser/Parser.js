@@ -1,9 +1,11 @@
 //Parser.js
 const Tokenizer = require("./Tokenizer.js");
 const DomHandler = require("./DomHandler.js");
+const showdown = require('./showdown')
 const Discode = require('./Discode');
 const Prism = require('./prism.all')
-const highlight = require('highlight.js');
+const hljs = require('highlight.js');
+const converter = new showdown.Converter();
 
 const trustAttrs = {
     align: true,
@@ -138,7 +140,75 @@ Parser.prototype.onend = function () {
 Parser.prototype.write = function (chunk) {
     this._tokenizer.parse(chunk);
 };
-function hljs(data) {
+
+// 自定义模块
+function customBlock(data) {
+    // console.log(data)
+    let html = data;
+    let tagArr = data.match(/:::.*/g);
+    if (tagArr == null) {
+        return html;
+    }
+    let indexArr = [];
+    for (let i = 0; i < tagArr.length; i++) {
+        if (i == 0) {
+            indexArr.push(data.indexOf(tagArr[i]));
+        }
+        else {
+            indexArr.push(data.indexOf(tagArr[i], indexArr[i - 1] + 1));
+        }
+    }
+    // console.log(tagArr)
+    // console.log(indexArr)
+    let preArr = []
+    for (let i = 0; i < tagArr.length - 1; i = i + 2) {
+        let custom = matchRule(tagArr[i])
+        let tit = matchRule(tagArr[i], 'v')
+        let code = html.substring(indexArr[i], indexArr[i + 1]).replace(tagArr[i], '');
+        preArr.push({
+            custom,
+            tit,
+            value: code
+        })
+    }
+    // console.log(preArr)
+    let idx = 0, index = 0
+    for (let i = 0; i < tagArr.length - 1; i = i + 2) {
+        const startIdx = html.indexOf(tagArr[i], index)
+        const endIdx = html.indexOf(tagArr[i + 1], startIdx + 1)
+        index = endIdx
+
+        let code = html.substring(startIdx, endIdx) + ':::';
+        let { custom, tit, value } = preArr[idx]
+        tit = tit || custom.toUpperCase()
+        value = converter.makeHtml(value);
+        value = `<div class="custom-block ${custom}"><p class="custom-block-title">${tit}</p>${value}</div>`
+        html = html.replace(code, value);
+
+        idx++;
+    }
+    // console.log(html)
+    return html
+
+    function matchRule(str, type) {
+        let value = '';
+        let re = /tip|warning|danger/g;
+        // console.log(str.match(re))
+        if (str.match(re) !== null) {
+            value = str.match(re)[0];
+            // console.log('value:'+value)
+        }
+        if (type == 'v') {
+            re = /:::.?(tip|warning|danger).?/g;
+            value = str.replace(re, '');
+        }
+
+        return value;
+    }
+}
+
+// 高亮处理
+function highlight(data, hljsShow = true) {
     let html = data;
     let tagArr = data.match(/<\/?pre[^>]*>/g);
     if (tagArr == null) {
@@ -153,6 +223,7 @@ function hljs(data) {
             indexArr.push(data.indexOf(tagArr[i], indexArr[i - 1]));
         }
     }
+    // console.log(html)
     let cls, preArr = [];
     for (let i = 0; i < tagArr.length - 1; i = i + 2) {
         let code = html.substring(indexArr[i], indexArr[i + 1]).replace(/<pre[^>]*>/, '');
@@ -168,10 +239,14 @@ function hljs(data) {
             }
             code = code.replace(/<\/?code[^>]*>/g, '');
         }
-        const result = highlight.highlightAuto(code)
+        if (hljsShow) {
+            const result = hljs.highlightAuto(code)
+            code = result.value
+        }
+
         preArr.push({
             lang,
-            value: result.value
+            value: code
         })
     }
     html = Discode.strEnterDiscode(html);
@@ -187,10 +262,11 @@ function hljs(data) {
         let { lang, value } = preArr[idx]
         // console.log(code)
         // console.log(value)
-        value = `<div class='language-${lang}' id='code'><pre class='language-${lang}'>${value}</pre></div>`
+        value = `<div class='language-${lang}' id='code'><pre class='language-${lang}'><code>${value}</code></pre></div>`
         html = html.replace(code, value);
         idx++;
     }
+
     // console.log(html)
     // data = data.replace(/<pre.*?>([\s\S]*?)<\/pre>/gi, function (...args) {
     //     let reg = /<code.*?language-([a-zA-Z0-9]*).*?>([\s\S]*?)<\/code>/gi, _html = '', lang = '', code = ''
@@ -228,11 +304,11 @@ function hljs(data) {
     }
 }
 
-function html2nodes(data, tagStyle) {
+function html2nodes(data, tagStyle, hljsShow = true) {
     //处理字符串
     data = Discode.strDiscode(data);
     // console.log(data)
-    data = hljs(data);
+    data = highlight(data, hljsShow);
 
     return new Promise(function (resolve, reject) {
         try {
@@ -254,4 +330,7 @@ function html2nodes(data, tagStyle) {
         }
     })
 }
-module.exports = html2nodes;
+module.exports = {
+    html2nodes,
+    customBlock,
+};

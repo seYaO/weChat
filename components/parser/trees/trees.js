@@ -1,3 +1,11 @@
+let realWindowWidth = 0, realWindowHeight = 0;
+wx.getSystemInfo({
+    success: function (res) {
+        realWindowWidth = res.windowWidth
+        realWindowHeight = res.windowHeight
+    }
+})
+
 Component({
     properties: {
         nodes: {
@@ -7,7 +15,11 @@ Component({
         controls: {
             type: Object,
             value: {}
-        }
+        },
+        padding: {
+            type: Number,
+            value: 5
+        },
     },
     methods: {
         //冒泡事件
@@ -62,6 +74,31 @@ Component({
             this.setData({
                 controls: this.data.controls
             })
+        },
+        _loadImg(e) {
+            const { width, height } = e.detail
+            // 获取图片的原始长宽
+            let windowWidth = 0, windowHeight = 0;
+            let autoWidth = 0, autoHeight = 0;
+            let results = {};
+            let padding = this.data.padding;
+            windowWidth = realWindowWidth - 2 * padding;
+            windowHeight = realWindowHeight;
+            // 判断按照那种方式进行缩放
+            // 在图片width大于手机屏幕width时候
+            if (width > windowWidth) {
+                autoWidth = windowWidth;
+                autoHeight = (autoWidth * height) / width;
+                results.imageWidth = autoWidth;
+                results.imageHeight = autoHeight;
+            }
+            // 否则展示原来的数据
+            else {
+                results.imageWidth = width;
+                results.imageHeight = height;
+            }
+
+            this.setData({ ...results })
         },
     }
 })

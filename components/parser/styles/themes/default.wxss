@@ -106,5 +106,5 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
  * ----------------------------------------
  */
 
-@import './themes/monokai-sublime.wxss';
+@import './monokai-sublime.wxss';
   

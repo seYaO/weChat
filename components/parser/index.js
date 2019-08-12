@@ -1,6 +1,7 @@
 //Parser组件
-const html2nodes = require('./Parser');
-const showdown = require('./showdown')
+const Parser = require('./Parser');
+const showdown = require('./showdown');
+const converter = new showdown.Converter();
 
 const initData = function (Component) {
     setTimeout(() => {
@@ -48,11 +49,14 @@ Component({
                     })
                 } else if (typeof html == 'string') {
                     if (this.data.type == 'md' || this.data.type == 'markdown') {
-                        var converter = new showdown.Converter();
+                        // var converter = new showdown.Converter();
+                        html = Parser.customBlock(html)
                         html = converter.makeHtml(html);
+                        // console.log(html)
                     }
+                    let highlight = this.data.highlight
 
-                    html2nodes(html, this.data.tagStyle).then(res => {
+                    Parser.html2nodes(html, this.data.tagStyle, highlight).then(res => {
                         console.log('string >>>>>', res, this.data.tagStyle)
                         this.setData({
                             nodes: res.nodes,
@@ -135,6 +139,14 @@ Component({
         'tagStyle': {
             type: Object,
             value: {}
+        },
+        padding: {
+            type: Number,
+            value: 5
+        },
+        highlight: {
+            type: Boolean,
+            value: true,
         },
         'showWithAnimation': {
             type: Boolean,

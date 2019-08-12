@@ -133,27 +133,27 @@ if (CanIUse) {
 }
 //添加默认值
 function initStyle(tagStyle) {
-    tagStyle.a = "display:inline;color:#366092;word-break:break-all;" + (tagStyle.a || "");
-    tagStyle.address = "font-style:italic;" + (tagStyle.address || "");
-    tagStyle.blockquote = tagStyle.blockquote || 'background-color:#f6f6f6;border-left:3px solid #dbdbdb;color:#6c6c6c;padding:5px 0 5px 10px';
-    tagStyle.center = 'text-align:center;' + (tagStyle.center || "");
-    tagStyle.cite = "font-style:italic;" + (tagStyle.cite || "");
-    tagStyle.code = ''
-    // tagStyle.code = tagStyle.code || 'padding:0 1px 0 1px;margin-left:2px;margin-right:2px;background-color:#f8f8f8;border:1px solid #cccccc;border-radius:3px';
-    tagStyle.dd = "margin-left:40px;" + (tagStyle.dd || "");
-    tagStyle.img = "max-width:100%;" + (tagStyle.img || "");
-    tagStyle.mark = "display:inline;background-color:yellow;" + (tagStyle.mark || "");
-    // tagStyle.pre = "overflow:scroll;" + (tagStyle.pre || 'background-color:#f6f8fa;padding:5px;border-radius:5px;');
-    tagStyle.pre = ''
-    tagStyle.s = "display:inline;text-decoration:line-through;" + (tagStyle.s || "");
-    tagStyle.u = "display:inline;text-decoration:underline;" + (tagStyle.u || "");
-    //低版本兼容
-    if (!CanIUse) {
-        blockTag.caption = true;
-        tagStyle.big = "display:inline;font-size:1.2em;" + (tagStyle.big || "");
-        tagStyle.small = "display:inline;font-size:0.8em;" + (tagStyle.small || "");
-        tagStyle.pre = "font-family:monospace;white-space:pre;" + tagStyle.pre;
-    }
+    // tagStyle.a = "display:inline;color:#366092;word-break:break-all;" + (tagStyle.a || "");
+    // tagStyle.address = "font-style:italic;" + (tagStyle.address || "");
+    // tagStyle.blockquote = tagStyle.blockquote || 'background-color:#f6f6f6;border-left:3px solid #dbdbdb;color:#6c6c6c;padding:5px 0 5px 10px';
+    // tagStyle.center = 'text-align:center;' + (tagStyle.center || "");
+    // tagStyle.cite = "font-style:italic;" + (tagStyle.cite || "");
+    // tagStyle.code = ''
+    // // tagStyle.code = tagStyle.code || 'padding:0 1px 0 1px;margin-left:2px;margin-right:2px;background-color:#f8f8f8;border:1px solid #cccccc;border-radius:3px';
+    // tagStyle.dd = "margin-left:40px;" + (tagStyle.dd || "");
+    // tagStyle.img = "max-width:100%;" + (tagStyle.img || "");
+    // tagStyle.mark = "display:inline;background-color:yellow;" + (tagStyle.mark || "");
+    // // tagStyle.pre = "overflow:scroll;" + (tagStyle.pre || 'background-color:#f6f8fa;padding:5px;border-radius:5px;');
+    // tagStyle.pre = ''
+    // tagStyle.s = "display:inline;text-decoration:line-through;" + (tagStyle.s || "");
+    // tagStyle.u = "display:inline;text-decoration:underline;" + (tagStyle.u || "");
+    // //低版本兼容
+    // if (!CanIUse) {
+    //     blockTag.caption = true;
+    //     tagStyle.big = "display:inline;font-size:1.2em;" + (tagStyle.big || "");
+    //     tagStyle.small = "display:inline;font-size:0.8em;" + (tagStyle.small || "");
+    //     tagStyle.pre = "font-family:monospace;white-space:pre;" + tagStyle.pre;
+    // }
     return tagStyle;
 }
 
@@ -209,6 +209,7 @@ DomHandler.prototype.onopentag = function (name, attrs) {
             }
             if (!attrs.hasOwnProperty('ignore') && attrs.src) {
                 this.imgList.push(attrs.src);
+                attrs.idx = this.imgList.length - 1
                 if (this._bubbling() == 'a') attrs.ignore = "";
             };
             break;
@@ -265,7 +266,7 @@ DomHandler.prototype.onopentag = function (name, attrs) {
     else if (!trustTag[name]) name = 'span';
     element.name = name;
     element.attrs = attrs;
-    
+
     this._addDomElement(element);
     this._tagStack.push(element);
 };

@@ -16,16 +16,23 @@ module.exports = {
         }
         return res;
     },
-    setImgStyle: function (item, imgMode) {
-        if (getRegExp("[^-]width\s*:\s*[^;]*", "i").test(';' + item.attrs.style))
-            item.attrs.style += ';width:100%';
-        if (imgMode == "widthFix")
-            item.attrs.style += ";height:auto !important";
-        return [item];
+    setImgStyle: function (style, width, height) {
+        var res = "";
+        res += style;
+        if (width)
+            res += ";width:" + width + "px";
+        if (height)
+            res += ";height:" + height + "px";
+        return res;
     },
     setStyle: function (item) {
         if (getRegExp("[^-]width\s*:\s*[^;]*", "i").test(';' + item.attrs.style))
             item.attrs.style += ';width:100%';
         return [item];
-    }
+    },
+    setText: function (text) {
+        text = text.replace(getRegExp("‹", "ig"), '<');
+        text = text.replace(getRegExp("›", "ig"), '>');
+        return text
+    },
 }

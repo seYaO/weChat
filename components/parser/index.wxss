@@ -1,9 +1,0 @@
-:host {
-    display: block;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-}
-
-.html2wxml {
-    padding: 0 5px;
-}

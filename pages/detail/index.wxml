@@ -65,8 +65,9 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <wxparser rich-text="{{datas.intro}}" />
                 <!-- <htmltowxml text="{{datas.intro}}" /> -->
-                <project-parser html="{{datas.intro}}" img-mode="widthFix"/>
+                <!-- <project-parser html="{{datas.intro}}" img-mode="widthFix"/> -->
             </view>
         </view>
         <view class="sBox" wx:if="{{authorObj.intro}}">
@@ -77,8 +78,9 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <wxparser rich-text="{{authorObj.intro}}" />
                 <!-- <htmltowxml text="{{authorObj.intro}}" /> -->
-                <project-parser html="{{authorObj.intro}}" img-mode="widthFix"/>
+                <!-- <project-parser html="{{authorObj.intro}}" img-mode="widthFix"/> -->
             </view>
         </view>
         <view class="sBox" wx:if="{{datas.announcerIntro}}">
@@ -88,8 +90,9 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <wxparser rich-text="{{datas.announcerIntro}}" />
                 <!-- <htmltowxml text="{{datas.announcerIntro}}" /> -->
-                <project-parser html="{{datas.announcerIntro}}" img-mode="widthFix"/>
+                <!-- <project-parser html="{{datas.announcerIntro}}" img-mode="widthFix"/> -->
             </view>
         </view>
         <view class="sBox" wx:if="{{datas.figureIntro}}">
@@ -99,8 +102,9 @@
                 </view>
             </view>
             <view class="intro van-hairline--top">
+                <wxparser rich-text="{{datas.figureIntro}}" />
                 <!-- <htmltowxml text="{{datas.figureIntro}}" /> -->
-                <project-parser html="{{datas.figureIntro}}" img-mode="widthFix"/>
+                <!-- <project-parser html="{{datas.figureIntro}}" img-mode="widthFix"/> -->
             </view>
         </view>
     </view>

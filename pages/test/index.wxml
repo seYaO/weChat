@@ -10,7 +10,7 @@
 </project-parser>  -->
 
 <!-- <project-html2wxml text="{{html}}" highlight="{{false}}"  linenums="{{false}}"/> -->
-<project-parser html="{{html}}" img-mode="widthFix">
+<!-- <project-parser html="{{html}}" img-mode="widthFix">
     <div>无值时显示这部分内容</div>
-</project-parser>
+</project-parser> -->
 

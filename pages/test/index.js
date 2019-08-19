@@ -4,6 +4,37 @@ Page({
      * 页面的初始数据
      */
     data: {
+        dataSet: [{
+            id: '1',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            backgroundColor: '#ccc',
+            time: 1533106010,
+            likedCount: 0,
+            liked: true,
+            user: {
+                avatar: 'https://pic5.40017.cn/04/000/6c/d6/rBTJUl1ThSCAWBPxAABLtkrrxyE636.jpg',
+                username: 'Minya Chan',
+                userId: '1'
+            }
+        },
+        {
+            id: '2',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+            // backgroundColor: '#ccc',
+            time: 1533106010,
+            likedCount: 0,
+            liked: true,
+            user: {
+                avatar: 'https://pic5.40017.cn/04/000/6c/d6/rBTJUl1ThSCAWBPxAABLtkrrxyE636.jpg',
+                username: 'Minya Chan',
+                userId: '1'
+            }
+        }],
+        brick_option: {
+            defaultExpandStatus: true,
+            backgroundColor: '#ababab',
+            forceRepaint: true
+        },
     },
 
     /**
@@ -59,4 +90,25 @@ Page({
 
     },
     wxmlTagATap(e) { },
+    tapCard(e) {
+        const cardId = e.detail.card_id
+        // code here.
+        console.log('tap card!')
+    },
+    handleLike(e) {
+        const cardId = e.detail.card_id
+        // code here.
+        console.log('tap like!')
+    },
+    handleUserEvent(e) {
+        const userId = e.detail.user_id
+        // code here.
+        console.log('tap user!')
+    },
+    handleExpand(e) {
+        const cardId = e.detail.card_id
+        const expandStatus = e.detail.expand_status
+        // code here
+        console.log("expand call back")
+    },
 })

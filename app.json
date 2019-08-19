@@ -75,7 +75,8 @@
         "project-skeleton": "./components/skeleton/index",
         "popMask": "./components/popMask/index",
         "wxparser": "plugin://wxparserPlugin/wxparser",
-        "htmltowxml": "plugin://htmltowxml/view"
+        "htmltowxml": "plugin://htmltowxml/view",
+        "brickLayout": "plugin://brickLayout/brickLayout"
     },
     "plugins": {
         "wxparserPlugin": {
@@ -85,6 +86,10 @@
         "htmltowxml": {
             "version": "1.4.0",
             "provider": "wxa51b9c855ae38f3c"
+        },
+        "brickLayout": {
+            "version": "0.1.1",
+            "provider": "wx3c042630f3cdc175"
         }
     },
     "sitemapLocation": "sitemap.json"
